@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       child: ThemeConsumer(
         child: Builder(
           builder:(themeContext) => MaterialApp(
+            debugShowCheckedModeBanner: false,
             theme: ThemeProvider.themeOf(themeContext).data,
             home:const MainScreen()
           ),

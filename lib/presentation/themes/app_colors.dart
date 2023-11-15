@@ -17,8 +17,8 @@ class AppColors {
   static ColorScheme darkColorScheme() {
     return const ColorScheme.dark(
       primary: Color(0xFFFFA500),
-      background: Color(0xFF171716),
-      surface: Color(0xFF0E0F0E),
+      background: Color(0xFF0E0F0E),
+      surface: Color(0xFF171716),
       tertiary: Color(0xFF2FD78A),
     ).copyWith(
         onPrimary: const Color(0xFFFEFEFF),
