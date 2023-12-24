@@ -1,6 +1,6 @@
 import 'package:auto_silent_app/gen/assets.gen.dart';
 import 'package:auto_silent_app/gen/fonts.gen.dart';
-import 'package:auto_silent_app/presentation/screens/widgets/floating_action_button.dart';
+import 'package:auto_silent_app/presentation/screens/widgets/my_floating_action_button.dart';
 import 'package:auto_silent_app/presentation/utils/app_icons.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:flutter/material.dart';
