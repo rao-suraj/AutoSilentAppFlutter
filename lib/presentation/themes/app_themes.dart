@@ -1,4 +1,4 @@
-import 'package:auto_silent_app/data/constants/theme_constants.dart';
+import 'package:auto_silent_app/presentation/constants/theme_constants.dart';
 import 'package:auto_silent_app/presentation/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
