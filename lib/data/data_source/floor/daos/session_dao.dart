@@ -10,6 +10,9 @@ abstract class SessionDao {
   @delete
   Future<void> deleteSession(Session session);
 
+  @update
+  Future<void> updateSession(Session session);
+
   @Query('SELECT * FROM Session')
   Stream<List<Session>> getAllSessionStream();
 
