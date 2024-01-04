@@ -65,7 +65,7 @@ class _$AppDatabase extends AppDatabase {
 
   ProfileDao? _profileDaoInstance;
 
-  CalenderDao? _calanderDaoInstance;
+  CalendarDao? _calandarDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -93,7 +93,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Profile` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `isActive` INTEGER NOT NULL, `volumeLevel` INTEGER, `ringerLevel` INTEGER, `isNetActive` INTEGER, `isDNDActive` INTEGER, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Calender` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `dateTime` INTEGER NOT NULL, `isActive` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `Calendar` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `dateTime` INTEGER NOT NULL, `isActive` INTEGER NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -112,8 +112,8 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  CalenderDao get calanderDao {
-    return _calanderDaoInstance ??= _$CalenderDao(database, changeListener);
+  CalendarDao get calandarDao {
+    return _calandarDaoInstance ??= _$CalendarDao(database, changeListener);
   }
 }
 
@@ -487,15 +487,15 @@ class _$ProfileDao extends ProfileDao {
   }
 }
 
-class _$CalenderDao extends CalenderDao {
-  _$CalenderDao(
+class _$CalendarDao extends CalendarDao {
+  _$CalendarDao(
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database, changeListener),
-        _calenderInsertionAdapter = InsertionAdapter(
+        _calendarInsertionAdapter = InsertionAdapter(
             database,
-            'Calender',
-            (Calender item) => <String, Object?>{
+            'Calendar',
+            (Calendar item) => <String, Object?>{
                   'id': item.id,
                   'title': item.title,
                   'startTime': _dateTimeConverter.encode(item.startTime),
@@ -504,11 +504,11 @@ class _$CalenderDao extends CalenderDao {
                   'isActive': item.isActive ? 1 : 0
                 },
             changeListener),
-        _calenderUpdateAdapter = UpdateAdapter(
+        _calendarUpdateAdapter = UpdateAdapter(
             database,
-            'Calender',
+            'Calendar',
             ['id'],
-            (Calender item) => <String, Object?>{
+            (Calendar item) => <String, Object?>{
                   'id': item.id,
                   'title': item.title,
                   'startTime': _dateTimeConverter.encode(item.startTime),
@@ -517,11 +517,11 @@ class _$CalenderDao extends CalenderDao {
                   'isActive': item.isActive ? 1 : 0
                 },
             changeListener),
-        _calenderDeletionAdapter = DeletionAdapter(
+        _calendarDeletionAdapter = DeletionAdapter(
             database,
-            'Calender',
+            'Calendar',
             ['id'],
-            (Calender item) => <String, Object?>{
+            (Calendar item) => <String, Object?>{
                   'id': item.id,
                   'title': item.title,
                   'startTime': _dateTimeConverter.encode(item.startTime),
@@ -537,39 +537,39 @@ class _$CalenderDao extends CalenderDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<Calender> _calenderInsertionAdapter;
+  final InsertionAdapter<Calendar> _calendarInsertionAdapter;
 
-  final UpdateAdapter<Calender> _calenderUpdateAdapter;
+  final UpdateAdapter<Calendar> _calendarUpdateAdapter;
 
-  final DeletionAdapter<Calender> _calenderDeletionAdapter;
+  final DeletionAdapter<Calendar> _calendarDeletionAdapter;
 
   @override
-  Stream<List<Calender>> getAllCalanderStream() {
-    return _queryAdapter.queryListStream('SELECT * FROM Calander',
-        mapper: (Map<String, Object?> row) => Calender(
+  Stream<List<Calendar>> getAllCalandarStream() {
+    return _queryAdapter.queryListStream('SELECT * FROM Calendar',
+        mapper: (Map<String, Object?> row) => Calendar(
             id: row['id'] as int,
             title: row['title'] as String,
             startTime: _dateTimeConverter.decode(row['startTime'] as int),
             endTime: _dateTimeConverter.decode(row['endTime'] as int),
             dateTime: _dateTimeConverter.decode(row['dateTime'] as int),
             isActive: (row['isActive'] as int) != 0),
-        queryableName: 'Calander',
+        queryableName: 'Calendar',
         isView: false);
   }
 
   @override
-  Future<void> insertCalender(Calender calander) async {
-    await _calenderInsertionAdapter.insert(calander, OnConflictStrategy.abort);
+  Future<void> insertCalendar(Calendar calandar) async {
+    await _calendarInsertionAdapter.insert(calandar, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> updateCalender(Calender calander) async {
-    await _calenderUpdateAdapter.update(calander, OnConflictStrategy.abort);
+  Future<void> updateCalendar(Calendar calandar) async {
+    await _calendarUpdateAdapter.update(calandar, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> deleteCalender(Calender calander) async {
-    await _calenderDeletionAdapter.delete(calander);
+  Future<void> deleteCalendar(Calendar calandar) async {
+    await _calendarDeletionAdapter.delete(calandar);
   }
 }
 

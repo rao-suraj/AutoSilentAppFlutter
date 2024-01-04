@@ -1,7 +1,7 @@
 import 'package:floor/floor.dart';
 
 @entity
-class Calender {
+class Calendar {
   @primaryKey
   final int id;
   final String title;
@@ -10,7 +10,7 @@ class Calender {
   final DateTime dateTime;
   final bool isActive;
 
-  Calender(
+  Calendar(
       {required this.id,
       required this.title,
       required this.startTime,

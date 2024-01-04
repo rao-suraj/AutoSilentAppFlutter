@@ -1,17 +1,17 @@
-import 'package:auto_silent_app/data/models/calender.dart';
+import 'package:auto_silent_app/data/models/calendar.dart';
 import 'package:floor/floor.dart';
 
 @dao
-abstract class CalenderDao {
+abstract class CalendarDao {
   @insert
-  Future<void> insertCalender(Calender calander);
+  Future<void> insertCalendar(Calendar calandar);
 
   @delete
-  Future<void> deleteCalender(Calender calander);
+  Future<void> deleteCalendar(Calendar calandar);
 
   @update
-  Future<void> updateCalender(Calender calander);
+  Future<void> updateCalendar(Calendar calandar);
 
-  @Query('SELECT * FROM Calander')
-  Stream<List<Calender>> getAllCalanderStream();
+  @Query('SELECT * FROM Calendar')
+  Stream<List<Calendar>> getAllCalandarStream();
 }
