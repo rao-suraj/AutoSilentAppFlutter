@@ -10,6 +10,9 @@
 class FontFamily {
   FontFamily._();
 
+  /// Font family: AppIcons
+  static const String appIcons = 'AppIcons';
+
   /// Font family: Rubik
   static const String rubik = 'Rubik';
 }
