@@ -25,10 +25,7 @@ class MyApp extends StatelessWidget {
           builder: (themeContext) => MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeProvider.themeOf(themeContext).data,
-            home: BlocProvider<CalendarsCubit>(
-              create: (_) => getIt<CalendarsCubit>()..getProfileStream(),
-              child:const MainScreen(),
-            ),
+            home: const MainScreen(),
           ),
         ),
       ),
