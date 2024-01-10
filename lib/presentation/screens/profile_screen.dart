@@ -1,6 +1,7 @@
 import 'package:auto_silent_app/data/models/profile.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/progile_states.dart';
+import 'package:auto_silent_app/presentation/screens/widgets/profile_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,63 +15,64 @@ class ProfileScereen extends StatefulWidget {
 class _ProfileScereenState extends State<ProfileScereen> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          BlocBuilder<ProfileCubit, ProfileStates>(
-            builder: (context, state) {
-              if (state is ProfileLoaded) {
-                return Expanded(
-                  child: StreamBuilder(
+    return Column(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: BlocBuilder<ProfileCubit, ProfileStates>(
+              builder: (context, state) {
+                if (state is ProfileLoaded) {
+                  return StreamBuilder(
                       stream: state.prfileStream,
                       builder: (context, stream) {
                         if (stream.data == null) {
+                          // stream gives null for some time in the starting
                           return const Center(
                               child: CircularProgressIndicator());
                         }
-                        return GridView.count(crossAxisCount: 2,children: [],);
-                      }),
+
+                        return GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 12,
+                            ),
+                            itemCount: stream.data!.length,
+                            itemBuilder: (context, index) {
+                              return ProfileTile(
+                                profile: stream.data![index],
+                              );
+                            });
+                      });
+                }
+                if (state is ProfileError) {
+                  return Center(
+                    child: Text(state.errorMessage),
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            context.read<ProfileCubit>().insertProfile(
+                  profile: Profile(
+                    id: 6,
+                    title: "Hello",
+                    isActive: false,
+                  ),
                 );
-              }
-              return Container();
-            },
-          ),
-          // TextButton(
-          //   onPressed: () {
-          //     getIt<AppDatabase>().sessionDao.insertSession(Session(
-          //         id: 3,
-          //         title: "new",
-          //         startTime: DateTime.now(),
-          //         endTime: DateTime.now(),
-          //         monday: true));
-          //   },
-          //   child: const Text("Add Session"),
-          // ),
-          TextButton(
-            onPressed: () {
-              context.read<ProfileCubit>().insertProfile(
-                      profile: Profile(
-                    id: 5,
-                    title: "old",
-                  ));
-            },
-            child: const Text("Add Profile"),
-          ),
-          // TextButton(
-          //   onPressed: () {
-          //     context.read<CalendarsCubit>().insertCalendar(
-          //           calendar: Calendar(
-          //               id: 4,
-          //               title: "nothing",
-          //               startTime: DateTime.now(),
-          //               endTime: DateTime.now(),
-          //               dateTime: DateTime.now()),
-          //         );
-          //   },
-          //   child: const Text("Add Calander"),
-          // )
-        ],
-      ),
+          },
+          child: const Text("Add Profile"),
+        ),
+      ],
     );
   }
 }

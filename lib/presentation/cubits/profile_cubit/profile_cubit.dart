@@ -9,7 +9,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
   final ProfileRepository _profileRepository;
   ProfileCubit(this._profileRepository) : super(const ProfileLoading());
 
-  void getProfileStream()  {
+  void getProfileStream() {
     emit(ProfileLoaded(_profileRepository.getAllProfilesStream()));
   }
 
@@ -19,5 +19,12 @@ class ProfileCubit extends Cubit<ProfileStates> {
 
   Future<void> updateProfile({required Profile profile}) async {
     await _profileRepository.updateProfile(profile: profile);
+  }
+
+  Future<void> switchIsActive({required Profile profile}) async {
+    final bool change;
+    (profile.isActive) ? change = false : change = true;
+    await _profileRepository.updateProfile(
+        profile: profile.copyWith(isActive: change));
   }
 }
