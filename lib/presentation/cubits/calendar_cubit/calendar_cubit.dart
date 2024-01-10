@@ -9,7 +9,7 @@ class CalendarsCubit extends Cubit<CalendarStates> {
   final CalendarRepository _calendarRepository;
   CalendarsCubit(this._calendarRepository) : super(const CalendarLoading());
 
-  void getProfileStream() {
+  void getCalendarStream() {
     emit(CalendarLaoded(_calendarRepository.getAllCalendarStream())) ;
   }
 
