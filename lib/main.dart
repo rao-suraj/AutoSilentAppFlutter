@@ -1,6 +1,12 @@
+import 'package:auto_silent_app/di/get_it.dart';
+import 'package:auto_silent_app/presentation/screens/main_screen.dart';
+import 'package:auto_silent_app/presentation/themes/app_themes.dart';
 import 'package:flutter/material.dart';
+import 'package:theme_provider/theme_provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureDependencies();
   runApp(const MyApp());
 }
 
@@ -9,12 +15,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: TextButton(
-            onPressed: () {},
-            child: const Text("Click Here"),
+    return ThemeProvider(
+      themes: AppThemes.getAppThemes(context),
+      child: ThemeConsumer(
+        child: Builder(
+          builder: (themeContext) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeProvider.themeOf(themeContext).data,
+            home: const MainScreen(),
           ),
         ),
       ),
