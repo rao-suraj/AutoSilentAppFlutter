@@ -14,11 +14,27 @@ import 'package:flutter/services.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/menu bar.svg
-  SvgGenImage get menuBar => const SvgGenImage('assets/images/menu bar.svg');
+  /// File path: assets/images/dnd_icon.svg
+  SvgGenImage get dndIcon => const SvgGenImage('assets/images/dnd_icon.svg');
+
+  /// File path: assets/images/menu_bar.svg
+  SvgGenImage get menuBar => const SvgGenImage('assets/images/menu_bar.svg');
+
+  /// File path: assets/images/ringer_icon.svg
+  SvgGenImage get ringerIcon =>
+      const SvgGenImage('assets/images/ringer_icon.svg');
+
+  /// File path: assets/images/vibration_icon.svg
+  SvgGenImage get vibrationIcon =>
+      const SvgGenImage('assets/images/vibration_icon.svg');
+
+  /// File path: assets/images/volume_icon.svg
+  SvgGenImage get volumeIcon =>
+      const SvgGenImage('assets/images/volume_icon.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [menuBar];
+  List<SvgGenImage> get values =>
+      [dndIcon, menuBar, ringerIcon, vibrationIcon, volumeIcon];
 }
 
 class Assets {

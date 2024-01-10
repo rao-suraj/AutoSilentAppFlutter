@@ -1,19 +1,17 @@
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
-import 'package:auto_silent_app/data/data_source/floor/app_database.dart';
-import 'package:auto_silent_app/data/models/calendar.dart';
-import 'package:auto_silent_app/data/models/session.dart';
 import 'package:auto_silent_app/di/get_it.dart';
 import 'package:auto_silent_app/gen/assets.gen.dart';
 import 'package:auto_silent_app/gen/fonts.gen.dart';
 import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_cubit.dart';
-import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_states.dart';
-import 'package:auto_silent_app/presentation/screens/widgets/app_functions.dart';
-import 'package:auto_silent_app/presentation/screens/widgets/my_floating_action_button.dart';
+import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
+import 'package:auto_silent_app/presentation/cubits/session_cubit/session_cubit.dart';
+import 'package:auto_silent_app/presentation/screens/calendar_screen.dart';
+import 'package:auto_silent_app/presentation/screens/profile_screen.dart';
+import 'package:auto_silent_app/presentation/screens/session_screen.dart';
 import 'package:auto_silent_app/presentation/utils/app_icons.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
+import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:workmanager/workmanager.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -26,7 +24,35 @@ class _MainScreenState extends State<MainScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation _animation;
-  int visit = 0;
+
+  final _pageOptions = [
+    BlocProvider<ProfileCubit>(
+        create: (_) => getIt<ProfileCubit>()..getProfileStream(),
+        child: const ProfileScereen()),
+    BlocProvider<SessionCubit>(
+        create: (_) => getIt<SessionCubit>()..getSessionsStream(),
+        child: const SessionScreen()),
+    BlocProvider<CalendarsCubit>(
+        create: (_) => getIt<CalendarsCubit>()..getCalendarStream(),
+        child: const CalendarScreen()),
+  ];
+
+  int _selectedPage = 0;
+
+  final List<TabItem> navItems = [
+    const TabItem(
+      icon: AppIcons.content_copy,
+      title: 'Profile',
+    ),
+    const TabItem(
+      icon: AppIcons.access_time,
+      title: 'Schedule',
+    ),
+    const TabItem(
+      icon: AppIcons.beenhere,
+      title: 'Calander',
+    ),
+  ];
 
   @override
   void initState() {
@@ -42,7 +68,7 @@ class _MainScreenState extends State<MainScreen>
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.sizeOf(context);
+    final mediaQuery = MediaQuery.of(context).size;
     final colorScheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: () {
@@ -51,9 +77,37 @@ class _MainScreenState extends State<MainScreen>
         }
       },
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: colorScheme.background,
+          scrolledUnderElevation: 5,
+          centerTitle: false,
+          title: Text(
+            "AutoSilent",
+            style: TextStyle(
+                fontFamily: FontFamily.rubik,
+                fontSize: 34,
+                fontWeight: FontWeight.w800,
+                color: colorScheme.primary),
+          ),
+          toolbarHeight: mediaQuery.height * 0.09,
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: Assets.images.menuBar.svg(
+                width: 40,
+                height: 40,
+                colorFilter:
+                    ColorFilter.mode(colorScheme.onSecondary, BlendMode.srcIn),
+              ),
+            )
+          ],
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton:
-            MyFloatingActionButton(_animationController, _animation),
+        floatingActionButton: _floatingActionButton(
+            context: context,
+            animationController: _animationController,
+            animation: _animation),
+        body: _pageOptions[_selectedPage],
         bottomNavigationBar: SizedBox(
           height: mediaQuery.height * 0.1,
           child: Row(
@@ -74,10 +128,10 @@ class _MainScreenState extends State<MainScreen>
                     backgroundColor: Colors.transparent,
                     color: colorScheme.onSecondary,
                     colorSelected: colorScheme.primary,
-                    indexSelected: visit,
+                    indexSelected: _selectedPage,
                     iconSize: 24,
                     onTap: (int index) => setState(() {
-                      visit = index;
+                      _selectedPage = index;
                     }),
                     titleStyle: const TextStyle(fontSize: 11),
                   ),
@@ -86,157 +140,61 @@ class _MainScreenState extends State<MainScreen>
             ],
           ),
         ),
-        body: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                flex: 10,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          "Auto Silent",
-                          style: TextStyle(
-                              fontFamily: FontFamily.rubik,
-                              fontSize: 30,
-                              fontWeight: FontWeight.w800,
-                              color: colorScheme.primary),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Assets.images.menuBar.svg(
-                          width: 40,
-                          height: 40,
-                          colorFilter: ColorFilter.mode(
-                              colorScheme.onSecondary, BlendMode.srcIn),
-                        ),
-                      )
-                    ]),
-              ),
-              Expanded(
-                flex: 80,
-                child: Center(
-                  child: Column(children: [
-                    Row(
-                      children: [
-                        BlocBuilder<CalendarsCubit, CalendarStates>(
-                          builder: (context, state) {
-                            if (state is CalendarLaoded) {
-                              return SizedBox(
-                                height: 170,
-                                width: 100,
-                                child: StreamBuilder(
-                                    stream: state.calendarStream,
-                                    builder: (context, stream) {
-                                      if (stream.data == null) {
-                                        return CircularProgressIndicator();
-                                      }
-                                      return SizedBox(
-                                        height: 140,
-                                        child: ListView.builder(
-                                            itemCount: stream.data!.length,
-                                            itemBuilder: (context, index) {
-                                              return Text(
-                                                  "Id ${stream.data!.elementAt(index).id.toString()} title ${stream.data!.elementAt(index).title}");
-                                            }),
-                                      );
-                                    }),
-                              );
-                            }
-                            return Container();
-                          },
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            getIt<AppDatabase>().sessionDao.insertSession(
-                                Session(
-                                    id: 3,
-                                    title: "new",
-                                    startTime: DateTime.now(),
-                                    endTime: DateTime.now(),
-                                    monday: true));
-                          },
-                          child: const Text("Add Session"),
-                        ),
-                        // TextButton(
-                        //   onPressed: () {
-                        //     context.read<ProfileCubit>().updateProfile(
-                        //             profile: Profile(
-                        //           id: 25,
-                        //           title: "old",
-                        //         ));
-                        //   },
-                        //   child: const Text("Add Profile"),
-                        // ),
-                        TextButton(
-                          onPressed: () {
-                            context.read<CalendarsCubit>().insertCalendar(
-                                  calendar: Calendar(
-                                      id: 4,
-                                      title: "nothing",
-                                      startTime: DateTime.now(),
-                                      endTime: DateTime.now(),
-                                      dateTime: DateTime.now()),
-                                );
-                          },
-                          child: const Text("Add Calander"),
-                        )
-                      ],
-                    ),
-                    TextButton(
-                        onPressed: () {
-                          Workmanager().registerOneOffTask(
-                              "task-identifier", "simpleTask",
-                              initialDelay: const Duration(minutes: 15),
-                              constraints: Constraints(
-                                  networkType: NetworkType.not_required,
-                                  requiresBatteryNotLow: false,
-                                  requiresCharging: false,
-                                  requiresDeviceIdle: false,
-                                  requiresStorageNotLow: false));
-                        },
-                        child: const Text("Click Here")),
-                    TextButton(
-                        onPressed: () {
-                          Workmanager().cancelAll();
-                        },
-                        child: const Text("Cancle All")),
-                    TextButton(
-                      child: Text("Add Alarm"),
-                      onPressed: () {
-                        // AndroidAlarmManager.oneShot(
-                        //     Duration(seconds: 5), 2, AppFunctions.printHello);
-                      },
-                    ),
-                    TextButton(onPressed: (){
-                      AndroidAlarmManager.cancel(1);
-                    }, child: Text("Cancle All Alarm")),
-                  ]),
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
+
+  Widget _floatingActionButton(
+      {required BuildContext context,
+      required AnimationController animationController,
+      required Animation animation}) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return FloatingActionBubble(
+      items: [
+        Bubble(
+          title: "Add Settings",
+          iconColor: colorScheme.onPrimary,
+          bubbleColor: colorScheme.surface,
+          icon: Icons.add,
+          titleStyle: TextStyle(
+              fontSize: 18,
+              color: colorScheme.onPrimary,
+              fontFamily: FontFamily.rubik,
+              fontWeight: FontWeight.w600),
+          onPress: () {},
+        ),
+        Bubble(
+          title: "Add Profile",
+          iconColor: colorScheme.onPrimary,
+          bubbleColor: colorScheme.surface,
+          icon: Icons.add,
+          titleStyle: TextStyle(
+              fontSize: 18,
+              color: colorScheme.onPrimary,
+              fontFamily: FontFamily.rubik,
+              fontWeight: FontWeight.w600),
+          onPress: () {},
+        ),
+        Bubble(
+          title: "Add Schedule",
+          iconColor: colorScheme.onPrimary,
+          bubbleColor: colorScheme.surface,
+          icon: Icons.add,
+          titleStyle: TextStyle(
+              fontSize: 18,
+              color: colorScheme.onPrimary,
+              fontFamily: FontFamily.rubik,
+              fontWeight: FontWeight.w600),
+          onPress: () {},
+        )
+      ],
+      onPress: () => animationController.isCompleted
+          ? animationController.reverse()
+          : animationController.forward(),
+      iconColor: const Color(0xFF303030),
+      animation: animation,
+      backGroundColor: colorScheme.primary,
+      iconData: Icons.add,
+    );
+  }
 }
-
-const List<TabItem> navItems = [
-  TabItem(
-    icon: AppIcons.access_time,
-    title: 'Schedule',
-  ),
-  TabItem(
-    icon: AppIcons.content_copy,
-    title: 'Profile',
-  ),
-  TabItem(
-    icon: AppIcons.beenhere,
-    title: 'Calander',
-  ),
-];
-

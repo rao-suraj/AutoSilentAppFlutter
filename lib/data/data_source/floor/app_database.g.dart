@@ -91,7 +91,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Session` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `isActive` INTEGER NOT NULL, `sunday` INTEGER NOT NULL, `monday` INTEGER NOT NULL, `tuesday` INTEGER NOT NULL, `wednesday` INTEGER NOT NULL, `thursday` INTEGER NOT NULL, `friday` INTEGER NOT NULL, `saturday` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Profile` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `isActive` INTEGER NOT NULL, `volumeLevel` INTEGER, `ringerLevel` INTEGER, `isNetActive` INTEGER, `isDNDActive` INTEGER, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `Profile` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `isActive` INTEGER NOT NULL, `volumeLevel` INTEGER, `ringerLevel` INTEGER, `isVibrationActive` INTEGER, `isDNDActive` INTEGER, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Calendar` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `dateTime` INTEGER NOT NULL, `isActive` INTEGER NOT NULL, PRIMARY KEY (`id`))');
 
@@ -395,9 +395,9 @@ class _$ProfileDao extends ProfileDao {
                   'isActive': item.isActive ? 1 : 0,
                   'volumeLevel': item.volumeLevel,
                   'ringerLevel': item.ringerLevel,
-                  'isNetActive': item.isNetActive == null
+                  'isVibrationActive': item.isVibrationActive == null
                       ? null
-                      : (item.isNetActive! ? 1 : 0),
+                      : (item.isVibrationActive! ? 1 : 0),
                   'isDNDActive': item.isDNDActive == null
                       ? null
                       : (item.isDNDActive! ? 1 : 0)
@@ -413,9 +413,9 @@ class _$ProfileDao extends ProfileDao {
                   'isActive': item.isActive ? 1 : 0,
                   'volumeLevel': item.volumeLevel,
                   'ringerLevel': item.ringerLevel,
-                  'isNetActive': item.isNetActive == null
+                  'isVibrationActive': item.isVibrationActive == null
                       ? null
-                      : (item.isNetActive! ? 1 : 0),
+                      : (item.isVibrationActive! ? 1 : 0),
                   'isDNDActive': item.isDNDActive == null
                       ? null
                       : (item.isDNDActive! ? 1 : 0)
@@ -431,9 +431,9 @@ class _$ProfileDao extends ProfileDao {
                   'isActive': item.isActive ? 1 : 0,
                   'volumeLevel': item.volumeLevel,
                   'ringerLevel': item.ringerLevel,
-                  'isNetActive': item.isNetActive == null
+                  'isVibrationActive': item.isVibrationActive == null
                       ? null
-                      : (item.isNetActive! ? 1 : 0),
+                      : (item.isVibrationActive! ? 1 : 0),
                   'isDNDActive': item.isDNDActive == null
                       ? null
                       : (item.isDNDActive! ? 1 : 0)
@@ -459,9 +459,9 @@ class _$ProfileDao extends ProfileDao {
             id: row['id'] as int,
             title: row['title'] as String,
             isActive: (row['isActive'] as int) != 0,
-            isNetActive: row['isNetActive'] == null
+            isVibrationActive: row['isVibrationActive'] == null
                 ? null
-                : (row['isNetActive'] as int) != 0,
+                : (row['isVibrationActive'] as int) != 0,
             isDNDActive: row['isDNDActive'] == null
                 ? null
                 : (row['isDNDActive'] as int) != 0,
