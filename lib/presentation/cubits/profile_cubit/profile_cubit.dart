@@ -22,9 +22,39 @@ class ProfileCubit extends Cubit<ProfileStates> {
   }
 
   Future<void> switchIsActive({required Profile profile}) async {
+    final list = await getAllActiveProfiles();
+    // if any other profile is active and its not the one that you are trying to switch return immediately
+    if (list.isNotEmpty && list[0].id != profile.id) {
+      emit(const ProfileError('A Profile is already active'));
+      getProfileStream(); // putting it to profile loaded state again
+      return;
+    }
+
+    // get the present state
     final bool change;
     (profile.isActive) ? change = false : change = true;
+
+    // update the profile in database so that the change is displayed
     await _profileRepository.updateProfile(
         profile: profile.copyWith(isActive: change));
+
+    // set or remove the profile based on the value of change
+    if (change) {
+      await setProfile(profile: profile);
+    } else {
+      await removeProfile(profile: profile);
+    }
+  }
+
+  Future<void> setProfile({required Profile profile}) async {
+    await _profileRepository.setProfile(profile: profile);
+  }
+
+  Future<void> removeProfile({required Profile profile}) async {
+    await _profileRepository.removeProfile(profile: profile);
+  }
+
+  Future<List<Profile>> getAllActiveProfiles() async {
+    return await _profileRepository.getAllActiveProfiles();
   }
 }

@@ -91,7 +91,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Session` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `isActive` INTEGER NOT NULL, `sunday` INTEGER NOT NULL, `monday` INTEGER NOT NULL, `tuesday` INTEGER NOT NULL, `wednesday` INTEGER NOT NULL, `thursday` INTEGER NOT NULL, `friday` INTEGER NOT NULL, `saturday` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Profile` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `isActive` INTEGER NOT NULL, `volumeLevel` INTEGER, `ringerLevel` INTEGER, `isVibrationActive` INTEGER, `isDNDActive` INTEGER, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `Profile` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `isActive` INTEGER NOT NULL, `volumeLevel` REAL NOT NULL, `ringerLevel` REAL NOT NULL, `isVibrationActive` INTEGER NOT NULL, `isDNDActive` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Calendar` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `dateTime` INTEGER NOT NULL, `isActive` INTEGER NOT NULL, PRIMARY KEY (`id`))');
 
@@ -395,12 +395,8 @@ class _$ProfileDao extends ProfileDao {
                   'isActive': item.isActive ? 1 : 0,
                   'volumeLevel': item.volumeLevel,
                   'ringerLevel': item.ringerLevel,
-                  'isVibrationActive': item.isVibrationActive == null
-                      ? null
-                      : (item.isVibrationActive! ? 1 : 0),
-                  'isDNDActive': item.isDNDActive == null
-                      ? null
-                      : (item.isDNDActive! ? 1 : 0)
+                  'isVibrationActive': item.isVibrationActive ? 1 : 0,
+                  'isDNDActive': item.isDNDActive ? 1 : 0
                 },
             changeListener),
         _profileUpdateAdapter = UpdateAdapter(
@@ -413,12 +409,8 @@ class _$ProfileDao extends ProfileDao {
                   'isActive': item.isActive ? 1 : 0,
                   'volumeLevel': item.volumeLevel,
                   'ringerLevel': item.ringerLevel,
-                  'isVibrationActive': item.isVibrationActive == null
-                      ? null
-                      : (item.isVibrationActive! ? 1 : 0),
-                  'isDNDActive': item.isDNDActive == null
-                      ? null
-                      : (item.isDNDActive! ? 1 : 0)
+                  'isVibrationActive': item.isVibrationActive ? 1 : 0,
+                  'isDNDActive': item.isDNDActive ? 1 : 0
                 },
             changeListener),
         _profileDeletionAdapter = DeletionAdapter(
@@ -431,12 +423,8 @@ class _$ProfileDao extends ProfileDao {
                   'isActive': item.isActive ? 1 : 0,
                   'volumeLevel': item.volumeLevel,
                   'ringerLevel': item.ringerLevel,
-                  'isVibrationActive': item.isVibrationActive == null
-                      ? null
-                      : (item.isVibrationActive! ? 1 : 0),
-                  'isDNDActive': item.isDNDActive == null
-                      ? null
-                      : (item.isDNDActive! ? 1 : 0)
+                  'isVibrationActive': item.isVibrationActive ? 1 : 0,
+                  'isDNDActive': item.isDNDActive ? 1 : 0
                 },
             changeListener);
 
@@ -458,17 +446,27 @@ class _$ProfileDao extends ProfileDao {
         mapper: (Map<String, Object?> row) => Profile(
             id: row['id'] as int,
             title: row['title'] as String,
+            volumeLevel: row['volumeLevel'] as double,
+            ringerLevel: row['ringerLevel'] as double,
             isActive: (row['isActive'] as int) != 0,
-            isVibrationActive: row['isVibrationActive'] == null
-                ? null
-                : (row['isVibrationActive'] as int) != 0,
-            isDNDActive: row['isDNDActive'] == null
-                ? null
-                : (row['isDNDActive'] as int) != 0,
-            volumeLevel: row['volumeLevel'] as int?,
-            ringerLevel: row['ringerLevel'] as int?),
+            isVibrationActive: (row['isVibrationActive'] as int) != 0,
+            isDNDActive: (row['isDNDActive'] as int) != 0),
         queryableName: 'Profile',
         isView: false);
+  }
+
+  @override
+  Future<List<Profile>> getAllActiveProfiles() async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM Profile WHERE isActive = true',
+        mapper: (Map<String, Object?> row) => Profile(
+            id: row['id'] as int,
+            title: row['title'] as String,
+            volumeLevel: row['volumeLevel'] as double,
+            ringerLevel: row['ringerLevel'] as double,
+            isActive: (row['isActive'] as int) != 0,
+            isVibrationActive: (row['isVibrationActive'] as int) != 0,
+            isDNDActive: (row['isDNDActive'] as int) != 0));
   }
 
   @override

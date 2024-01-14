@@ -1,9 +1,14 @@
-
 import 'package:auto_silent_app/data/data_source/floor/app_database.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @module
 abstract class InjectableModule {
   @preResolve
-  Future<AppDatabase>  get getAppDatabase => $FloorAppDatabase.databaseBuilder('auto_silent_app.db').build();
+  Future<AppDatabase> get getAppDatabase =>
+      $FloorAppDatabase.databaseBuilder('auto_silent_app.db').build();
+
+  @preResolve
+  Future<SharedPreferences> get getSharedPreferences async =>
+      await SharedPreferences.getInstance();
 }
