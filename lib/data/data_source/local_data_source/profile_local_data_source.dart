@@ -10,9 +10,11 @@ abstract class ProfileLocalDataSource {
   Future<void> deleteProfile({required Profile profile});
 
   Stream<List<Profile>> getAllProfilesStream();
+
+  Future<List<Profile>> getAllActiveProfiles();
 }
 
-@LazySingleton(as:ProfileLocalDataSource)
+@LazySingleton(as: ProfileLocalDataSource)
 class ProflieLocalDataSourceImpl extends ProfileLocalDataSource {
   final AppDatabase _database;
 
@@ -35,5 +37,10 @@ class ProflieLocalDataSourceImpl extends ProfileLocalDataSource {
   @override
   Future<void> updateProfile({required Profile profile}) async {
     await _database.profileDao.updateProfile(profile);
+  }
+  
+  @override
+  Future<List<Profile>> getAllActiveProfiles() async {
+    return await _database.profileDao.getAllActiveProfiles();
   }
 }

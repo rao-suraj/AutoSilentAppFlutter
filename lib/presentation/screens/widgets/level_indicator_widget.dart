@@ -11,7 +11,7 @@ class LevelIndicator extends StatelessWidget {
 
     return SizedBox(
       height: 6,
-      width: 57,
+      width: 50,
       child: Row(children: [
         Expanded(
           flex: 25,

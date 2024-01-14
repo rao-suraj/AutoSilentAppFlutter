@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:auto_silent_app/data/data_source/floor/daos/calender_dao.dart';
 import 'package:auto_silent_app/data/data_source/floor/daos/profile_dao.dart';
 import 'package:auto_silent_app/data/data_source/floor/daos/session_dao.dart';
-import 'package:auto_silent_app/data/data_source/floor/date_time_convertor.dart';
+import 'package:auto_silent_app/data/utils/date_time_convertor.dart';
 import 'package:auto_silent_app/data/models/calendar.dart';
 import 'package:auto_silent_app/data/models/profile.dart';
 import 'package:auto_silent_app/data/models/session.dart';

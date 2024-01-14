@@ -20,7 +20,17 @@ class _ProfileScereenState extends State<ProfileScereen> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: BlocBuilder<ProfileCubit, ProfileStates>(
+            child: BlocConsumer<ProfileCubit, ProfileStates>(
+              listener: (context, state) {
+                if (state is ProfileError) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.errorMessage),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              },
               builder: (context, state) {
                 if (state is ProfileLoaded) {
                   return StreamBuilder(
@@ -31,7 +41,6 @@ class _ProfileScereenState extends State<ProfileScereen> {
                           return const Center(
                               child: CircularProgressIndicator());
                         }
-
                         return GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
@@ -46,12 +55,7 @@ class _ProfileScereenState extends State<ProfileScereen> {
                               );
                             });
                       });
-                }
-                if (state is ProfileError) {
-                  return Center(
-                    child: Text(state.errorMessage),
-                  );
-                } else {
+                }else {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
@@ -64,9 +68,12 @@ class _ProfileScereenState extends State<ProfileScereen> {
           onPressed: () {
             context.read<ProfileCubit>().insertProfile(
                   profile: Profile(
-                    id: 6,
-                    title: "Hello",
+                    id: 77,
+                    title: "Vibrate",
                     isActive: false,
+                    volumeLevel: 0.7,
+                    ringerLevel: 0.2,
+                    isVibrationActive: true,
                   ),
                 );
           },
