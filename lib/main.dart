@@ -1,7 +1,11 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:auto_silent_app/data/data_source/floor/app_database.dart';
+import 'package:auto_silent_app/data/models/session.dart';
+import 'package:auto_silent_app/data/utils/alarm_manager_utils.dart';
 import 'package:auto_silent_app/di/get_it.dart';
+import 'package:auto_silent_app/domain/utils/enums.dart';
 import 'package:auto_silent_app/presentation/screens/main_screen.dart';
-import 'package:auto_silent_app/presentation/screens/widgets/app_functions.dart';
+import 'package:auto_silent_app/data/utils/alarm_manager_functions.dart';
 import 'package:auto_silent_app/presentation/themes/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -40,12 +44,38 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// this function needs to be here because its the way WorkManager functions 
 @pragma('vm:entry-point')
 void callbackDispatcher() {
-  Workmanager().executeTask((taskName, inputData) {
-    print("Task elecuted");
-    AndroidAlarmManager.oneShot(
-        const Duration(seconds: 5), 2, AppFunctions.printHello);
+  Workmanager().executeTask((taskName, inputData) async {
+    try {
+      await AndroidAlarmManager.initialize();
+      final AppDatabase database =
+          await $FloorAppDatabase.databaseBuilder('auto_silent_app.db').build();
+
+      // Get the list of sessions that needs to be activated today
+      List<Session> list =
+          await database.sessionDao.getSessionByDay(DayOfTheWeek.getDay());
+
+      // Set it one by one
+      if (list.isNotEmpty) {
+        for (int i = 0; i < list.length; i++) {
+          AndroidAlarmManager.oneShotAt(
+              list[i].startTime,
+              AlarmManagerUtils.getSetAlarmId(id: list[i].id),
+              AlarmManagerFunctions.setSilentMode);
+          AndroidAlarmManager.oneShotAt(
+              list[i].endTime,
+              AlarmManagerUtils.getRemoveAlarmId(id: list[i].id),
+              AlarmManagerFunctions.removeSilentMode);
+        }
+      } else {
+        print("Empty");
+      }
+    } catch (e) {
+      print("$e Error in initialization");
+      return Future.error(Exception(e.toString()));
+    }
     return Future.value(true);
   });
 }

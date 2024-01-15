@@ -4,6 +4,7 @@ import 'package:auto_silent_app/presentation/cubits/session_cubit/session_states
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 
+
 @injectable
 class SessionCubit extends Cubit<SessionStates> {
   final SessionRepository _sessionRepository;
@@ -19,5 +20,24 @@ class SessionCubit extends Cubit<SessionStates> {
 
   void updateSession({required Session session}) {
     _sessionRepository.updateSession(session: session);
+  }
+
+  Future<void> setSession() async {
+    // Right now Workmanager is only cofigured for android.
+    // if (Platform.isAndroid) {
+    //   await Workmanager().registerPeriodicTask(
+    //       WorkManagerConstants.workManagerTaskName,WorkManagerConstants.workManagerTaskName,
+    //       existingWorkPolicy: ExistingWorkPolicy.replace,
+    //       backoffPolicy: BackoffPolicy.linear,
+    //       backoffPolicyDelay: const Duration(minutes: 10),
+    //       constraints: Constraints(
+    //           networkType: NetworkType.not_required,
+    //           requiresBatteryNotLow: false,
+    //           requiresCharging: false,
+    //           requiresDeviceIdle: false,
+    //           requiresStorageNotLow: false));
+    // } else {
+    //   // have to add the fuctionality for IOS
+    // }
   }
 }
