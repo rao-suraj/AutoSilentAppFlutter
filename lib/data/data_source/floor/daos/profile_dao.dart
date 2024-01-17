@@ -15,6 +15,6 @@ abstract class ProfileDao {
   @Query('SELECT * FROM Profile')
   Stream<List<Profile>> getAllProfileStream();
 
-  @Query('SELECT * FROM Profile WHERE isActive = true')
-  Future<List<Profile>> getAllActiveProfiles();
+  @Query('SELECT * FROM Profile WHERE isActive = :isTure')
+  Future<List<Profile>> getAllActiveProfiles(bool isTure);
 }

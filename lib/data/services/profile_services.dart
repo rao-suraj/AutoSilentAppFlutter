@@ -1,4 +1,5 @@
 import 'package:auto_silent_app/data/models/profile.dart';
+import 'package:auto_silent_app/data/utils/real_volume_manager.dart';
 import 'package:auto_silent_app/data/utils/shared_preferance_manager.dart';
 import 'package:injectable/injectable.dart';
 import 'package:real_volume/real_volume.dart';
@@ -11,15 +12,16 @@ abstract class ProfileService {
 @LazySingleton(as: ProfileService)
 class ProfileServicesImpl extends ProfileService {
   final SharedPreferanceManager _spManager;
-  ProfileServicesImpl(this._spManager);
+  final RealVolumeManager _rvManager;
+  ProfileServicesImpl(this._spManager, this._rvManager);
 
   @override
   Future<void> removeProfile({required Profile profile}) async {
     // get the original music volume and ringer volume for the purpose of using it when the profile is removed
     double currentVolumeLevel =
-        await RealVolume.getCurrentVol(StreamType.MUSIC) ?? 0.7;
+        await _rvManager.getVolumeLevel(streamType: StreamType.MUSIC) ?? 0.7;
     double currentReingerLevel =
-        await RealVolume.getCurrentVol(StreamType.RING) ?? 0.7;
+        await _rvManager.getVolumeLevel(streamType: StreamType.RING) ?? 0.7;
 
     // stored it in the shared preference
     await _spManager.setProfileConfiguration(
@@ -27,19 +29,19 @@ class ProfileServicesImpl extends ProfileService {
         volumeLevel: currentVolumeLevel,
         ringerLevel: currentReingerLevel);
 
-    await RealVolume.setVolume(profile.volumeLevel,
-        streamType: StreamType.MUSIC);
+    if (currentVolumeLevel != profile.volumeLevel) {
+      await _rvManager.setVolume(
+          volumeLevel: profile.volumeLevel, streamType: StreamType.MUSIC);
+    }
 
     if (profile.isDNDActive == true) {
-      RealVolume.setRingerMode(
-          RingerMode.SILENT); // it puts the phone to DND mode
+      await _rvManager.setRingerMode(
+          ringerMode: RingerMode.SILENT); // it puts the phone to DND mode
     } else if (profile.isVibrationActive == true) {
-      RealVolume.setRingerMode(RingerMode.VIBRATE);
-      await RealVolume.setVolume(profile.volumeLevel,
-          streamType: StreamType.MUSIC);
-    } else {
-      await RealVolume.setVolume(profile.ringerLevel,
-          streamType: StreamType.RING);
+      await _rvManager.setRingerMode(ringerMode: RingerMode.VIBRATE);
+    } else if (currentReingerLevel != profile.ringerLevel) {
+      await _rvManager.setVolume(
+          volumeLevel: profile.ringerLevel, streamType: StreamType.RING);
     }
   }
 
@@ -52,14 +54,15 @@ class ProfileServicesImpl extends ProfileService {
       originalVolumeLevel = double.parse(response[0]);
       originalReingerLevel = double.parse(response[1]);
     } else {
+      // get some values to be set
       originalVolumeLevel = 0.7;
       originalReingerLevel = 0.7;
     }
 
-    await RealVolume.setRingerMode(RingerMode.NORMAL);
-    await RealVolume.setVolume(originalVolumeLevel,
-        streamType: StreamType.MUSIC);
-    await RealVolume.setVolume(originalReingerLevel,
-        streamType: StreamType.RING);
+    await _rvManager.setRingerMode(ringerMode: RingerMode.NORMAL);
+    await _rvManager.setVolume(
+        volumeLevel: originalVolumeLevel, streamType: StreamType.MUSIC);
+    await _rvManager.setVolume(
+        volumeLevel: originalReingerLevel, streamType: StreamType.RING);
   }
 }

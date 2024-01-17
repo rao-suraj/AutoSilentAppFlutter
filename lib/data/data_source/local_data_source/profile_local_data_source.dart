@@ -41,6 +41,6 @@ class ProflieLocalDataSourceImpl extends ProfileLocalDataSource {
   
   @override
   Future<List<Profile>> getAllActiveProfiles() async {
-    return await _database.profileDao.getAllActiveProfiles();
+    return await _database.profileDao.getAllActiveProfiles(true);
   }
 }
