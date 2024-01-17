@@ -1,4 +1,3 @@
-import 'package:auto_silent_app/data/models/profile.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/progile_states.dart';
 import 'package:auto_silent_app/presentation/screens/widgets/profile_tile.dart';
@@ -20,7 +19,17 @@ class _ProfileScereenState extends State<ProfileScereen> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: BlocBuilder<ProfileCubit, ProfileStates>(
+            child: BlocConsumer<ProfileCubit, ProfileStates>(
+              listener: (context, state) {
+                if (state is ProfileError) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.errorMessage),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              },
               builder: (context, state) {
                 if (state is ProfileLoaded) {
                   return StreamBuilder(
@@ -31,7 +40,6 @@ class _ProfileScereenState extends State<ProfileScereen> {
                           return const Center(
                               child: CircularProgressIndicator());
                         }
-
                         return GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(

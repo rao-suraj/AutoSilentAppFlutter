@@ -8,4 +8,12 @@ abstract class ProfileRepository {
   Future<void> deleteProfile({required Profile profile});
 
   Stream<List<Profile>> getAllProfilesStream();
+
+  Future<void> setProfile({required Profile profile});
+
+  Future<void> removeProfile({required Profile profile});
+
+  Future<List<Profile>> getAllActiveProfiles();
+
+  Future<List<double?>> getCurrentVolumes();
 }

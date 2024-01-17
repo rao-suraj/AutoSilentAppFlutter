@@ -49,8 +49,8 @@ class _ProfileTileState extends State<ProfileTile> {
                         colorScheme.onPrimary, BlendMode.srcIn)),
                 const Gap(5),
                 LevelIndicator(
-                    level: widget.profile.volumeLevel ??
-                        2), // this will display the volume level based on the value provided 1-3
+                    level: getLevel(widget.profile
+                        .volumeLevel)), // this will display the volume level based on the value provided 1-3
               ],
             ),
           ),
@@ -63,7 +63,7 @@ class _ProfileTileState extends State<ProfileTile> {
                     colorFilter: ColorFilter.mode(
                         colorScheme.onPrimary, BlendMode.srcIn)),
                 const Gap(5),
-                LevelIndicator(level: widget.profile.ringerLevel ?? 2),
+                LevelIndicator(level: getLevel(widget.profile.ringerLevel)),
               ],
             ),
           ),
@@ -72,13 +72,27 @@ class _ProfileTileState extends State<ProfileTile> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Assets.images.dndIcon.svg(
-                    height: 26,
-                    colorFilter: ColorFilter.mode(
-                        (widget.profile.isDNDActive ?? false)
-                            ? colorScheme.primary
-                            : colorScheme.onPrimary,
-                        BlendMode.srcIn)),
+                Row(
+                  children: [
+                    Assets.images.dndIcon.svg(
+                      height: 26,
+                      colorFilter: ColorFilter.mode(
+                          (widget.profile.isDNDActive)
+                              ? colorScheme.primary
+                              : colorScheme.onPrimary,
+                          BlendMode.srcIn),
+                    ),
+                    const Gap(5),
+                    Assets.images.vibrationIcon.svg(
+                      height: 26,
+                      colorFilter: ColorFilter.mode(
+                          (widget.profile.isVibrationActive)
+                              ? colorScheme.primary
+                              : colorScheme.onPrimary,
+                          BlendMode.srcIn),
+                    )
+                  ],
+                ),
                 GestureDetector(
                   onTap: () {
                     context
@@ -102,5 +116,16 @@ class _ProfileTileState extends State<ProfileTile> {
         ]),
       ),
     );
+  }
+
+  // takes level in double(0.0 to 1.0) and converts it to int(1 to 3)
+  int getLevel(double x) {
+    if (x > 0 && x <= 0.4) {
+      return 1;
+    } else if (x > 0.4 && x <= 0.7) {
+      return 2;
+    } else {
+      return 3;
+    }
   }
 }

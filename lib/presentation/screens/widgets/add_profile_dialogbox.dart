@@ -282,8 +282,10 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
               if (_formKey.currentState?.validate() ?? false) {
                 context.read<ProfileCubit>().insertProfile(
                     title: title ?? "Nothing",
-                    volumeLevel: selectedVolumeLevel.toInt(),
-                    ringerLevel: selectedRingerLevel.toInt());
+                    volumeLevel: selectedVolumeLevel,
+                    ringerLevel: selectedRingerLevel,
+                    isDNDActive: isDND,
+                    isVibrationActive: isVibration);
                 Navigator.pop(context);
               }
             },

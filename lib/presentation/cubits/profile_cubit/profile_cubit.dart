@@ -4,7 +4,6 @@ import 'package:auto_silent_app/domain/repositories/profile_repository.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/progile_states.dart';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:real_volume/real_volume.dart';
 
 @injectable
 class ProfileCubit extends Cubit<ProfileStates> {
@@ -17,10 +16,10 @@ class ProfileCubit extends Cubit<ProfileStates> {
 
   Future<void> insertProfile(
       {required String title,
-      required int volumeLevel,
-      required int ringerLevel,
-      bool? isDNDActive,
-      bool? isVibrationActive}) async {
+      required double volumeLevel,
+      required double ringerLevel,
+      required bool isDNDActive,
+      required bool isVibrationActive}) async {
     await _profileRepository.insertProfile(
         profile: Profile(
             id: Random().nextInt(500),
@@ -35,17 +34,44 @@ class ProfileCubit extends Cubit<ProfileStates> {
     await _profileRepository.updateProfile(profile: profile);
   }
 
-  Future<void> switchIsActive({required Profile profile}) async {
-    final bool change;
-    (profile.isActive) ? change = false : change = true;
-    await _profileRepository.updateProfile(
-        profile: profile.copyWith(isActive: change));
+  Future<List<double?>> getCurrentVolumeLevels() async {
+    return await _profileRepository.getCurrentVolumes();
   }
 
-  Future<List<double?>> getCurrentVolumeLevels() async {
-    List<double?> list = [];
-    list.add(await RealVolume.getCurrentVol(StreamType.MUSIC));
-    list.add(await RealVolume.getCurrentVol(StreamType.RING));
-    return list;
+  Future<void> switchIsActive({required Profile profile}) async {
+    final list = await getAllActiveProfiles();
+    // if any other profile is active and its not the one that you are trying to switch return immediately
+    if (list.isNotEmpty && list[0].id != profile.id) {
+      emit(const ProfileError('A Profile is already active'));
+      getProfileStream(); // putting it to profile loaded state again
+      return;
+    }
+
+    // get the present state
+    final bool change;
+    (profile.isActive) ? change = false : change = true;
+
+    // update the profile in database so that the change is displayed
+    await _profileRepository.updateProfile(
+        profile: profile.copyWith(isActive: change));
+
+    // set or remove the profile based on the value of change
+    if (change) {
+      await setProfile(profile: profile);
+    } else {
+      await removeProfile(profile: profile);
+    }
+  }
+
+  Future<void> setProfile({required Profile profile}) async {
+    await _profileRepository.setProfile(profile: profile);
+  }
+
+  Future<void> removeProfile({required Profile profile}) async {
+    await _profileRepository.removeProfile(profile: profile);
+  }
+
+  Future<List<Profile>> getAllActiveProfiles() async {
+    return await _profileRepository.getAllActiveProfiles();
   }
 }
