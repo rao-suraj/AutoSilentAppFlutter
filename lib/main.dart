@@ -34,7 +34,10 @@ class MyApp extends StatelessWidget {
           builder: (themeContext) => MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeProvider.themeOf(themeContext).data,
-            home:MultiBlocProvider(providers: [BlocProvider(create: (_) => getIt<ProfileCubit>())],child: const MainScreen(),),
+            home: MultiBlocProvider(
+              providers: [BlocProvider(create: (_) => getIt<ProfileCubit>())],
+              child: const MainScreen(),
+            ),
           ),
         ),
       ),

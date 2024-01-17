@@ -59,7 +59,7 @@ class _MainScreenState extends State<MainScreen>
   Widget build(BuildContext context) {
     final pageOptions = [
       BlocProvider<ProfileCubit>.value(
-        value: context.read<ProfileCubit>()..getProfileStream(),
+        value: context.read<ProfileCubit>(),
         child: const ProfileScereen(),
       ),
       BlocProvider<SessionCubit>(

@@ -13,6 +13,12 @@ class ProfileScereen extends StatefulWidget {
 
 class _ProfileScereenState extends State<ProfileScereen> {
   @override
+  void initState() {
+    context.read<ProfileCubit>().getProfileStream();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
