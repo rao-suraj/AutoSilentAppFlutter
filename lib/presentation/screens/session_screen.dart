@@ -29,7 +29,7 @@ class _SessionScreenState extends State<SessionScreen> {
                       stream: state.sessionStream,
                       builder: (context, stream) {
                         if (stream.data == null) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
                         return SizedBox(
                           height: 140,
@@ -57,29 +57,6 @@ class _SessionScreenState extends State<SessionScreen> {
             },
             child: const Text("Add Session"),
           ),
-          // TextButton(
-          //   onPressed: () {
-          //     context.read<ProfileCubit>().updateProfile(
-          //             profile: Profile(
-          //           id: 25,
-          //           title: "old",
-          //         ));
-          //   },
-          //   child: const Text("Add Profile"),
-          // ),
-          // TextButton(
-          //   onPressed: () {
-          //     context.read<CalendarsCubit>().insertCalendar(
-          //           calendar: Calendar(
-          //               id: 4,
-          //               title: "nothing",
-          //               startTime: DateTime.now(),
-          //               endTime: DateTime.now(),
-          //               dateTime: DateTime.now()),
-          //         );
-          //   },
-          //   child: const Text("Add Calander"),
-          // )
         ],
       ),
     );

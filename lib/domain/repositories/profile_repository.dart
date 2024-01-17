@@ -14,4 +14,6 @@ abstract class ProfileRepository {
   Future<void> removeProfile({required Profile profile});
 
   Future<List<Profile>> getAllActiveProfiles();
+
+  Future<List<double?>> getCurrentVolumes();
 }

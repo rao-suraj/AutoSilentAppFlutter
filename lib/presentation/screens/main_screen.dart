@@ -7,6 +7,7 @@ import 'package:auto_silent_app/presentation/cubits/session_cubit/session_cubit.
 import 'package:auto_silent_app/presentation/screens/calendar_screen.dart';
 import 'package:auto_silent_app/presentation/screens/profile_screen.dart';
 import 'package:auto_silent_app/presentation/screens/session_screen.dart';
+import 'package:auto_silent_app/presentation/screens/widgets/add_profile_dialogbox.dart';
 import 'package:auto_silent_app/presentation/utils/app_icons.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
@@ -24,18 +25,6 @@ class _MainScreenState extends State<MainScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation _animation;
-
-  final _pageOptions = [
-    BlocProvider<ProfileCubit>(
-        create: (_) => getIt<ProfileCubit>()..getProfileStream(),
-        child: const ProfileScereen()),
-    BlocProvider<SessionCubit>(
-        create: (_) => getIt<SessionCubit>()..getSessionsStream(),
-        child: const SessionScreen()),
-    BlocProvider<CalendarsCubit>(
-        create: (_) => getIt<CalendarsCubit>()..getCalendarStream(),
-        child: const CalendarScreen()),
-  ];
 
   int _selectedPage = 0;
 
@@ -68,6 +57,18 @@ class _MainScreenState extends State<MainScreen>
 
   @override
   Widget build(BuildContext context) {
+    final pageOptions = [
+      BlocProvider<ProfileCubit>.value(
+        value: context.read<ProfileCubit>(),
+        child: const ProfileScereen(),
+      ),
+      BlocProvider<SessionCubit>(
+          create: (_) => getIt<SessionCubit>()..getSessionsStream(),
+          child: const SessionScreen()),
+      BlocProvider<CalendarsCubit>(
+          create: (_) => getIt<CalendarsCubit>()..getCalendarStream(),
+          child: const CalendarScreen()),
+    ];
     final mediaQuery = MediaQuery.of(context).size;
     final colorScheme = Theme.of(context).colorScheme;
     return GestureDetector(
@@ -107,7 +108,7 @@ class _MainScreenState extends State<MainScreen>
             context: context,
             animationController: _animationController,
             animation: _animation),
-        body: _pageOptions[_selectedPage],
+        body: pageOptions[_selectedPage],
         bottomNavigationBar: SizedBox(
           height: mediaQuery.height * 0.1,
           child: Row(
@@ -173,10 +174,22 @@ class _MainScreenState extends State<MainScreen>
               color: colorScheme.onPrimary,
               fontFamily: FontFamily.rubik,
               fontWeight: FontWeight.w600),
-          onPress: () {},
+          onPress: () async {
+            final List<double?> list =
+                await context.read<ProfileCubit>().getCurrentVolumeLevels();
+            if (!mounted) return;
+            showDialog<void>(
+                context: context,
+                builder: (_) => BlocProvider<ProfileCubit>.value(
+                      value: context.read<ProfileCubit>(),
+                      child: AddProfileDialogbox(
+                          volumeLevel: list[0] ?? 0.7,
+                          ringerLevel: list[1] ?? 0.5),
+                    ));
+          },
         ),
         Bubble(
-          title: "Add Schedule",
+          title: "Add Session",
           iconColor: colorScheme.onPrimary,
           bubbleColor: colorScheme.surface,
           icon: Icons.add,

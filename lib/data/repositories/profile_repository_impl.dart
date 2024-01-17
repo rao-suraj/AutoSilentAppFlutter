@@ -29,7 +29,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
   Future<void> updateProfile({required Profile profile}) async {
     await _profileLocalDataSource.updateProfile(profile: profile);
   }
-  
+
   @override
   Future<List<Profile>> getAllActiveProfiles() {
     return _profileLocalDataSource.getAllActiveProfiles();
@@ -44,5 +44,9 @@ class ProfileRepositoryImpl extends ProfileRepository {
   Future<void> setProfile({required Profile profile}) async {
     await _profileService.removeProfile(profile: profile);
   }
-  
+
+  @override
+  Future<List<double?>> getCurrentVolumes() async{
+    return await _profileService.getCurrentVolume();
+  }
 }

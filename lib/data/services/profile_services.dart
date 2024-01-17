@@ -7,6 +7,7 @@ import 'package:real_volume/real_volume.dart';
 abstract class ProfileService {
   Future<void> setProfile({required Profile profile});
   Future<void> removeProfile({required Profile profile});
+  Future<List<double?>> getCurrentVolume();
 }
 
 @LazySingleton(as: ProfileService)
@@ -64,5 +65,12 @@ class ProfileServicesImpl extends ProfileService {
         volumeLevel: originalVolumeLevel, streamType: StreamType.MUSIC);
     await _rvManager.setVolume(
         volumeLevel: originalReingerLevel, streamType: StreamType.RING);
+  }
+
+  Future<List<double?>> getCurrentVolume() async{
+    List<double?> list = [];
+    list.add(await _rvManager.getVolumeLevel(streamType: StreamType.MUSIC));
+    list.add(await _rvManager.getVolumeLevel(streamType: StreamType.RING));
+    return list;
   }
 }

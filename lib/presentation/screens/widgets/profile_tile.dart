@@ -25,7 +25,7 @@ class _ProfileTileState extends State<ProfileTile> {
           color: colorScheme.surface, borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding:
-            const EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 10),
+            const EdgeInsets.only(left: 10,right: 10, top: 15, bottom: 10),
         child: Column(children: [
           Expanded(
             flex: 36,

@@ -1,4 +1,3 @@
-import 'package:auto_silent_app/data/models/profile.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/progile_states.dart';
 import 'package:auto_silent_app/presentation/screens/widgets/profile_tile.dart';
@@ -13,6 +12,12 @@ class ProfileScereen extends StatefulWidget {
 }
 
 class _ProfileScereenState extends State<ProfileScereen> {
+  @override
+  void initState() {
+    context.read<ProfileCubit>().getProfileStream();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -55,7 +60,12 @@ class _ProfileScereenState extends State<ProfileScereen> {
                               );
                             });
                       });
-                }else {
+                }
+                if (state is ProfileError) {
+                  return Center(
+                    child: Text(state.errorMessage),
+                  );
+                } else {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
@@ -66,16 +76,13 @@ class _ProfileScereenState extends State<ProfileScereen> {
         ),
         TextButton(
           onPressed: () {
-            context.read<ProfileCubit>().insertProfile(
-                  profile: Profile(
-                    id: 77,
-                    title: "Vibrate",
-                    isActive: false,
-                    volumeLevel: 0.7,
-                    ringerLevel: 0.2,
-                    isVibrationActive: true,
-                  ),
-                );
+            // context.read<ProfileCubit>().insertProfile(
+            //       profile: Profile(
+            //         id: 6,
+            //         title: "Hello",
+            //         isActive: false,
+            //       ),
+            //     );
           },
           child: const Text("Add Profile"),
         ),
