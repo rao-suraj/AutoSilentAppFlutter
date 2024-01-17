@@ -656,6 +656,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  real_volume:
+    dependency: "direct main"
+    description:
+      name: real_volume
+      sha256: "384d3f9a1ed9ccb722a9b8ef453e2a41b3f5f5a1be0cf9759483d3a5da6d1458"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.7"
   recase:
     dependency: transitive
     description:

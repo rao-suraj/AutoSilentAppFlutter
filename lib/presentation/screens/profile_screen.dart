@@ -62,13 +62,13 @@ class _ProfileScereenState extends State<ProfileScereen> {
         ),
         TextButton(
           onPressed: () {
-            context.read<ProfileCubit>().insertProfile(
-                  profile: Profile(
-                    id: 6,
-                    title: "Hello",
-                    isActive: false,
-                  ),
-                );
+            // context.read<ProfileCubit>().insertProfile(
+            //       profile: Profile(
+            //         id: 6,
+            //         title: "Hello",
+            //         isActive: false,
+            //       ),
+            //     );
           },
           child: const Text("Add Profile"),
         ),

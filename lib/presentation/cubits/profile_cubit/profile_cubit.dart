@@ -1,8 +1,10 @@
+import 'dart:math';
 import 'package:auto_silent_app/data/models/profile.dart';
 import 'package:auto_silent_app/domain/repositories/profile_repository.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/progile_states.dart';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:real_volume/real_volume.dart';
 
 @injectable
 class ProfileCubit extends Cubit<ProfileStates> {
@@ -13,8 +15,20 @@ class ProfileCubit extends Cubit<ProfileStates> {
     emit(ProfileLoaded(_profileRepository.getAllProfilesStream()));
   }
 
-  Future<void> insertProfile({required Profile profile}) async {
-    await _profileRepository.insertProfile(profile: profile);
+  Future<void> insertProfile(
+      {required String title,
+      required int volumeLevel,
+      required int ringerLevel,
+      bool? isDNDActive,
+      bool? isVibrationActive}) async {
+    await _profileRepository.insertProfile(
+        profile: Profile(
+            id: Random().nextInt(500),
+            title: title,
+            volumeLevel: volumeLevel,
+            ringerLevel: ringerLevel,
+            isDNDActive: isDNDActive,
+            isVibrationActive: isVibrationActive));
   }
 
   Future<void> updateProfile({required Profile profile}) async {
@@ -26,5 +40,12 @@ class ProfileCubit extends Cubit<ProfileStates> {
     (profile.isActive) ? change = false : change = true;
     await _profileRepository.updateProfile(
         profile: profile.copyWith(isActive: change));
+  }
+
+  Future<List<double?>> getCurrentVolumeLevels() async {
+    List<double?> list = [];
+    list.add(await RealVolume.getCurrentVol(StreamType.MUSIC));
+    list.add(await RealVolume.getCurrentVol(StreamType.RING));
+    return list;
   }
 }

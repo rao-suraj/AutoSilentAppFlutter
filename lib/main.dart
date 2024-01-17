@@ -1,7 +1,9 @@
 import 'package:auto_silent_app/di/get_it.dart';
+import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
 import 'package:auto_silent_app/presentation/screens/main_screen.dart';
 import 'package:auto_silent_app/presentation/themes/app_themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 void main() async {
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
           builder: (themeContext) => MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeProvider.themeOf(themeContext).data,
-            home: const MainScreen(),
+            home:MultiBlocProvider(providers: [BlocProvider(create: (_) => getIt<ProfileCubit>())],child: const MainScreen(),),
           ),
         ),
       ),
