@@ -30,3 +30,9 @@ extension TextThemeExtension on TextTheme {
 
   TextStyle get regularSmall => GoogleFonts.poppins(fontSize: 12);
 }
+
+extension StringExtension on String {
+    String capitalize() {
+      return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+    }
+}

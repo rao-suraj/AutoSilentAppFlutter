@@ -1,8 +1,9 @@
 import 'package:auto_silent_app/data/models/profile.dart';
 import 'package:auto_silent_app/gen/assets.gen.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
-import 'package:auto_silent_app/presentation/screens/widgets/level_indicator_widget.dart';
-import 'package:auto_silent_app/presentation/themes/theme_extensions.dart';
+import 'package:auto_silent_app/presentation/screens/widgets/custom_switch_auto.dart';
+import 'package:auto_silent_app/presentation/screens/profile/widgets/level_indicator_widget.dart';
+import 'package:auto_silent_app/presentation/themes/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -25,7 +26,7 @@ class _ProfileTileState extends State<ProfileTile> {
           color: colorScheme.surface, borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding:
-            const EdgeInsets.only(left: 10,right: 10, top: 15, bottom: 10),
+            const EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 10),
         child: Column(children: [
           Expanded(
             flex: 36,
@@ -99,15 +100,10 @@ class _ProfileTileState extends State<ProfileTile> {
                         .read<ProfileCubit>()
                         .switchIsActive(profile: widget.profile);
                   },
-                  child: Container(
-                    width: 30,
-                    height: 30,
-                    decoration: BoxDecoration(
-                        border:
-                            Border.all(width: 4, color: colorScheme.onPrimary),
-                        color: widget.profile.isActive
-                            ? colorScheme.primary
-                            : colorScheme.surface),
+                  child: CustomSwitchAuto(
+                    value: widget.profile.isActive,
+                    width: 54,
+                    height: 27,
                   ),
                 )
               ],

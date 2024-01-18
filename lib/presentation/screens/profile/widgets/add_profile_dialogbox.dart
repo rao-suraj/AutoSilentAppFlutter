@@ -1,6 +1,7 @@
 import 'package:auto_silent_app/gen/assets.gen.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
-import 'package:auto_silent_app/presentation/themes/theme_extensions.dart';
+import 'package:auto_silent_app/presentation/screens/widgets/custom_switch.dart';
+import 'package:auto_silent_app/presentation/themes/extensions.dart';
 import 'package:auto_silent_app/presentation/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -170,31 +171,24 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
                                       colorFilter: ColorFilter.mode(
                                           colorScheme.primary,
                                           BlendMode.srcIn)),
-                                  const Gap(20),
-                                  GestureDetector(
-                                    child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              width: 4,
-                                              color: colorScheme.onPrimary),
-                                          color: isDND
-                                              ? colorScheme.primary
-                                              : colorScheme.surface),
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        // if the DND is active the Vibration has to be deactivated
-                                        if (isDND) {
-                                          isDND = false;
-                                        } else {
-                                          isDND = true;
-                                          isVibration = false;
-                                        }
-                                      });
-                                    },
-                                  )
+                                  const Gap(10),
+                                  CustomSwitch(
+                                      value: false,
+                                      width: 45,
+                                      height: 24,
+                                      onChange: (value) {
+                                        setState(() {
+                                          setState(() {
+                                            // if the DND is active the Vibration has to be deactivated
+                                            if (isDND) {
+                                              isDND = false;
+                                            } else {
+                                              isDND = true;
+                                              isVibration = false;
+                                            }
+                                          });
+                                        });
+                                      })
                                 ],
                               ),
                             ),
@@ -215,31 +209,22 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
                                       colorFilter: ColorFilter.mode(
                                           colorScheme.primary,
                                           BlendMode.srcIn)),
-                                  const Gap(20),
-                                  GestureDetector(
-                                    child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              width: 4,
-                                              color: colorScheme.onPrimary),
-                                          color: isVibration
-                                              ? colorScheme.primary
-                                              : colorScheme.surface),
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        // if vibration is active then DND has to be deactivated
-                                        if (isVibration) {
-                                          isVibration = false;
-                                        } else {
-                                          isVibration = true;
-                                          isDND = false;
-                                        }
-                                      });
-                                    },
-                                  )
+                                  const Gap(10),
+                                  CustomSwitch(
+                                      value: false,
+                                      width: 45,
+                                      height: 24,
+                                      onChange: (value) {
+                                        setState(() {
+                                          // if vibration is active then DND has to be deactivated
+                                          if (isVibration) {
+                                            isVibration = false;
+                                          } else {
+                                            isVibration = true;
+                                            isDND = false;
+                                          }
+                                        });
+                                      })
                                 ],
                               ),
                             ),
@@ -281,7 +266,7 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
                 context.read<ProfileCubit>().insertProfile(
-                    title: title ?? "Nothing",
+                    title: title!.capitalize(),
                     volumeLevel: selectedVolumeLevel,
                     ringerLevel: selectedRingerLevel,
                     isDNDActive: isDND,

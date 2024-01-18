@@ -1,6 +1,6 @@
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/progile_states.dart';
-import 'package:auto_silent_app/presentation/screens/widgets/profile_tile.dart';
+import 'package:auto_silent_app/presentation/screens/profile/widgets/profile_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -73,18 +73,19 @@ class _ProfileScereenState extends State<ProfileScereen> {
             ),
           ),
         ),
-        TextButton(
-          onPressed: () {
-            // context.read<ProfileCubit>().insertProfile(
-            //       profile: Profile(
-            //         id: 6,
-            //         title: "Hello",
-            //         isActive: false,
-            //       ),
-            //     );
-          },
-          child: const Text("Add Profile"),
-        ),
+        // TextButton(
+        //   onPressed: () {
+        //     // context.read<ProfileCubit>().insertProfile(
+        //     //       profile: Profile(
+        //     //         id: 6,
+        //     //         title: "Hello",
+        //     //         isActive: false,
+        //     //       ),
+        //     //     );
+        //   },
+        //   child: const Text("Add Profile"),
+        // ),
+       
       ],
     );
   }
