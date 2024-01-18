@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileScereen extends StatefulWidget {
   const ProfileScereen({super.key});
-
   @override
   State<ProfileScereen> createState() => _ProfileScereenState();
 }
@@ -14,8 +13,8 @@ class ProfileScereen extends StatefulWidget {
 class _ProfileScereenState extends State<ProfileScereen> {
   @override
   void initState() {
-    context.read<ProfileCubit>().getProfileStream();
     super.initState();
+    context.read<ProfileCubit>().getProfileStream();
   }
 
   @override

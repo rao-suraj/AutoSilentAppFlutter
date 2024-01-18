@@ -1,3 +1,4 @@
+import 'package:auto_silent_app/data/models/profile.dart';
 import 'package:auto_silent_app/di/get_it.dart';
 import 'package:auto_silent_app/gen/assets.gen.dart';
 import 'package:auto_silent_app/gen/fonts.gen.dart';

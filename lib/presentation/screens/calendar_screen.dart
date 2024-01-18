@@ -27,7 +27,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       stream: state.calendarStream,
                       builder: (context, stream) {
                         if (stream.data == null) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
                         return SizedBox(
                           height: 140,
