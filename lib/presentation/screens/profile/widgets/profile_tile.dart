@@ -23,10 +23,20 @@ class _ProfileTileState extends State<ProfileTile> {
     final colorScheme = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
-          color: colorScheme.surface, borderRadius: BorderRadius.circular(15)),
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 0.5,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: Padding(
         padding:
-            const EdgeInsets.only(left: 10,right: 10, top: 15, bottom: 10),
+            const EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 10),
         child: Column(children: [
           Expanded(
             flex: 36,

@@ -6,7 +6,15 @@ extension TextThemeExtension on TextTheme {
 
   TextStyle get h2 => GoogleFonts.montserrat(fontSize: 25);
 
+  TextStyle get h2low => GoogleFonts.montserrat(fontSize:20);
+
   TextStyle get h3 => GoogleFonts.montserrat(fontSize: 15);
+
+  TextStyle get h4 => GoogleFonts.montserrat(fontSize: 12);
+
+  TextStyle get regular => GoogleFonts.poppins(fontSize: 18);
+
+  TextStyle get regularSmall => GoogleFonts.poppins(fontSize: 12);
 
   TextStyle get h1ExtraBold => h1.copyWith(fontWeight: FontWeight.w800);
 
@@ -25,14 +33,10 @@ extension TextThemeExtension on TextTheme {
   TextStyle get h3Medium => h3.copyWith(fontWeight: FontWeight.w500);
 
   TextStyle get h3Regular => h1.copyWith(fontWeight: FontWeight.w400);
-
-  TextStyle get regular => GoogleFonts.poppins(fontSize: 18);
-
-  TextStyle get regularSmall => GoogleFonts.poppins(fontSize: 12);
 }
 
 extension StringExtension on String {
-    String capitalize() {
-      return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
-    }
+  String capitalize() {
+    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  }
 }

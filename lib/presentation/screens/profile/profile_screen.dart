@@ -48,6 +48,7 @@ class _ProfileScereenState extends State<ProfileScereen> {
                         return GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 1/1.05,
                               crossAxisCount: 2,
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 12,

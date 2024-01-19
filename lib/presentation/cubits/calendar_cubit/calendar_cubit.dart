@@ -5,9 +5,9 @@ import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class CalendarsCubit extends Cubit<CalendarStates> {
+class CalendarCubit extends Cubit<CalendarStates> {
   final CalendarRepository _calendarRepository;
-  CalendarsCubit(this._calendarRepository) : super(const CalendarLoading());
+  CalendarCubit(this._calendarRepository) : super(const CalendarLoading());
 
   void getCalendarStream() {
     emit(CalendarLaoded(_calendarRepository.getAllCalendarStream())) ;

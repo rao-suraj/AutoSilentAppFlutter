@@ -65,8 +65,8 @@ class _MainScreenState extends State<MainScreen>
       BlocProvider<SessionCubit>(
           create: (_) => getIt<SessionCubit>()..getSessionsStream(),
           child: const SessionScreen()),
-      BlocProvider<CalendarsCubit>(
-          create: (_) => getIt<CalendarsCubit>()..getCalendarStream(),
+      BlocProvider<CalendarCubit>.value(
+          value: context.read<CalendarCubit>(),
           child: const CalendarScreen()),
     ];
     final mediaQuery = MediaQuery.of(context).size;

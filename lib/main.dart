@@ -1,5 +1,6 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:auto_silent_app/di/get_it.dart';
+import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_cubit.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
 import 'package:auto_silent_app/presentation/screens/main_screen.dart';
 import 'package:auto_silent_app/presentation/screens/widgets/app_functions.dart';
@@ -35,7 +36,12 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeProvider.themeOf(themeContext).data,
             home: MultiBlocProvider(
-              providers: [BlocProvider(create: (_) => getIt<ProfileCubit>())],
+              providers: [
+                BlocProvider<ProfileCubit>(
+                    create: (_) => getIt<ProfileCubit>(),lazy: true,),
+                BlocProvider<CalendarCubit>(
+                    create: (_) => getIt<CalendarCubit>(),lazy: true,)
+              ],
               child: const MainScreen(),
             ),
           ),
