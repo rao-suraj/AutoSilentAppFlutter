@@ -22,8 +22,14 @@ class CalendarRepositoryImpl extends CalendarRepository {
   Future<void> updateCalendar({required Calendar calendar}) async {
     await _calendarLocalDataSource.updateCalendar(calendar: calendar);
   }
+
   @override
   Stream<List<Calendar>> getAllCalendarStream() {
     return _calendarLocalDataSource.getAllCalendarStream();
+  }
+
+  @override
+  Future<List<Calendar>> getAllActiveCalendar() async {
+    return await _calendarLocalDataSource.getAllActiveCalendars();
   }
 }

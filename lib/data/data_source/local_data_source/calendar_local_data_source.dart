@@ -10,6 +10,8 @@ abstract class CalandarLocalDataSource {
   Future<void> deleteCalendar({required Calendar calendar});
 
   Stream<List<Calendar>> getAllCalendarStream();
+
+  Future<List<Calendar>> getAllActiveCalendars();
 }
 
 @LazySingleton(as: CalandarLocalDataSource)
@@ -34,5 +36,10 @@ class CalendarLocalDataSourceImpl extends CalandarLocalDataSource {
   @override
   Future<void> updateCalendar({required Calendar calendar}) async {
     await _database.calandarDao.updateCalendar(calendar);
+  }
+
+  @override
+  Future<List<Calendar>> getAllActiveCalendars() async {
+    return await _database.calandarDao.getAllActiveCalendars(true);
   }
 }

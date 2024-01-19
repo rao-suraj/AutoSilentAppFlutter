@@ -8,4 +8,6 @@ abstract class CalendarRepository {
   Future<void> deleteCalendar({required Calendar calendar});
 
   Stream<List<Calendar>> getAllCalendarStream();
+
+  Future<List<Calendar>> getAllActiveCalendar();
 }

@@ -10,7 +10,7 @@ class CalendarCubit extends Cubit<CalendarStates> {
   CalendarCubit(this._calendarRepository) : super(const CalendarLoading());
 
   void getCalendarStream() {
-    emit(CalendarLaoded(_calendarRepository.getAllCalendarStream())) ;
+    emit(CalendarLaoded(_calendarRepository.getAllCalendarStream()));
   }
 
   Future<void> insertCalendar({required Calendar calendar}) async {
@@ -19,5 +19,24 @@ class CalendarCubit extends Cubit<CalendarStates> {
 
   Future<void> updateCalendar({required Calendar calendar}) async {
     await _calendarRepository.updateCalendar(calendar: calendar);
+  }
+
+  Future<void> switchCalendar({required Calendar calendar}) async {
+    final List<Calendar> activeCalendars =
+        await _calendarRepository.getAllActiveCalendar();
+
+    if (activeCalendars.length > 3) {
+      emit(CalendarError("Can't have more than 3 active calendars"));
+    } else {
+      final currentState = calendar.isActive;
+      if (currentState) {
+        // remove the calendar TO DO:
+        updateCalendar(calendar: calendar.copyWith(isActive: !currentState));
+      } else {
+        // add the Calendar TO DO:
+        updateCalendar(calendar: calendar.copyWith(isActive: !currentState));
+      }
+      getCalendarStream();
+    }
   }
 }
