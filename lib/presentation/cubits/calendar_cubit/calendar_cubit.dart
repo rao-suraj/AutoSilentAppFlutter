@@ -10,7 +10,7 @@ class CalendarCubit extends Cubit<CalendarStates> {
   CalendarCubit(this._calendarRepository) : super(const CalendarLoading());
 
   void getCalendarStream() {
-    emit(CalendarLaoded(_calendarRepository.getAllCalendarStream()));
+    emit(CalendarLoaded(_calendarRepository.getAllCalendarStream()));
   }
 
   Future<void> insertCalendar({required Calendar calendar}) async {
@@ -30,10 +30,10 @@ class CalendarCubit extends Cubit<CalendarStates> {
     } else {
       final currentState = calendar.isActive;
       if (currentState) {
-        // remove the calendar TO DO:
+        _calendarRepository.removeExactAlarm(calendar: calendar);
         updateCalendar(calendar: calendar.copyWith(isActive: !currentState));
       } else {
-        // add the Calendar TO DO:
+        _calendarRepository.setExactAlarm(calendar: calendar);
         updateCalendar(calendar: calendar.copyWith(isActive: !currentState));
       }
       getCalendarStream();

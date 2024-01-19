@@ -10,4 +10,8 @@ abstract class CalendarRepository {
   Stream<List<Calendar>> getAllCalendarStream();
 
   Future<List<Calendar>> getAllActiveCalendar();
+
+  Future<void> setExactAlarm({required Calendar calendar});
+
+  Future<void> removeExactAlarm({required Calendar calendar});
 }

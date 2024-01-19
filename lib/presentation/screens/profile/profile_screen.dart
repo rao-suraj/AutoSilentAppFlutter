@@ -38,7 +38,7 @@ class _ProfileScereenState extends State<ProfileScereen> {
               builder: (context, state) {
                 if (state is ProfileLoaded) {
                   return StreamBuilder(
-                      stream: state.prfileStream,
+                      stream: state.profileStream,
                       builder: (context, stream) {
                         if (stream.data == null) {
                           // stream gives null for some time in the starting
@@ -48,7 +48,7 @@ class _ProfileScereenState extends State<ProfileScereen> {
                         return GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                                  childAspectRatio: 1/1.05,
+                              childAspectRatio: 1 / 1.05,
                               crossAxisCount: 2,
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 12,
@@ -86,7 +86,6 @@ class _ProfileScereenState extends State<ProfileScereen> {
         //   },
         //   child: const Text("Add Profile"),
         // ),
-       
       ],
     );
   }

@@ -13,9 +13,12 @@ class ProfileLoading extends ProfileStates {
 }
 
 class ProfileLoaded extends ProfileStates {
-  final Stream<List<Profile>> prfileStream;
+  final Stream<List<Profile>> profileStream;
 
-  const ProfileLoaded(this.prfileStream);
+  const ProfileLoaded(this.profileStream);
+
+  @override
+  List<Object?> get props => [profileStream];
 }
 
 class ProfileError extends ProfileStates {

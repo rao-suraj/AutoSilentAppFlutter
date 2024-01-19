@@ -12,10 +12,14 @@ class CalendarLoading extends CalendarStates {
   const CalendarLoading();
 }
 
-class CalendarLaoded extends CalendarStates {
+class CalendarLoaded extends CalendarStates {
   final Stream<List<Calendar>> calendarStream;
 
-  const CalendarLaoded(this.calendarStream);
+  const CalendarLoaded(this.calendarStream);
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [calendarStream];
 }
 
 class CalendarError extends CalendarStates {

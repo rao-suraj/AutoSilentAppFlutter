@@ -30,7 +30,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               child: BlocConsumer<CalendarCubit, CalendarStates>(
                 listener: (context, state) {},
                 builder: (context, state) {
-                  if (state is CalendarLaoded) {
+                  if (state is CalendarLoaded) {
                     return StreamBuilder(
                         stream: state.calendarStream,
                         builder: (context, stream) {
@@ -65,7 +65,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
           TextButton(
             onPressed: () {
-              context.read<CalendarCubit>().updateCalendar(
+              context.read<CalendarCubit>().insertCalendar(
                     calendar: Calendar(
                         id: 4,
                         title: "Nothing",

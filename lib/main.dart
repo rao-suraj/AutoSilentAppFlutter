@@ -32,17 +32,15 @@ class MyApp extends StatelessWidget {
       themes: AppThemes.getAppThemes(context),
       child: ThemeConsumer(
         child: Builder(
-          builder: (themeContext) => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeProvider.themeOf(themeContext).data,
-            home: MultiBlocProvider(
-              providers: [
-                BlocProvider<ProfileCubit>(
-                    create: (_) => getIt<ProfileCubit>(),lazy: true,),
-                BlocProvider<CalendarCubit>(
-                    create: (_) => getIt<CalendarCubit>(),lazy: true,)
-              ],
-              child: const MainScreen(),
+          builder: (themeContext) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => getIt<ProfileCubit>()),
+              BlocProvider(create: (context) => getIt<CalendarCubit>())
+            ],
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: ThemeProvider.themeOf(themeContext).data,
+              home: const MainScreen(),
             ),
           ),
         ),
