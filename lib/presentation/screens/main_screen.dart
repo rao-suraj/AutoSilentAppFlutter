@@ -4,10 +4,17 @@ import 'package:auto_silent_app/gen/fonts.gen.dart';
 import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_cubit.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
 import 'package:auto_silent_app/presentation/cubits/session_cubit/session_cubit.dart';
+<<<<<<< HEAD
 import 'package:auto_silent_app/presentation/screens/calendar_screen.dart';
 import 'package:auto_silent_app/presentation/screens/profile_screen.dart';
 import 'package:auto_silent_app/presentation/screens/session_screen.dart';
 import 'package:auto_silent_app/presentation/screens/widgets/add_profile_dialogbox.dart';
+=======
+import 'package:auto_silent_app/presentation/screens/calendar/calendar_screen.dart';
+import 'package:auto_silent_app/presentation/screens/profile/profile_screen.dart';
+import 'package:auto_silent_app/presentation/screens/session/session_screen.dart';
+import 'package:auto_silent_app/presentation/screens/profile/widgets/add_profile_dialogbox.dart';
+>>>>>>> 7d19b9ed05ac8b6e046df55f1d9b121a5ca75b91
 import 'package:auto_silent_app/presentation/utils/app_icons.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
@@ -74,6 +81,12 @@ class _MainScreenState extends State<MainScreen>
     return GestureDetector(
       onTap: () {
         if (_animationController.isCompleted) {
+          _animationController.reverse();
+        }
+
+      },
+      onVerticalDragUpdate: (details){
+         if (_animationController.isCompleted) {
           _animationController.reverse();
         }
       },

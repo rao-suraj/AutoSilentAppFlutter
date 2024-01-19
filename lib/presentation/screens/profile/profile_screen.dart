@@ -1,12 +1,11 @@
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/progile_states.dart';
-import 'package:auto_silent_app/presentation/screens/widgets/profile_tile.dart';
+import 'package:auto_silent_app/presentation/screens/profile/widgets/profile_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileScereen extends StatefulWidget {
   const ProfileScereen({super.key});
-
   @override
   State<ProfileScereen> createState() => _ProfileScereenState();
 }
@@ -14,8 +13,13 @@ class ProfileScereen extends StatefulWidget {
 class _ProfileScereenState extends State<ProfileScereen> {
   @override
   void initState() {
+<<<<<<< HEAD:lib/presentation/screens/profile_screen.dart
     context.read<ProfileCubit>().getProfileStream();
     super.initState();
+=======
+    super.initState();
+    context.read<ProfileCubit>().getProfileStream();
+>>>>>>> 7d19b9ed05ac8b6e046df55f1d9b121a5ca75b91:lib/presentation/screens/profile/profile_screen.dart
   }
 
   @override
@@ -74,6 +78,7 @@ class _ProfileScereenState extends State<ProfileScereen> {
             ),
           ),
         ),
+<<<<<<< HEAD:lib/presentation/screens/profile_screen.dart
         TextButton(
           onPressed: () {
             // context.read<ProfileCubit>().insertProfile(
@@ -86,6 +91,21 @@ class _ProfileScereenState extends State<ProfileScereen> {
           },
           child: const Text("Add Profile"),
         ),
+=======
+        // TextButton(
+        //   onPressed: () {
+        //     // context.read<ProfileCubit>().insertProfile(
+        //     //       profile: Profile(
+        //     //         id: 6,
+        //     //         title: "Hello",
+        //     //         isActive: false,
+        //     //       ),
+        //     //     );
+        //   },
+        //   child: const Text("Add Profile"),
+        // ),
+       
+>>>>>>> 7d19b9ed05ac8b6e046df55f1d9b121a5ca75b91:lib/presentation/screens/profile/profile_screen.dart
       ],
     );
   }

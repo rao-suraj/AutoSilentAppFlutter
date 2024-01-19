@@ -42,7 +42,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
     final list = await getAllActiveProfiles();
     // if any other profile is active and its not the one that you are trying to switch return immediately
     if (list.isNotEmpty && list[0].id != profile.id) {
-      emit(const ProfileError('A Profile is already active'));
+      emit(const ProfileError('A profile is already active'));
       getProfileStream(); // putting it to profile loaded state again
       return;
     }
