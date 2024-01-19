@@ -1,6 +1,6 @@
 import 'package:auto_silent_app/gen/assets.gen.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
-import 'package:auto_silent_app/presentation/themes/theme_extensions.dart';
+import 'package:auto_silent_app/presentation/themes/extensions.dart';
 import 'package:auto_silent_app/presentation/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

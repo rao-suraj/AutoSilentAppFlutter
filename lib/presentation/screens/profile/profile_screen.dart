@@ -13,13 +13,8 @@ class ProfileScereen extends StatefulWidget {
 class _ProfileScereenState extends State<ProfileScereen> {
   @override
   void initState() {
-<<<<<<< HEAD:lib/presentation/screens/profile_screen.dart
-    context.read<ProfileCubit>().getProfileStream();
-    super.initState();
-=======
     super.initState();
     context.read<ProfileCubit>().getProfileStream();
->>>>>>> 7d19b9ed05ac8b6e046df55f1d9b121a5ca75b91:lib/presentation/screens/profile/profile_screen.dart
   }
 
   @override
@@ -78,20 +73,6 @@ class _ProfileScereenState extends State<ProfileScereen> {
             ),
           ),
         ),
-<<<<<<< HEAD:lib/presentation/screens/profile_screen.dart
-        TextButton(
-          onPressed: () {
-            // context.read<ProfileCubit>().insertProfile(
-            //       profile: Profile(
-            //         id: 6,
-            //         title: "Hello",
-            //         isActive: false,
-            //       ),
-            //     );
-          },
-          child: const Text("Add Profile"),
-        ),
-=======
         // TextButton(
         //   onPressed: () {
         //     // context.read<ProfileCubit>().insertProfile(
@@ -105,7 +86,6 @@ class _ProfileScereenState extends State<ProfileScereen> {
         //   child: const Text("Add Profile"),
         // ),
        
->>>>>>> 7d19b9ed05ac8b6e046df55f1d9b121a5ca75b91:lib/presentation/screens/profile/profile_screen.dart
       ],
     );
   }
