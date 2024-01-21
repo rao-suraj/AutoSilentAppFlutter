@@ -1,18 +1,22 @@
-import 'package:auto_silent_app/data/models/profile.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/progile_states.dart';
-import 'package:auto_silent_app/presentation/screens/widgets/profile_tile.dart';
+import 'package:auto_silent_app/presentation/screens/profile/widgets/profile_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileScereen extends StatefulWidget {
   const ProfileScereen({super.key});
-
   @override
   State<ProfileScereen> createState() => _ProfileScereenState();
 }
 
 class _ProfileScereenState extends State<ProfileScereen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileCubit>().getProfileStream();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,7 +38,7 @@ class _ProfileScereenState extends State<ProfileScereen> {
               builder: (context, state) {
                 if (state is ProfileLoaded) {
                   return StreamBuilder(
-                      stream: state.prfileStream,
+                      stream: state.profileStream,
                       builder: (context, stream) {
                         if (stream.data == null) {
                           // stream gives null for some time in the starting
@@ -44,6 +48,7 @@ class _ProfileScereenState extends State<ProfileScereen> {
                         return GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: 1 / 1.05,
                               crossAxisCount: 2,
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 12,
@@ -64,21 +69,18 @@ class _ProfileScereenState extends State<ProfileScereen> {
             ),
           ),
         ),
-        TextButton(
-          onPressed: () {
-            context.read<ProfileCubit>().insertProfile(
-                  profile: Profile(
-                    id: 77,
-                    title: "Vibrate",
-                    isActive: false,
-                    volumeLevel: 0.7,
-                    ringerLevel: 0.2,
-                    isVibrationActive: true,
-                  ),
-                );
-          },
-          child: const Text("Add Profile"),
-        ),
+        // TextButton(
+        //   onPressed: () {
+        //     // context.read<ProfileCubit>().insertProfile(
+        //     //       profile: Profile(
+        //     //         id: 6,
+        //     //         title: "Hello",
+        //     //         isActive: false,
+        //     //       ),
+        //     //     );
+        //   },
+        //   child: const Text("Add Profile"),
+        // ),
       ],
     );
   }

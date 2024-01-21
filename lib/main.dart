@@ -5,9 +5,11 @@ import 'package:auto_silent_app/data/utils/alarm_manager_utils.dart';
 import 'package:auto_silent_app/di/get_it.dart';
 import 'package:auto_silent_app/domain/utils/enums.dart';
 import 'package:auto_silent_app/presentation/screens/main_screen.dart';
-import 'package:auto_silent_app/data/utils/alarm_manager_functions.dart';
+import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_cubit.dart';
+import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
 import 'package:auto_silent_app/presentation/themes/app_themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme_provider/theme_provider.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -33,10 +35,16 @@ class MyApp extends StatelessWidget {
       themes: AppThemes.getAppThemes(context),
       child: ThemeConsumer(
         child: Builder(
-          builder: (themeContext) => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeProvider.themeOf(themeContext).data,
-            home: const MainScreen(),
+          builder: (themeContext) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => getIt<ProfileCubit>()),
+              BlocProvider(create: (context) => getIt<CalendarCubit>())
+            ],
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: ThemeProvider.themeOf(themeContext).data,
+              home: const MainScreen(),
+            ),
           ),
         ),
       ),
@@ -44,7 +52,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// this function needs to be here because its the way WorkManager functions 
+// this function needs to be here because its the way WorkManager functions
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((taskName, inputData) async {
@@ -63,11 +71,11 @@ void callbackDispatcher() {
           AndroidAlarmManager.oneShotAt(
               list[i].startTime,
               AlarmManagerUtils.getSetAlarmId(id: list[i].id),
-              AlarmManagerFunctions.setSilentMode);
+              AlarmManagerUtils.setSilentMode);
           AndroidAlarmManager.oneShotAt(
               list[i].endTime,
               AlarmManagerUtils.getRemoveAlarmId(id: list[i].id),
-              AlarmManagerFunctions.removeSilentMode);
+              AlarmManagerUtils.removeSilentMode);
         }
       } else {
         print("Empty");

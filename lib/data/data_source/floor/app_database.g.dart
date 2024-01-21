@@ -590,9 +590,8 @@ class _$ProfileDao extends ProfileDao {
   }
 
   @override
-  Future<List<Profile>> getAllActiveProfiles() async {
-    return _queryAdapter.queryList(
-        'SELECT * FROM Profile WHERE isActive = true',
+  Future<List<Profile>> getAllActiveProfiles(bool isTure) async {
+    return _queryAdapter.queryList('SELECT * FROM Profile WHERE isActive = ?1',
         mapper: (Map<String, Object?> row) => Profile(
             id: row['id'] as int,
             title: row['title'] as String,
@@ -600,7 +599,8 @@ class _$ProfileDao extends ProfileDao {
             ringerLevel: row['ringerLevel'] as double,
             isActive: (row['isActive'] as int) != 0,
             isVibrationActive: (row['isVibrationActive'] as int) != 0,
-            isDNDActive: (row['isDNDActive'] as int) != 0));
+            isDNDActive: (row['isDNDActive'] as int) != 0),
+        arguments: [isTure ? 1 : 0]);
   }
 
   @override
@@ -687,6 +687,19 @@ class _$CalendarDao extends CalendarDao {
             isActive: (row['isActive'] as int) != 0),
         queryableName: 'Calendar',
         isView: false);
+  }
+
+  @override
+  Future<List<Calendar>> getAllActiveCalendars(bool isActive) async {
+    return _queryAdapter.queryList('SELECT * FROM Calendar WHERE isActive = ?1',
+        mapper: (Map<String, Object?> row) => Calendar(
+            id: row['id'] as int,
+            title: row['title'] as String,
+            startTime: _dateTimeConverter.decode(row['startTime'] as int),
+            endTime: _dateTimeConverter.decode(row['endTime'] as int),
+            dateTime: _dateTimeConverter.decode(row['dateTime'] as int),
+            isActive: (row['isActive'] as int) != 0),
+        arguments: [isActive ? 1 : 0]);
   }
 
   @override

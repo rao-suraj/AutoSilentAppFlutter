@@ -31,7 +31,7 @@ class _SessionScreenState extends State<SessionScreen> {
                       stream: state.sessionStream,
                       builder: (context, stream) {
                         if (stream.data == null) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
                         return SizedBox(
                           height: 140,
@@ -51,22 +51,22 @@ class _SessionScreenState extends State<SessionScreen> {
           TextButton(
             onPressed: () {
               getIt<AppDatabase>().sessionDao.insertSession(Session(
-                  id: 12,
-                  title: "Monday",
+                  id: 15,
+                  title: "Sunday",
                   startTime: DateTime.now().add(const Duration(minutes: 1)),
                   endTime: DateTime.now().add(const Duration(minutes: 2)),
-                  monday: true));
+                  sunday: true));
             },
             child: const Text("Add Session 1"),
           ),
           TextButton(
             onPressed: () {
               getIt<AppDatabase>().sessionDao.insertSession(Session(
-                  id: 13,
-                  title: "Monday 2",
+                  id: 16,
+                  title: "Sunday 2",
                   startTime: DateTime.now().add(const Duration(minutes: 4)),
                   endTime: DateTime.now().add(const Duration(minutes: 5)),
-                  monday: true));
+                  sunday: true));
             },
             child: const Text("Add Session 2"),
           ),
@@ -95,11 +95,11 @@ class _SessionScreenState extends State<SessionScreen> {
             onPressed: () {
               context.read<SessionCubit>().updateSession(
                   session: Session(
-                      id: 12,
-                      title: "Monday",
+                      id: 15,
+                      title: "Sunday",
                       startTime: DateTime.now().add(const Duration(minutes: 1)),
                       endTime: DateTime.now().add(const Duration(minutes: 2)),
-                      monday: true));
+                      sunday: true));
             },
             child: const Text("Update Session 1"),
           ),
@@ -107,11 +107,11 @@ class _SessionScreenState extends State<SessionScreen> {
             onPressed: () {
               context.read<SessionCubit>().updateSession(
                   session: Session(
-                      id: 13,
-                      title: "Monday 2",
+                      id: 16,
+                      title: "Sunday 2",
                       startTime: DateTime.now().add(const Duration(minutes: 3)),
                       endTime: DateTime.now().add(const Duration(minutes: 4)),
-                      monday: true));
+                      sunday: true));
             },
             child: const Text("Update Session 2"),
           ),
