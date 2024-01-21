@@ -60,12 +60,7 @@ class _ProfileScereenState extends State<ProfileScereen> {
                               );
                             });
                       });
-                }
-                if (state is ProfileError) {
-                  return Center(
-                    child: Text(state.errorMessage),
-                  );
-                } else {
+                }else {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
