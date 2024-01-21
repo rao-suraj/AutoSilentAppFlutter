@@ -10,6 +10,7 @@ abstract class RealVolumeManager {
 
 @LazySingleton(as: RealVolumeManager)
 class RealVolumeManagerImpl extends RealVolumeManager {
+  RealVolumeManagerImpl();
   @override
   Future<double?> getVolumeLevel({required StreamType streamType}) async {
     return await RealVolume.getCurrentVol(streamType);
@@ -23,6 +24,16 @@ class RealVolumeManagerImpl extends RealVolumeManager {
   @override
   Future<void> setVolume(
       {required double volumeLevel, required StreamType streamType}) async {
-    await RealVolume.setVolume(volumeLevel,streamType: streamType);
+    await RealVolume.setVolume(volumeLevel, streamType: streamType);
   }
+
+  // @pragma('vm:entry-point')
+  // static Future<void> setSilentModeFunc() async {
+  //   await RealVolume.setRingerMode(RingerMode.SILENT);
+  // }
+
+  // @pragma('vm:entry-point')
+  // static Future<void> setNormalModeFunc() async {
+  //   await RealVolume.setRingerMode(RingerMode.NORMAL);
+  // }
 }

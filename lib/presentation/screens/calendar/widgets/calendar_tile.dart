@@ -5,6 +5,7 @@ import 'package:auto_silent_app/presentation/themes/extensions.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class CalendarTile extends StatefulWidget {
   final Calendar calendar;
@@ -58,17 +59,18 @@ class _CalendarTileState extends State<CalendarTile> {
                         textTheme.h2low.copyWith(color: colorScheme.onPrimary),
                     children: [
                       TextSpan(
-                          text: "6:40",
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              print("Tap");
-                            }),
-                      TextSpan(text: "AM", style: textTheme.h4),
+                        text: DateFormat("hh:mm")
+                            .format(widget.calendar.startTime),
+                      ),
+                      TextSpan(
+                          text:
+                              DateFormat("a").format(widget.calendar.startTime),
+                          style: textTheme.h4),
                       TextSpan(text: "-", style: textTheme.h3),
                       TextSpan(
-                          text: "6:40",
-                          recognizer: TapGestureRecognizer()..onTap = () {}),
-                      TextSpan(text: "AM", style: textTheme.h4),
+                          text: DateFormat("hh:mm").format(widget.calendar.endTime),
+                          ),
+                      TextSpan(text: DateFormat("a").format(widget.calendar.endTime), style: textTheme.h4),
                     ]),
               ),
             ),

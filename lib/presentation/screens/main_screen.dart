@@ -5,6 +5,7 @@ import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_cubi
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
 import 'package:auto_silent_app/presentation/cubits/session_cubit/session_cubit.dart';
 import 'package:auto_silent_app/presentation/screens/calendar/calendar_screen.dart';
+import 'package:auto_silent_app/presentation/screens/calendar/widgets/add_calendar_dialogbox.dart';
 import 'package:auto_silent_app/presentation/screens/profile/profile_screen.dart';
 import 'package:auto_silent_app/presentation/screens/session/session_screen.dart';
 import 'package:auto_silent_app/presentation/screens/profile/widgets/add_profile_dialogbox.dart';
@@ -66,8 +67,7 @@ class _MainScreenState extends State<MainScreen>
           create: (_) => getIt<SessionCubit>()..getSessionsStream(),
           child: const SessionScreen()),
       BlocProvider<CalendarCubit>.value(
-          value: context.read<CalendarCubit>(),
-          child: const CalendarScreen()),
+          value: context.read<CalendarCubit>(), child: const CalendarScreen()),
     ];
     final mediaQuery = MediaQuery.of(context).size;
     final colorScheme = Theme.of(context).colorScheme;
@@ -76,10 +76,9 @@ class _MainScreenState extends State<MainScreen>
         if (_animationController.isCompleted) {
           _animationController.reverse();
         }
-
       },
-      onVerticalDragUpdate: (details){
-         if (_animationController.isCompleted) {
+      onVerticalDragUpdate: (details) {
+        if (_animationController.isCompleted) {
           _animationController.reverse();
         }
       },
@@ -159,7 +158,7 @@ class _MainScreenState extends State<MainScreen>
     return FloatingActionBubble(
       items: [
         Bubble(
-          title: "Add Settings",
+          title: "Add Calendar",
           iconColor: colorScheme.onPrimary,
           bubbleColor: colorScheme.surface,
           icon: Icons.add,
@@ -168,7 +167,14 @@ class _MainScreenState extends State<MainScreen>
               color: colorScheme.onPrimary,
               fontFamily: FontFamily.rubik,
               fontWeight: FontWeight.w600),
-          onPress: () {},
+          onPress: () {
+            showDialog(
+                context: context,
+                builder: (_) => BlocProvider.value(
+                      value: context.read<CalendarCubit>(),
+                      child: const AddCalendarDialogBox(),
+                    ));
+          },
         ),
         Bubble(
           title: "Add Profile",

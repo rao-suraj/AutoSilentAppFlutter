@@ -1,3 +1,4 @@
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:auto_silent_app/data/models/calendar.dart';
 import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_cubit.dart';
 import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_states.dart';
@@ -65,15 +66,22 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
           TextButton(
             onPressed: () {
-              context.read<CalendarCubit>().insertCalendar(
-                    calendar: Calendar(
-                        id: 4,
-                        title: "Nothing",
-                        startTime: DateTime.now(),
-                        endTime: DateTime.now(),
-                        dateTime: DateTime.now()),
-                  );
-              context.read<CalendarCubit>().getCalendarStream();
+              AndroidAlarmManager.cancel(10);
+              print("Set");
+
+              context.read<CalendarCubit>().switchCalendar(
+                  calendar: Calendar(
+                      id: 12,
+                      title: "Suraj",
+                      startTime: DateTime.now().add(
+                        const Duration(minutes: 2),
+                      ),
+                      endTime: DateTime.now().add(const Duration(minutes: 4)),
+                      dateTime: DateTime.now()));
+              // final time = DateTime.now().add(Duration(minutes: 2));
+              // print(time);
+              // AndroidAlarmManager.oneShotAt(
+              //     time, 2, AlarmManagerFunctions.setSilent);
             },
             child: const Text("Add Calander"),
           )

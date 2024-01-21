@@ -37,24 +37,22 @@ class CalendarRepositoryImpl extends CalendarRepository {
 
   @override
   Future<void> setExactAlarm({required Calendar calendar}) async {
-    final startTime = DateTime.utc(
-        calendar.dateTime.year,
-        calendar.dateTime.month,
-        calendar.dateTime.day,
-        calendar.startTime.hour,
-        calendar.startTime.minute);
-    print(startTime);
-    final endTime = DateTime.utc(
-        calendar.dateTime.year,
-        calendar.dateTime.month,
-        calendar.dateTime.day,
-        calendar.endTime.hour,
-        calendar.endTime.minute);
+    // add the date to both startTime and endTime
+    calendar.startTime.copyWith(
+        year: calendar.dateTime.year,
+        month: calendar.dateTime.month,
+        day: calendar.dateTime.day);
 
-    print(endTime);
+    calendar.endTime.copyWith(
+        year: calendar.dateTime.year,
+        month: calendar.endTime.month,
+        day: calendar.endTime.day);
+
 
     await _calendarServices.setAlarm(
-        id: calendar.id, startDate: startTime, endDate: endTime);
+        id: calendar.id,
+        startDate: calendar.startTime,
+        endDate: calendar.endTime);
   }
 
   @override
