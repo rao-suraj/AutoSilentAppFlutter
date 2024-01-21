@@ -14,4 +14,7 @@ abstract class CalendarDao {
 
   @Query('SELECT * FROM Calendar')
   Stream<List<Calendar>> getAllCalandarStream();
+
+  @Query('SELECT * FROM Calendar WHERE isActive = :isActive')
+  Future<List<Calendar>> getAllActiveCalendars(bool isActive);
 }

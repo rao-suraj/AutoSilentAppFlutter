@@ -66,6 +66,7 @@ class ProfileServicesImpl extends ProfileService {
     await _rvManager.setVolume(
         volumeLevel: originalReingerLevel, streamType: StreamType.RING);
   }
+  
   @override
   Future<List<double?>> getCurrentVolume() async{
     List<double?> list = [];

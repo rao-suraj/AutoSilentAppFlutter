@@ -1,6 +1,8 @@
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:auto_silent_app/data/models/calendar.dart';
 import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_cubit.dart';
 import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_states.dart';
+import 'package:auto_silent_app/presentation/screens/calendar/widgets/calendar_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,68 +15,73 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen> {
   @override
+  void initState() {
+    context.read<CalendarCubit>().getCalendarStream();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Center(
-      child: Row(
+      child: Column(
         children: [
-          BlocBuilder<CalendarsCubit, CalendarStates>(
-            builder: (context, state) {
-              if (state is CalendarLaoded) {
-                return SizedBox(
-                  height: 170,
-                  width: 100,
-                  child: StreamBuilder(
-                      stream: state.calendarStream,
-                      builder: (context, stream) {
-                        if (stream.data == null) {
-                          return const CircularProgressIndicator();
-                        }
-                        return SizedBox(
-                          height: 140,
-                          child: ListView.builder(
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: BlocConsumer<CalendarCubit, CalendarStates>(
+                listener: (context, state) {},
+                builder: (context, state) {
+                  if (state is CalendarLoaded) {
+                    return StreamBuilder(
+                        stream: state.calendarStream,
+                        builder: (context, stream) {
+                          if (stream.data == null) {
+                            // in the starting stream gives null
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                          return GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                childAspectRatio: 1 / 0.92,
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 12,
+                              ),
                               itemCount: stream.data!.length,
                               itemBuilder: (context, index) {
-                                return Text(
-                                    "Id ${stream.data!.elementAt(index).id.toString()} title ${stream.data!.elementAt(index).title}");
-                              }),
-                        );
-                      }),
-                );
-              }
-              return Container();
-            },
+                                return CalendarTile(
+                                  calendar: stream.data![index],
+                                );
+                              });
+                        });
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
+            ),
           ),
-          // TextButton(
-          //   onPressed: () {
-          //     getIt<AppDatabase>().sessionDao.insertSession(Session(
-          //         id: 3,
-          //         title: "new",
-          //         startTime: DateTime.now(),
-          //         endTime: DateTime.now(),
-          //         monday: true));
-          //   },
-          //   child: const Text("Add Session"),
-          // ),
-          // TextButton(
-          //   onPressed: () {
-          //     context.read<ProfileCubit>().updateProfile(
-          //             profile: Profile(
-          //           id: 25,
-          //           title: "old",
-          //         ));
-          //   },
-          //   child: const Text("Add Profile"),
-          // ),
           TextButton(
             onPressed: () {
-              context.read<CalendarsCubit>().insertCalendar(
-                    calendar: Calendar(
-                        id: 4,
-                        title: "nothing",
-                        startTime: DateTime.now(),
-                        endTime: DateTime.now(),
-                        dateTime: DateTime.now()),
-                  );
+              AndroidAlarmManager.cancel(10);
+              print("Set");
+
+              context.read<CalendarCubit>().switchCalendar(
+                  calendar: Calendar(
+                      id: 12,
+                      title: "Suraj",
+                      startTime: DateTime.now().add(
+                        const Duration(minutes: 2),
+                      ),
+                      endTime: DateTime.now().add(const Duration(minutes: 4)),
+                      dateTime: DateTime.now()));
+              // final time = DateTime.now().add(Duration(minutes: 2));
+              // print(time);
+              // AndroidAlarmManager.oneShotAt(
+              //     time, 2, AlarmManagerFunctions.setSilent);
             },
             child: const Text("Add Calander"),
           )

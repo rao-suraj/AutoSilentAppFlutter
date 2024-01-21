@@ -8,6 +8,7 @@ import 'package:injectable/injectable.dart';
 @injectable
 class ProfileCubit extends Cubit<ProfileStates> {
   final ProfileRepository _profileRepository;
+  
   ProfileCubit(this._profileRepository) : super(const ProfileLoading());
 
   void getProfileStream() {
