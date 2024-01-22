@@ -2,7 +2,6 @@ import 'package:auto_silent_app/data/models/calendar.dart';
 import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_cubit.dart';
 import 'package:auto_silent_app/presentation/screens/widgets/custom_switch_auto.dart';
 import 'package:auto_silent_app/presentation/themes/extensions.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';

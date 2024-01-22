@@ -49,6 +49,7 @@ dependencies:
   shared_preferences: ^2.2.2
   sqflite: ^2.3.0
   theme_provider: ^0.6.0
+  weekday_selector: ^1.1.0
   workmanager: ^0.5.2
 
 dev_dependencies:
