@@ -3,13 +3,13 @@ enum DayOfTheWeek {
   monday,
   tuesday,
   wednesday,
-  thusdays,
+  thursdays,
   friday,
-  saterday;
+  saturday;
 
   @override
   String toString() {
-     switch (this) {
+    switch (this) {
       case DayOfTheWeek.sunday:
         return 'sunday';
       case DayOfTheWeek.monday:
@@ -18,14 +18,33 @@ enum DayOfTheWeek {
         return 'tuesday';
       case DayOfTheWeek.wednesday:
         return 'wednesday';
-      case DayOfTheWeek.thusdays:
+      case DayOfTheWeek.thursdays:
         return 'thusdays';
       case DayOfTheWeek.friday:
         return 'friday';
-      case DayOfTheWeek.saterday:
+      case DayOfTheWeek.saturday:
         return 'saterday';
     }
   }
+
+  static DayOfTheWeek getDay() {
+    switch (DateTime.now().weekday) {
+      case 1:
+        return DayOfTheWeek.monday;
+      case 2:
+        return DayOfTheWeek.tuesday;
+      case 3:
+        return DayOfTheWeek.wednesday;
+      case 4:
+        return DayOfTheWeek.thursdays;
+      case 5:
+        return DayOfTheWeek.friday;
+      case 6:
+        return DayOfTheWeek.saturday;
+      case 7:
+        return DayOfTheWeek.sunday;
+      default:
+        throw Exception('invalid day');
+    }
+  }
 }
-
-

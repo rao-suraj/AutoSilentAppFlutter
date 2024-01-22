@@ -18,6 +18,8 @@ extension TextThemeExtension on TextTheme {
 
   TextStyle get h1ExtraBold => h1.copyWith(fontWeight: FontWeight.w800);
 
+  TextStyle get h1Bold => h1.copyWith(fontWeight: FontWeight.w600);
+
   TextStyle get h1Medium => h1.copyWith(fontWeight: FontWeight.w500);
 
   TextStyle get h1Regular => h1.copyWith(fontWeight: FontWeight.w400);

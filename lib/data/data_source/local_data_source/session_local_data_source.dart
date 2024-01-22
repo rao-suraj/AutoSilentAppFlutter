@@ -32,7 +32,7 @@ class SessionLocalDataSourceImpl extends SessionLocalDataSource {
 
   @override
   Stream<List<Session>> getSessionByDay({required DayOfTheWeek day}) {
-    return _database.sessionDao.getSessionByDay(day);
+    return _database.sessionDao.getSessionByDayStram(day);
   }
 
   @override

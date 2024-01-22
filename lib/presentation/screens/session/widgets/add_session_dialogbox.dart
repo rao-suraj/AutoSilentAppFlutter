@@ -1,4 +1,3 @@
-import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_cubit.dart';
 import 'package:auto_silent_app/presentation/themes/extensions.dart';
 import 'package:auto_silent_app/presentation/utils/app_icons.dart';
 import 'package:auto_silent_app/presentation/utils/date_time_util.dart';
@@ -6,20 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-class AddCalendarDialogBox extends StatefulWidget {
-  const AddCalendarDialogBox({super.key});
+class AddSessionDailogBox extends StatefulWidget {
+  const AddSessionDailogBox({super.key});
 
   @override
-  State<AddCalendarDialogBox> createState() => _AddCalendarDialogBoxState();
+  State<AddSessionDailogBox> createState() => _AddSessionDailogBoxState();
 }
 
-class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
+class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  DateTime date = DateTime.now();
   TimeOfDay startTime = TimeOfDay.now();
   TimeOfDay endTime = TimeOfDay.now();
   late String title;
-
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -69,7 +66,7 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
                           const Align(
                             alignment: Alignment.topCenter,
                             child: Icon(
-                              AppIcons.beenhere,
+                              AppIcons.access_time,
                               size: 28,
                             ),
                           )
@@ -155,38 +152,7 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
                   ),
                   Expanded(
                     flex: 20,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Enter Date",
-                          style: textTheme.h3Medium,
-                        ),
-                        const Gap(5),
-                        InkWell(
-                          splashColor: colorScheme.onPrimary.withOpacity(0.1),
-                          radius: 10,
-                          onTap: () async {
-                            final time =
-                                await DateTimeUtil.showDialogPicker(context);
-                            setState(() {
-                              date = time;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                    Border.all(color: colorScheme.onPrimary)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(DateTimeUtil.getFormattedDate(
-                                  date.millisecondsSinceEpoch)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    child: Container()
                   ),
                 ],
               ),
@@ -223,11 +189,11 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
                 // checking if the starting time is less than ending time
                 if ((startTime.hour * 60 + startTime.minute) <
                     (endTime.hour * 60 + endTime.minute)) {
-                  context.read<CalendarCubit>().insertCalendar(
-                      title: title,
-                      startTime: startTime,
-                      endTime: endTime,
-                      date: date);
+                  // context.read<CalendarCubit>().insertCalendar(
+                  //     title: title,
+                  //     startTime: startTime,
+                  //     endTime: endTime,
+                  //     date: date);
                 }
                 Navigator.pop(context);
               }

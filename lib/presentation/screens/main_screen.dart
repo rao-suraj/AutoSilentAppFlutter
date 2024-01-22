@@ -9,6 +9,7 @@ import 'package:auto_silent_app/presentation/screens/calendar/widgets/add_calend
 import 'package:auto_silent_app/presentation/screens/profile/profile_screen.dart';
 import 'package:auto_silent_app/presentation/screens/session/session_screen.dart';
 import 'package:auto_silent_app/presentation/screens/profile/widgets/add_profile_dialogbox.dart';
+import 'package:auto_silent_app/presentation/screens/session/widgets/add_session_dialogbox.dart';
 import 'package:auto_silent_app/presentation/utils/app_icons.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
@@ -36,7 +37,7 @@ class _MainScreenState extends State<MainScreen>
     ),
     const TabItem(
       icon: AppIcons.access_time,
-      title: 'Schedule',
+      title: 'Session',
     ),
     const TabItem(
       icon: AppIcons.beenhere,
@@ -210,7 +211,14 @@ class _MainScreenState extends State<MainScreen>
               color: colorScheme.onPrimary,
               fontFamily: FontFamily.rubik,
               fontWeight: FontWeight.w600),
-          onPress: () {},
+          onPress: () {
+              showDialog(
+                context: context,
+                builder: (_) => BlocProvider.value(
+                      value: context.read<SessionCubit>(),
+                      child: const AddSessionDailogBox(),
+                    ));
+          },
         )
       ],
       onPress: () => animationController.isCompleted

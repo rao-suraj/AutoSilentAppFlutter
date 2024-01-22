@@ -55,7 +55,7 @@ class _ProfileTileState extends State<ProfileTile> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Assets.images.volumeIcon.svg(
-                    height: 25,
+                    height: 27,
                     colorFilter: ColorFilter.mode(
                         colorScheme.onPrimary, BlendMode.srcIn)),
                 const Gap(5),
@@ -70,7 +70,7 @@ class _ProfileTileState extends State<ProfileTile> {
             child: Row(
               children: [
                 Assets.images.ringerIcon.svg(
-                    height: 22,
+                    height: 26,
                     colorFilter: ColorFilter.mode(
                         colorScheme.onPrimary, BlendMode.srcIn)),
                 const Gap(5),
@@ -86,7 +86,7 @@ class _ProfileTileState extends State<ProfileTile> {
                 Row(
                   children: [
                     Assets.images.dndIcon.svg(
-                      height: 26,
+                      height: 32,
                       colorFilter: ColorFilter.mode(
                           (widget.profile.isDNDActive)
                               ? colorScheme.primary
@@ -95,7 +95,7 @@ class _ProfileTileState extends State<ProfileTile> {
                     ),
                     const Gap(5),
                     Assets.images.vibrationIcon.svg(
-                      height: 26,
+                      height: 32,
                       colorFilter: ColorFilter.mode(
                           (widget.profile.isVibrationActive)
                               ? colorScheme.primary
@@ -112,8 +112,8 @@ class _ProfileTileState extends State<ProfileTile> {
                   },
                   child: CustomSwitchAuto(
                     value: widget.profile.isActive,
-                    width: 54,
-                    height: 27,
+                    width: 57,
+                    height: 29,
                   ),
                 )
               ],

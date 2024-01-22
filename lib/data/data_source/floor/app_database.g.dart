@@ -212,7 +212,7 @@ class _$SessionDao extends SessionDao {
   }
 
   @override
-  Stream<List<Session>> getSundaySession(bool isTrue) {
+  Stream<List<Session>> getSundaySessionStream(bool isTrue) {
     return _queryAdapter.queryListStream(
         'SELECT * FROM Session WHERE sunday IS ?1',
         mapper: (Map<String, Object?> row) => Session(
@@ -234,7 +234,7 @@ class _$SessionDao extends SessionDao {
   }
 
   @override
-  Stream<List<Session>> getMondaySession(bool isTrue) {
+  Stream<List<Session>> getMondaySessionStream(bool isTrue) {
     return _queryAdapter.queryListStream(
         'SELECT * FROM Session WHERE monday IS ?1',
         mapper: (Map<String, Object?> row) => Session(
@@ -256,7 +256,7 @@ class _$SessionDao extends SessionDao {
   }
 
   @override
-  Stream<List<Session>> getTuesdaySession(bool isTrue) {
+  Stream<List<Session>> getTuesdaySessionStream(bool isTrue) {
     return _queryAdapter.queryListStream(
         'SELECT * FROM Session WHERE tuesday IS ?1',
         mapper: (Map<String, Object?> row) => Session(
@@ -278,7 +278,7 @@ class _$SessionDao extends SessionDao {
   }
 
   @override
-  Stream<List<Session>> getWednesdaySession(bool isTrue) {
+  Stream<List<Session>> getWednesdaySessionStream(bool isTrue) {
     return _queryAdapter.queryListStream(
         'SELECT * FROM Session WHERE wednesday IS ?1',
         mapper: (Map<String, Object?> row) => Session(
@@ -300,7 +300,7 @@ class _$SessionDao extends SessionDao {
   }
 
   @override
-  Stream<List<Session>> getThursdaySession(bool isTrue) {
+  Stream<List<Session>> getThursdaySessionStream(bool isTrue) {
     return _queryAdapter.queryListStream(
         'SELECT * FROM Session WHERE thursday IS ?1',
         mapper: (Map<String, Object?> row) => Session(
@@ -322,7 +322,7 @@ class _$SessionDao extends SessionDao {
   }
 
   @override
-  Stream<List<Session>> getFridaySession(bool isTrue) {
+  Stream<List<Session>> getFridaySessionStream(bool isTrue) {
     return _queryAdapter.queryListStream(
         'SELECT * FROM Session WHERE friday IS ?1',
         mapper: (Map<String, Object?> row) => Session(
@@ -344,7 +344,7 @@ class _$SessionDao extends SessionDao {
   }
 
   @override
-  Stream<List<Session>> getSaturdaySession(bool isTrue) {
+  Stream<List<Session>> getSaturdaySessionStream(bool isTrue) {
     return _queryAdapter.queryListStream(
         'SELECT * FROM Session WHERE saturday IS ?1',
         mapper: (Map<String, Object?> row) => Session(
@@ -363,6 +363,140 @@ class _$SessionDao extends SessionDao {
         arguments: [isTrue ? 1 : 0],
         queryableName: 'Session',
         isView: false);
+  }
+
+  @override
+  Future<List<Session>> getSundaySession(bool isTrue) async {
+    return _queryAdapter.queryList('SELECT * FROM Session WHERE sunday IS ?1',
+        mapper: (Map<String, Object?> row) => Session(
+            id: row['id'] as int,
+            title: row['title'] as String,
+            startTime: _dateTimeConverter.decode(row['startTime'] as int),
+            endTime: _dateTimeConverter.decode(row['endTime'] as int),
+            isActive: (row['isActive'] as int) != 0,
+            sunday: (row['sunday'] as int) != 0,
+            monday: (row['monday'] as int) != 0,
+            tuesday: (row['tuesday'] as int) != 0,
+            wednesday: (row['wednesday'] as int) != 0,
+            thursday: (row['thursday'] as int) != 0,
+            friday: (row['friday'] as int) != 0,
+            saturday: (row['saturday'] as int) != 0),
+        arguments: [isTrue ? 1 : 0]);
+  }
+
+  @override
+  Future<List<Session>> getMondaySession(bool isTrue) async {
+    return _queryAdapter.queryList('SELECT * FROM Session WHERE monday IS ?1',
+        mapper: (Map<String, Object?> row) => Session(
+            id: row['id'] as int,
+            title: row['title'] as String,
+            startTime: _dateTimeConverter.decode(row['startTime'] as int),
+            endTime: _dateTimeConverter.decode(row['endTime'] as int),
+            isActive: (row['isActive'] as int) != 0,
+            sunday: (row['sunday'] as int) != 0,
+            monday: (row['monday'] as int) != 0,
+            tuesday: (row['tuesday'] as int) != 0,
+            wednesday: (row['wednesday'] as int) != 0,
+            thursday: (row['thursday'] as int) != 0,
+            friday: (row['friday'] as int) != 0,
+            saturday: (row['saturday'] as int) != 0),
+        arguments: [isTrue ? 1 : 0]);
+  }
+
+  @override
+  Future<List<Session>> getTuesdaySession(bool isTrue) async {
+    return _queryAdapter.queryList('SELECT * FROM Session WHERE tuesday IS ?1',
+        mapper: (Map<String, Object?> row) => Session(
+            id: row['id'] as int,
+            title: row['title'] as String,
+            startTime: _dateTimeConverter.decode(row['startTime'] as int),
+            endTime: _dateTimeConverter.decode(row['endTime'] as int),
+            isActive: (row['isActive'] as int) != 0,
+            sunday: (row['sunday'] as int) != 0,
+            monday: (row['monday'] as int) != 0,
+            tuesday: (row['tuesday'] as int) != 0,
+            wednesday: (row['wednesday'] as int) != 0,
+            thursday: (row['thursday'] as int) != 0,
+            friday: (row['friday'] as int) != 0,
+            saturday: (row['saturday'] as int) != 0),
+        arguments: [isTrue ? 1 : 0]);
+  }
+
+  @override
+  Future<List<Session>> getWednesdaySession(bool isTrue) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM Session WHERE wednesday IS ?1',
+        mapper: (Map<String, Object?> row) => Session(
+            id: row['id'] as int,
+            title: row['title'] as String,
+            startTime: _dateTimeConverter.decode(row['startTime'] as int),
+            endTime: _dateTimeConverter.decode(row['endTime'] as int),
+            isActive: (row['isActive'] as int) != 0,
+            sunday: (row['sunday'] as int) != 0,
+            monday: (row['monday'] as int) != 0,
+            tuesday: (row['tuesday'] as int) != 0,
+            wednesday: (row['wednesday'] as int) != 0,
+            thursday: (row['thursday'] as int) != 0,
+            friday: (row['friday'] as int) != 0,
+            saturday: (row['saturday'] as int) != 0),
+        arguments: [isTrue ? 1 : 0]);
+  }
+
+  @override
+  Future<List<Session>> getThursdaySession(bool isTrue) async {
+    return _queryAdapter.queryList('SELECT * FROM Session WHERE thursday IS ?1',
+        mapper: (Map<String, Object?> row) => Session(
+            id: row['id'] as int,
+            title: row['title'] as String,
+            startTime: _dateTimeConverter.decode(row['startTime'] as int),
+            endTime: _dateTimeConverter.decode(row['endTime'] as int),
+            isActive: (row['isActive'] as int) != 0,
+            sunday: (row['sunday'] as int) != 0,
+            monday: (row['monday'] as int) != 0,
+            tuesday: (row['tuesday'] as int) != 0,
+            wednesday: (row['wednesday'] as int) != 0,
+            thursday: (row['thursday'] as int) != 0,
+            friday: (row['friday'] as int) != 0,
+            saturday: (row['saturday'] as int) != 0),
+        arguments: [isTrue ? 1 : 0]);
+  }
+
+  @override
+  Future<List<Session>> getFridaySession(bool isTrue) async {
+    return _queryAdapter.queryList('SELECT * FROM Session WHERE friday IS ?1',
+        mapper: (Map<String, Object?> row) => Session(
+            id: row['id'] as int,
+            title: row['title'] as String,
+            startTime: _dateTimeConverter.decode(row['startTime'] as int),
+            endTime: _dateTimeConverter.decode(row['endTime'] as int),
+            isActive: (row['isActive'] as int) != 0,
+            sunday: (row['sunday'] as int) != 0,
+            monday: (row['monday'] as int) != 0,
+            tuesday: (row['tuesday'] as int) != 0,
+            wednesday: (row['wednesday'] as int) != 0,
+            thursday: (row['thursday'] as int) != 0,
+            friday: (row['friday'] as int) != 0,
+            saturday: (row['saturday'] as int) != 0),
+        arguments: [isTrue ? 1 : 0]);
+  }
+
+  @override
+  Future<List<Session>> getSaturdaySession(bool isTrue) async {
+    return _queryAdapter.queryList('SELECT * FROM Session WHERE saturday IS ?1',
+        mapper: (Map<String, Object?> row) => Session(
+            id: row['id'] as int,
+            title: row['title'] as String,
+            startTime: _dateTimeConverter.decode(row['startTime'] as int),
+            endTime: _dateTimeConverter.decode(row['endTime'] as int),
+            isActive: (row['isActive'] as int) != 0,
+            sunday: (row['sunday'] as int) != 0,
+            monday: (row['monday'] as int) != 0,
+            tuesday: (row['tuesday'] as int) != 0,
+            wednesday: (row['wednesday'] as int) != 0,
+            thursday: (row['thursday'] as int) != 0,
+            friday: (row['friday'] as int) != 0,
+            saturday: (row['saturday'] as int) != 0),
+        arguments: [isTrue ? 1 : 0]);
   }
 
   @override

@@ -47,9 +47,7 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
       content: SizedBox(
         height: 360,
         width: 270,
-        child: StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return Form(
+        child: Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,9 +231,7 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
                   ),
                 ],
               ),
-            );
-          },
-        ),
+            ),
       ),
       actions: [
         SizedBox(

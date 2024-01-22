@@ -48,7 +48,7 @@ class _ProfileScereenState extends State<ProfileScereen> {
                         return GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 1 / 1.05,
+                              childAspectRatio: 1 / 1.02,
                               crossAxisCount: 2,
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 12,
@@ -60,12 +60,7 @@ class _ProfileScereenState extends State<ProfileScereen> {
                               );
                             });
                       });
-                }
-                if (state is ProfileError) {
-                  return Center(
-                    child: Text(state.errorMessage),
-                  );
-                } else {
+                }else {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
