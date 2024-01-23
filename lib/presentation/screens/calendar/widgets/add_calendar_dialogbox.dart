@@ -74,7 +74,7 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
                       children: [
                         Text(
                           "Start Time",
-                          style: textTheme.h3Medium,
+                          style: textTheme.h3ExtraBold.copyWith(color: colorScheme.onPrimary),
                         ),
                         const Gap(5),
                         InkWell(
@@ -98,7 +98,7 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Text(
-                                  DateTimeUtil.getFormattedTime(startTime)),
+                                  DateTimeUtil.getFormattedTime(startTime),style: textTheme.h3Medium.copyWith(color: colorScheme.onPrimary)),
                             ),
                           ),
                         ),
@@ -109,7 +109,7 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
                       children: [
                         Text(
                           "End Time",
-                          style: textTheme.h3Medium,
+                          style: textTheme.h3ExtraBold.copyWith(color: colorScheme.onPrimary),
                         ),
                         const Gap(5),
                         InkWell(
@@ -134,7 +134,7 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Text(
-                                  DateTimeUtil.getFormattedTime(endTime)),
+                                  DateTimeUtil.getFormattedTime(endTime),style: textTheme.h3Medium.copyWith(color: colorScheme.onPrimary),),
                             ),
                           ),
                         ),
@@ -147,7 +147,7 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
                   children: [
                     Text(
                       "Enter Date",
-                      style: textTheme.h3Medium,
+                      style: textTheme.h3ExtraBold.copyWith(color: colorScheme.onPrimary),
                     ),
                     const Gap(5),
                     InkWell(
@@ -168,7 +168,7 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Text(DateTimeUtil.getFormattedDate(
-                              date.millisecondsSinceEpoch)),
+                              date.millisecondsSinceEpoch),style: textTheme.h3Regular.copyWith(color: colorScheme.onPrimary),),
                         ),
                       ),
                     ),

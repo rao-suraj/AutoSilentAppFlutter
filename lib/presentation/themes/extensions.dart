@@ -32,9 +32,11 @@ extension TextThemeExtension on TextTheme {
 
   TextStyle get h3ExtraBold => h3.copyWith(fontWeight: FontWeight.w800);
 
+  TextStyle get h3Bold => h3.copyWith(fontWeight: FontWeight.w600);
+
   TextStyle get h3Medium => h3.copyWith(fontWeight: FontWeight.w500);
 
-  TextStyle get h3Regular => h1.copyWith(fontWeight: FontWeight.w400);
+  TextStyle get h3Regular => h3.copyWith(fontWeight: FontWeight.w400);
 }
 
 extension StringExtension on String {

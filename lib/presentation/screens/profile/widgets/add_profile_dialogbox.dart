@@ -84,7 +84,7 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
               children: [
                 Text(
                   "Volume Level",
-                  style: textTheme.h3ExtraBold,
+                  style: textTheme.h3ExtraBold.copyWith(color: colorScheme.onPrimary),
                 ),
                 const Gap(3),
                 Container(
@@ -93,6 +93,7 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
                       borderRadius: BorderRadius.circular(10)),
                   child: Slider(
                     value: selectedVolumeLevel,
+                    activeColor:colorScheme.primary ,
                     divisions: 10,
                     onChanged: (level) {
                       setState(() {
@@ -111,7 +112,7 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
               children: [
                 Text(
                   "Ringer Level",
-                  style: textTheme.h3ExtraBold,
+                  style:textTheme.h3ExtraBold.copyWith(color: colorScheme.onPrimary),
                 ),
                 const Gap(3),
                 Container(

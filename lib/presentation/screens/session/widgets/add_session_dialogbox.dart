@@ -74,7 +74,7 @@ class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
                   children: [
                     Text(
                       "Start Time",
-                      style: textTheme.h3Medium,
+                      style: textTheme.h3Bold.copyWith(color: colorScheme.onPrimary),
                     ),
                     const Gap(5),
                     InkWell(
@@ -94,7 +94,7 @@ class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
                             border: Border.all(color: colorScheme.onPrimary)),
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
-                          child: Text(DateTimeUtil.getFormattedTime(startTime)),
+                          child: Text(DateTimeUtil.getFormattedTime(startTime),style: textTheme.h3Medium.copyWith(color: colorScheme.onPrimary),),
                         ),
                       ),
                     ),
@@ -105,7 +105,7 @@ class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
                   children: [
                     Text(
                       "End Time",
-                      style: textTheme.h3Medium,
+                      style:textTheme.h3Bold.copyWith(color: colorScheme.onPrimary),
                     ),
                     const Gap(5),
                     InkWell(
@@ -126,7 +126,7 @@ class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
-                          child: Text(DateTimeUtil.getFormattedTime(endTime)),
+                          child: Text(DateTimeUtil.getFormattedTime(endTime),style: textTheme.h3Medium.copyWith(color: colorScheme.onPrimary),),
                         ),
                       ),
                     ),
