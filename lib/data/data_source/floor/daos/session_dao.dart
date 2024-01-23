@@ -58,6 +58,9 @@ abstract class SessionDao {
   @Query('SELECT * FROM Session WHERE saturday IS :isTrue')
   Future<List<Session>> getSaturdaySession(bool isTrue);
 
+  @Query('SELECT * FROM Session WHERE isActive IS :isTrue')
+  Future<List<Session>> getAllActiveSession(bool isTrue);
+
   Stream<List<Session>> getSessionByDayStram(DayOfTheWeek day) {
     switch (day) {
       case DayOfTheWeek.sunday:

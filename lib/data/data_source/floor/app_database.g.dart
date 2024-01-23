@@ -500,6 +500,25 @@ class _$SessionDao extends SessionDao {
   }
 
   @override
+  Future<List<Session>> getAllActiveSession(bool isTrue) async {
+    return _queryAdapter.queryList('SELECT * FROM Session WHERE isActive IS ?1',
+        mapper: (Map<String, Object?> row) => Session(
+            id: row['id'] as int,
+            title: row['title'] as String,
+            startTime: _dateTimeConverter.decode(row['startTime'] as int),
+            endTime: _dateTimeConverter.decode(row['endTime'] as int),
+            isActive: (row['isActive'] as int) != 0,
+            sunday: (row['sunday'] as int) != 0,
+            monday: (row['monday'] as int) != 0,
+            tuesday: (row['tuesday'] as int) != 0,
+            wednesday: (row['wednesday'] as int) != 0,
+            thursday: (row['thursday'] as int) != 0,
+            friday: (row['friday'] as int) != 0,
+            saturday: (row['saturday'] as int) != 0),
+        arguments: [isTrue ? 1 : 0]);
+  }
+
+  @override
   Future<void> insertSession(Session session) async {
     await _sessionInsertionAdapter.insert(session, OnConflictStrategy.abort);
   }

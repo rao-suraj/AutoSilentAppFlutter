@@ -36,12 +36,12 @@ class ProfileRepositoryImpl extends ProfileRepository {
 
   @override
   Future<void> removeProfile({required Profile profile}) async {
-    await _profileService.setProfile(profile: profile);
+    await _profileService.removeProfile(profile: profile);
   }
 
   @override
   Future<void> setProfile({required Profile profile}) async {
-    await _profileService.removeProfile(profile: profile);
+    await _profileService.setProfile(profile: profile);
   }
 
   @override

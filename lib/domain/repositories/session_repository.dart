@@ -11,4 +11,6 @@ abstract class SessionRepository {
   Stream<List<Session>> getAllSessionStream();
 
   Stream<List<Session>> getAllSessionByDay({required DayOfTheWeek day});
+
+  Future<List<Session>> getAllActiveSession();
 }

@@ -1,7 +1,9 @@
 import 'package:auto_silent_app/data/models/session.dart';
+import 'package:auto_silent_app/presentation/cubits/session_cubit/session_cubit.dart';
 import 'package:auto_silent_app/presentation/screens/widgets/custom_switch_auto.dart';
 import 'package:auto_silent_app/presentation/themes/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:weekday_selector/weekday_selector.dart';
@@ -15,7 +17,22 @@ class SessionTile extends StatefulWidget {
 }
 
 class _SessionTileState extends State<SessionTile> {
-  final values = [false,true,true,true,true,true,true];
+  late List<bool> daysOfWeek;
+
+  @override
+  void initState() {
+    daysOfWeek = [
+      widget.session.sunday,
+      widget.session.monday,
+      widget.session.tuesday,
+      widget.session.wednesday,
+      widget.session.thursday,
+      widget.session.friday,
+      widget.session.saturday,
+    ];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -62,9 +79,9 @@ class _SessionTileState extends State<SessionTile> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    // context
-                    // .read<CalendarCubit>()
-                    // .switchCalendar(calendar: widget.calendar);
+                    context
+                        .read<SessionCubit>()
+                        .switchIsActive(session: widget.session);
                   },
                   child: CustomSwitchAuto(
                     value: widget.session.isActive,
@@ -77,7 +94,8 @@ class _SessionTileState extends State<SessionTile> {
             RichText(
               textAlign: TextAlign.start,
               text: TextSpan(
-                  style: textTheme.h1Medium.copyWith(color: colorScheme.onPrimary),
+                  style:
+                      textTheme.h1Medium.copyWith(color: colorScheme.onPrimary),
                   children: [
                     TextSpan(
                       text:
@@ -105,22 +123,14 @@ class _SessionTileState extends State<SessionTile> {
                 disabledColor: colorScheme.surface,
                 disabledFillColor: colorScheme.onPrimary,
                 selectedSplashColor: Colors.grey.withOpacity(0.2),
-                selectedTextStyle: TextStyle(fontSize: 14,color: colorScheme.surface),
-                disabledTextStyle: TextStyle(fontSize: 14,color: colorScheme.onPrimary),
+                selectedTextStyle:
+                    TextStyle(fontSize: 14, color: colorScheme.surface),
+                disabledTextStyle:
+                    TextStyle(fontSize: 14, color: colorScheme.onPrimary),
                 onChanged: (int day) {
-                  // setState(() {
-                  //   // Use module % 7 as Sunday's index in the array is 0 and
-                  //   // DateTime.sunday constant integer value is 7.
-                  //   final index = day % 7;
-                  //   // We "flip" the value in this example, but you may also
-                  //   // perform validation, a DB write, an HTTP call or anything
-                  //   // else before you actually flip the value,
-                  //   // it's up to your app's needs.
-                  //   values[index] = !values[index];
-                  // });
-                  // print(values);
+                  // only for viewing purposes
                 },
-                values: values,
+                values: daysOfWeek,
               ),
             ),
           ],

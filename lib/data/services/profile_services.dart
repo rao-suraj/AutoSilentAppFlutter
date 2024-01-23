@@ -17,7 +17,7 @@ class ProfileServicesImpl extends ProfileService {
   ProfileServicesImpl(this._spManager, this._rvManager);
 
   @override
-  Future<void> removeProfile({required Profile profile}) async {
+  Future<void> setProfile({required Profile profile}) async {
     // get the original music volume and ringer volume for the purpose of using it when the profile is removed
     double currentVolumeLevel =
         await _rvManager.getVolumeLevel(streamType: StreamType.MUSIC) ?? 0.7;
@@ -47,7 +47,7 @@ class ProfileServicesImpl extends ProfileService {
   }
 
   @override
-  Future<void> setProfile({required Profile profile}) async {
+  Future<void> removeProfile({required Profile profile}) async {
     double originalVolumeLevel, originalReingerLevel;
     final List<String>? response =
         _spManager.getProfileConfiguration(id: profile.id);

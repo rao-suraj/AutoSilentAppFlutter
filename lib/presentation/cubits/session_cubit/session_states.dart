@@ -15,6 +15,9 @@ class SessionLoading extends SessionStates {
 class SessionLoaded extends SessionStates {
   final Stream<List<Session>> sessionStream;
   const SessionLoaded(this.sessionStream);
+
+  @override
+  List<Object?> get props => [sessionStream];
 }
 
 class SessionError extends SessionStates {

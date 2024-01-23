@@ -33,4 +33,9 @@ class SessionRepositoryImpl extends SessionRepository {
   Future<void> updateSession({required Session session}) async {
     await _sessionLocalDataSource.updateSession(session: session);
   }
+  
+  @override
+  Future<List<Session>> getAllActiveSession() async {
+    return await _sessionLocalDataSource.getAllActiveSessions();
+  }
 }

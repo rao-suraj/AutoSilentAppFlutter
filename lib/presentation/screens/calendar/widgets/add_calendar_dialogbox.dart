@@ -32,166 +32,151 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
       backgroundColor: colorScheme.surface,
       contentPadding:
           const EdgeInsets.only(top: 25, right: 20, left: 20, bottom: 20),
-      content: SizedBox(
-        height: 220,
-        width: 270,
-        child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 20,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 190,
-                            child: TextFormField(
-                              textCapitalization: TextCapitalization.sentences,
-                              maxLength: 10,
-                              decoration: InputDecoration(
-                                hintText: 'Title',
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                              ),
-                              onChanged: (value) {
-                                title = value;
-                              },
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Title can't be empty";
-                                }
-                                return null;
-                              },
-                            ),
+      content: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 190,
+                        child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          maxLength: 10,
+                          decoration: InputDecoration(
+                            hintText: 'Title',
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10)),
                           ),
-                          const Align(
-                            alignment: Alignment.topCenter,
-                            child: Icon(
-                              AppIcons.beenhere,
-                              size: 28,
-                            ),
-                          )
-                        ]),
-                  ),
-                  Expanded(
-                    flex: 20,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              "Start Time",
-                              style: textTheme.h3Medium,
-                            ),
-                            const Gap(5),
-                            InkWell(
-                              splashColor:
-                                  colorScheme.onPrimary.withOpacity(0.1),
-                              radius: 10,
-                              onTap: () async {
-                                FocusScope.of(context).requestFocus();
-                                final time =
-                                    await DateTimeUtil.showDialogTimePicker(
-                                        context);
-                                setState(() {
-                                  startTime = time;
-                                });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                        color: colorScheme.onPrimary)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Text(
-                                      DateTimeUtil.getFormattedTime(startTime)),
-                                ),
-                              ),
-                            ),
-                          ],
+                          onChanged: (value) {
+                            title = value;
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Title can't be empty";
+                            }
+                            return null;
+                          },
                         ),
-                        const Gap(15),
-                        Column(
-                          children: [
-                            Text(
-                              "End Time",
-                              style: textTheme.h3Medium,
-                            ),
-                            const Gap(5),
-                            InkWell(
-                              splashColor:
-                                  colorScheme.onPrimary.withOpacity(0.1),
-                              radius: 10,
-                              onTap: () async {
-                                final time =
-                                    await DateTimeUtil.showDialogTimePicker(
-                                        context);
-
-                                setState(() {
-                                  endTime = time;
-                                });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border:
-                                      Border.all(color: colorScheme.onPrimary),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Text(
-                                      DateTimeUtil.getFormattedTime(endTime)),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 20,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      ),
+                      const Icon(
+                        AppIcons.beenhere,
+                        size: 28,
+                      )
+                    ]),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Column(
                       children: [
                         Text(
-                          "Enter Date",
+                          "Start Time",
                           style: textTheme.h3Medium,
                         ),
                         const Gap(5),
                         InkWell(
-                          splashColor: colorScheme.onPrimary.withOpacity(0.1),
+                          splashColor:
+                              colorScheme.onPrimary.withOpacity(0.1),
                           radius: 10,
                           onTap: () async {
+                            FocusScope.of(context).requestFocus();
                             final time =
-                                await DateTimeUtil.showDialogPicker(context);
+                                await DateTimeUtil.showDialogTimePicker(
+                                    context);
                             setState(() {
-                              date = time;
+                              startTime = time;
                             });
                           },
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                border:
-                                    Border.all(color: colorScheme.onPrimary)),
+                                border: Border.all(
+                                    color: colorScheme.onPrimary)),
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
-                              child: Text(DateTimeUtil.getFormattedDate(
-                                  date.millisecondsSinceEpoch)),
+                              child: Text(
+                                  DateTimeUtil.getFormattedTime(startTime)),
                             ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
+                    const Gap(15),
+                    Column(
+                      children: [
+                        Text(
+                          "End Time",
+                          style: textTheme.h3Medium,
+                        ),
+                        const Gap(5),
+                        InkWell(
+                          splashColor:
+                              colorScheme.onPrimary.withOpacity(0.1),
+                          radius: 10,
+                          onTap: () async {
+                            final time =
+                                await DateTimeUtil.showDialogTimePicker(
+                                    context);
+                      
+                            setState(() {
+                              endTime = time;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border:
+                                  Border.all(color: colorScheme.onPrimary),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                  DateTimeUtil.getFormattedTime(endTime)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Enter Date",
+                      style: textTheme.h3Medium,
+                    ),
+                    const Gap(5),
+                    InkWell(
+                      splashColor: colorScheme.onPrimary.withOpacity(0.1),
+                      radius: 10,
+                      onTap: () async {
+                        final time =
+                            await DateTimeUtil.showDialogPicker(context);
+                        setState(() {
+                          date = time;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border:
+                                Border.all(color: colorScheme.onPrimary)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(DateTimeUtil.getFormattedDate(
+                              date.millisecondsSinceEpoch)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-      ),
+          ),
       actions: [
         SizedBox(
           width: 100,

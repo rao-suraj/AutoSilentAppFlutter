@@ -19,69 +19,51 @@ class _ProfileScereenState extends State<ProfileScereen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: BlocConsumer<ProfileCubit, ProfileStates>(
-              listener: (context, state) {
-                if (state is ProfileError) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(state.errorMessage),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                }
-              },
-              builder: (context, state) {
-                if (state is ProfileLoaded) {
-                  return StreamBuilder(
-                      stream: state.profileStream,
-                      builder: (context, stream) {
-                        if (stream.data == null) {
-                          // stream gives null for some time in the starting
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        }
-                        return GridView.builder(
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 1 / 1.02,
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 12,
-                            ),
-                            itemCount: stream.data!.length,
-                            itemBuilder: (context, index) {
-                              return ProfileTile(
-                                profile: stream.data![index],
-                              );
-                            });
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: BlocConsumer<ProfileCubit, ProfileStates>(
+        listener: (context, state) {
+          if (state is ProfileError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.errorMessage),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is ProfileLoaded) {
+            return StreamBuilder(
+                stream: state.profileStream,
+                builder: (context, stream) {
+                  if (stream.data == null) {
+                    // stream gives null for some time in the starting
+                    return const Center(
+                        child: CircularProgressIndicator());
+                  }
+                  return GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 1 / 1.02,
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 12,
+                      ),
+                      itemCount: stream.data!.length,
+                      itemBuilder: (context, index) {
+                        return ProfileTile(
+                          profile: stream.data![index],
+                        );
                       });
-                }else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
-          ),
-        ),
-        // TextButton(
-        //   onPressed: () {
-        //     // context.read<ProfileCubit>().insertProfile(
-        //     //       profile: Profile(
-        //     //         id: 6,
-        //     //         title: "Hello",
-        //     //         isActive: false,
-        //     //       ),
-        //     //     );
-        //   },
-        //   child: const Text("Add Profile"),
-        // ),
-      ],
+                });
+          }else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 }
