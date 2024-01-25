@@ -1,6 +1,5 @@
 import 'package:auto_silent_app/gen/assets.gen.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
-import 'package:auto_silent_app/presentation/screens/widgets/custom_switch.dart';
 import 'package:auto_silent_app/presentation/themes/extensions.dart';
 import 'package:auto_silent_app/presentation/utils/app_icons.dart';
 import 'package:flutter/material.dart';
@@ -38,8 +37,6 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
-    print("IsDND = $isDND");
-    print("isVibrate= $isVibration");
     return AlertDialog(
       scrollable: true,
       shape: RoundedRectangleBorder(

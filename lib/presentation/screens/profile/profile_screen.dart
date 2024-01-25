@@ -34,6 +34,13 @@ class _ProfileScereenState extends State<ProfileScereen> {
                       backgroundColor: Colors.red,
                     ),
                   );
+                } else if (state is ProfileSuccess) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
                 }
               },
               builder: (context, state) {
@@ -61,7 +68,7 @@ class _ProfileScereenState extends State<ProfileScereen> {
                               );
                             });
                       });
-                }else {
+                } else {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
@@ -70,9 +77,12 @@ class _ProfileScereenState extends State<ProfileScereen> {
             ),
           ),
         ),
-        TextButton(child:const Text("Change Theme"),onPressed: (){
-              ThemeProvider.controllerOf(context).nextTheme();
-          },)
+        TextButton(
+          child: const Text("Change Theme"),
+          onPressed: () {
+            ThemeProvider.controllerOf(context).nextTheme();
+          },
+        )
       ],
     );
   }

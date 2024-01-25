@@ -49,4 +49,4 @@ enum DayOfTheWeek {
   }
 }
 
-enum ErrorType { permissionNotGranted, unknown }
+enum ErrorType { permissionNotGranted, unknown,database }
