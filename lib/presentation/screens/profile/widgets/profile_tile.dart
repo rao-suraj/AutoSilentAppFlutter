@@ -4,6 +4,7 @@ import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.
 import 'package:auto_silent_app/presentation/screens/widgets/custom_switch_auto.dart';
 import 'package:auto_silent_app/presentation/screens/profile/widgets/level_indicator_widget.dart';
 import 'package:auto_silent_app/presentation/themes/extensions.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -42,9 +43,10 @@ class _ProfileTileState extends State<ProfileTile> {
             flex: 36,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: AutoSizeText(
                 widget.profile.title,
                 style: theme.h1Medium.copyWith(color: colorScheme.onPrimary),
+                minFontSize: theme.h2.fontSize!,
               ),
             ),
           ),

@@ -48,3 +48,5 @@ enum DayOfTheWeek {
     }
   }
 }
+
+enum ErrorType { permissionNotGranted, unknown }

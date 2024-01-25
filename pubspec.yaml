@@ -29,9 +29,11 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   android_alarm_manager_plus: ^3.0.4
+  auto_size_text: ^3.0.0
   awesome_bottom_bar: ^1.2.4
   bloc: ^8.1.2
   cupertino_icons: ^1.0.2
+  either_dart: ^1.0.0
   equatable: ^2.0.5
   floating_action_bubble: ^1.1.4
   floor: ^1.4.2
@@ -51,6 +53,7 @@ dependencies:
   theme_provider: ^0.6.0
   weekday_selector: ^1.1.0
   workmanager: ^0.5.2
+
 
 dev_dependencies:
   build_runner: ^2.4.6

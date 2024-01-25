@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import '../../widgets/custom_switch_auto.dart';
+
 class AddProfileDialogbox extends StatefulWidget {
   final double volumeLevel;
   final double ringerLevel;
@@ -36,6 +38,8 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+    print("IsDND = $isDND");
+    print("isVibrate= $isVibration");
     return AlertDialog(
       scrollable: true,
       shape: RoundedRectangleBorder(
@@ -84,7 +88,8 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
               children: [
                 Text(
                   "Volume Level",
-                  style: textTheme.h3ExtraBold.copyWith(color: colorScheme.onPrimary),
+                  style: textTheme.h3ExtraBold
+                      .copyWith(color: colorScheme.onPrimary),
                 ),
                 const Gap(3),
                 Container(
@@ -93,7 +98,7 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
                       borderRadius: BorderRadius.circular(10)),
                   child: Slider(
                     value: selectedVolumeLevel,
-                    activeColor:colorScheme.primary ,
+                    activeColor: colorScheme.primary,
                     divisions: 10,
                     onChanged: (level) {
                       setState(() {
@@ -112,7 +117,8 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
               children: [
                 Text(
                   "Ringer Level",
-                  style:textTheme.h3ExtraBold.copyWith(color: colorScheme.onPrimary),
+                  style: textTheme.h3ExtraBold
+                      .copyWith(color: colorScheme.onPrimary),
                 ),
                 const Gap(3),
                 Container(
@@ -120,10 +126,10 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
                       border: Border.all(color: colorScheme.onPrimary),
                       borderRadius: BorderRadius.circular(10)),
                   child: Slider(
-                    activeColor: isDND ||
-                            isVibration // if both the DND and Vibration are not active then ringer volume can be set
-                        ? Colors.grey
-                        : colorScheme.primary,
+                    activeColor: !isDND &&
+                            !isVibration // if both the DND and Vibration are not active then ringer volume can be set
+                        ? colorScheme.primary
+                        : Colors.grey,
                     value: selectedRingerLevel,
                     divisions: 10,
                     onChanged: (level) {
@@ -154,11 +160,11 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
                           colorFilter: ColorFilter.mode(
                               colorScheme.primary, BlendMode.srcIn)),
                       const Gap(10),
-                      CustomSwitch(
-                          value: false,
+                      CustomSwitchAuto(
+                          value: isDND,
                           width: 45,
                           height: 24,
-                          onChange: (value) {
+                          onClick: () {
                             setState(() {
                               setState(() {
                                 // if the DND is active the Vibration has to be deactivated
@@ -189,11 +195,11 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
                           colorFilter: ColorFilter.mode(
                               colorScheme.primary, BlendMode.srcIn)),
                       const Gap(10),
-                      CustomSwitch(
-                          value: false,
+                      CustomSwitchAuto(
+                          value: isVibration,
                           width: 45,
                           height: 24,
-                          onChange: (value) {
+                          onClick: () {
                             setState(() {
                               // if vibration is active then DND has to be deactivated
                               if (isVibration) {

@@ -4,13 +4,14 @@ class CustomSwitchAuto extends StatefulWidget {
   final bool value;
   final double width;
   final double height;
-
+  final Function()? onClick;
 
   const CustomSwitchAuto(
       {super.key,
       required this.value,
       required this.width,
-      required this.height});
+      required this.height,
+      this.onClick});
 
   @override
   State<CustomSwitchAuto> createState() => _CustomSwitchAutoState();
@@ -50,35 +51,38 @@ class _CustomSwitchAutoState extends State<CustomSwitchAuto>
     return AnimatedBuilder(
       animation: _animationController,
       builder: (context, child) {
-        return Container(
-          width: widget.width,
-          height: widget.height,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5.0),
-            color: _circleAnimation.value == Alignment.centerLeft
-                ? disableColor
-                : enableColor,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(4),
-            child: Container(
-              alignment:
-                  widget.value ? Alignment.centerRight : Alignment.centerLeft,
-              child: Align(
-                alignment: _circleAnimation.value,
-                child: Container(
-                  width: widget.width * 0.37,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFFFFFF),
-                    borderRadius: BorderRadius.circular(4),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 1,
-                        blurRadius: 5, 
-                        offset:const Offset(0, 1), 
-                      ),
-                    ],
+        return GestureDetector(
+          onTap: widget.onClick,
+          child: Container(
+            width: widget.width,
+            height: widget.height,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0),
+              color: _circleAnimation.value == Alignment.centerLeft
+                  ? disableColor
+                  : enableColor,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(4),
+              child: Container(
+                alignment:
+                    widget.value ? Alignment.centerRight : Alignment.centerLeft,
+                child: Align(
+                  alignment: _circleAnimation.value,
+                  child: Container(
+                    width: widget.width * 0.37,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFFFFF),
+                      borderRadius: BorderRadius.circular(4),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 1,
+                          blurRadius: 5,
+                          offset: const Offset(0, 1),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -90,12 +94,11 @@ class _CustomSwitchAutoState extends State<CustomSwitchAuto>
   }
 }
 
-
-            // if (_animationController.isCompleted) {
-            //   _animationController.reverse();
-            // } else {
-            //   _animationController.forward();
-            // }
-            // widget.value == false
-            //     ? widget.onChanged(true)
-            //     : widget.onChanged(false);
+// if (_animationController.isCompleted) {
+//   _animationController.reverse();
+// } else {
+//   _animationController.forward();
+// }
+// widget.value == false
+//     ? widget.onChanged(true)
+//     : widget.onChanged(false);
