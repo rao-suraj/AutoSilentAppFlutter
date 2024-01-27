@@ -18,8 +18,12 @@ class CalendarLoaded extends CalendarStates {
   const CalendarLoaded(this.calendarStream);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [calendarStream];
+}
+
+class CalendarSuccess extends CalendarStates {
+  final String message;
+  const CalendarSuccess(this.message);
 }
 
 class CalendarError extends CalendarStates {

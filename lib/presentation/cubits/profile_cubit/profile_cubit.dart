@@ -13,7 +13,6 @@ class ProfileCubit extends Cubit<ProfileStates> {
   ProfileCubit(this._profileRepository) : super(const ProfileLoading());
 
   void getProfileStream() {
-    print("Emint");
     emit(ProfileLoaded(_profileRepository.getAllProfilesStream()));
   }
 
@@ -64,7 +63,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
     if (!currentVal) {
       final activeList = await _profileRepository.getAllActiveProfiles();
       // I don't know why when there is one active the length is 0
-      if (activeList.length > 0) {
+      if (activeList.isNotEmpty) {
         emit(const ProfileError("Can't have more than one active profile"));
         getProfileStream();
         return;

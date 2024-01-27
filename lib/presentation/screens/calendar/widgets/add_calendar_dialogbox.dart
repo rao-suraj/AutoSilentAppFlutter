@@ -33,142 +33,113 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
       contentPadding:
           const EdgeInsets.only(top: 25, right: 20, left: 20, bottom: 20),
       content: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 190,
-                        child: TextFormField(
-                          textCapitalization: TextCapitalization.sentences,
-                          maxLength: 10,
-                          decoration: InputDecoration(
-                            hintText: 'Title',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                          ),
-                          onChanged: (value) {
-                            title = value;
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Title can't be empty";
-                            }
-                            return null;
-                          },
-                        ),
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 190,
+                    child: TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
+                      maxLength: 10,
+                      style: textTheme.h3Regular.copyWith(color: colorScheme.onPrimary),
+                      decoration: InputDecoration(
+                        hintText: 'Title',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
                       ),
-                      const Icon(
-                        AppIcons.beenhere,
-                        size: 28,
-                      )
-                    ]),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          "Start Time",
-                          style: textTheme.h3ExtraBold.copyWith(color: colorScheme.onPrimary),
-                        ),
-                        const Gap(5),
-                        InkWell(
-                          splashColor:
-                              colorScheme.onPrimary.withOpacity(0.1),
-                          radius: 10,
-                          onTap: () async {
-                            FocusScope.of(context).requestFocus();
-                            final time =
-                                await DateTimeUtil.showDialogTimePicker(
-                                    context);
-                            setState(() {
-                              startTime = time;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                    color: colorScheme.onPrimary)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                  DateTimeUtil.getFormattedTime(startTime),style: textTheme.h3Medium.copyWith(color: colorScheme.onPrimary)),
-                            ),
-                          ),
-                        ),
-                      ],
+                      onChanged: (value) {
+                        title = value;
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Title can't be empty";
+                        }
+                        return null;
+                      },
                     ),
-                    const Gap(15),
-                    Column(
-                      children: [
-                        Text(
-                          "End Time",
-                          style: textTheme.h3ExtraBold.copyWith(color: colorScheme.onPrimary),
-                        ),
-                        const Gap(5),
-                        InkWell(
-                          splashColor:
-                              colorScheme.onPrimary.withOpacity(0.1),
-                          radius: 10,
-                          onTap: () async {
-                            final time =
-                                await DateTimeUtil.showDialogTimePicker(
-                                    context);
-                      
-                            setState(() {
-                              endTime = time;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border:
-                                  Border.all(color: colorScheme.onPrimary),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                  DateTimeUtil.getFormattedTime(endTime),style: textTheme.h3Medium.copyWith(color: colorScheme.onPrimary),),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                  ),
+                  const Icon(
+                    AppIcons.beenhere,
+                    size: 28,
+                  )
+                ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Enter Date",
-                      style: textTheme.h3ExtraBold.copyWith(color: colorScheme.onPrimary),
+                      "Start Time",
+                      style: textTheme.h3ExtraBold
+                          .copyWith(color: colorScheme.onPrimary),
                     ),
                     const Gap(5),
                     InkWell(
                       splashColor: colorScheme.onPrimary.withOpacity(0.1),
                       radius: 10,
                       onTap: () async {
-                        final time =
-                            await DateTimeUtil.showDialogPicker(context);
+                        FocusScope.of(context).requestFocus();
+                        final time = await DateTimeUtil.showDialogTimePicker(
+                            context: context,
+                            helpText: "Start Time",
+                            initialTime: startTime);
                         setState(() {
-                          date = time;
+                          startTime = time;
                         });
                       },
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            border:
-                                Border.all(color: colorScheme.onPrimary)),
+                            border: Border.all(color: colorScheme.onPrimary)),
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
-                          child: Text(DateTimeUtil.getFormattedDate(
-                              date.millisecondsSinceEpoch),style: textTheme.h3Regular.copyWith(color: colorScheme.onPrimary),),
+                          child: Text(DateTimeUtil.getFormattedTime(startTime),
+                              style: textTheme.h3Medium
+                                  .copyWith(color: colorScheme.onPrimary)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const Gap(15),
+                Column(
+                  children: [
+                    Text(
+                      "End Time",
+                      style: textTheme.h3ExtraBold
+                          .copyWith(color: colorScheme.onPrimary),
+                    ),
+                    const Gap(5),
+                    InkWell(
+                      splashColor: colorScheme.onPrimary.withOpacity(0.1),
+                      radius: 10,
+                      onTap: () async {
+                        final time = await DateTimeUtil.showDialogTimePicker(
+                            context: context,
+                            helpText: "End Time",
+                            initialTime: endTime);
+
+                        setState(() {
+                          endTime = time;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: colorScheme.onPrimary),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            DateTimeUtil.getFormattedTime(endTime),
+                            style: textTheme.h3Medium
+                                .copyWith(color: colorScheme.onPrimary),
+                          ),
                         ),
                       ),
                     ),
@@ -176,7 +147,44 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
                 ),
               ],
             ),
-          ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Enter Date",
+                  style: textTheme.h3ExtraBold
+                      .copyWith(color: colorScheme.onPrimary),
+                ),
+                const Gap(5),
+                InkWell(
+                  splashColor: colorScheme.onPrimary.withOpacity(0.1),
+                  radius: 10,
+                  onTap: () async {
+                    final time = await DateTimeUtil.showDialogPicker(context);
+                    setState(() {
+                      date = time;
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: colorScheme.onPrimary)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        DateTimeUtil.getFormattedDate(
+                            date.millisecondsSinceEpoch),
+                        style: textTheme.h3Regular
+                            .copyWith(color: colorScheme.onPrimary),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
       actions: [
         SizedBox(
           width: 100,
@@ -206,14 +214,11 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
                 // checking if the starting time is less than ending time
-                if ((startTime.hour * 60 + startTime.minute) <
-                    (endTime.hour * 60 + endTime.minute)) {
-                  context.read<CalendarCubit>().insertCalendar(
-                      title: title,
-                      startTime: startTime,
-                      endTime: endTime,
-                      date: date);
-                }
+                context.read<CalendarCubit>().insertCalendar(
+                    title: title,
+                    startTime: startTime,
+                    endTime: endTime,
+                    date: date);
                 Navigator.pop(context);
               }
             },

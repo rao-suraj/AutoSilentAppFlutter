@@ -7,7 +7,7 @@ abstract class CalandarLocalDataSource {
 
   Future<void> updateCalendar({required Calendar calendar});
 
-  Future<void> deleteCalendar({required Calendar calendar});
+  Future<void> deleteCalendar({required int id});
 
   Stream<List<Calendar>> getAllCalendarStream();
 
@@ -19,27 +19,27 @@ class CalendarLocalDataSourceImpl extends CalandarLocalDataSource {
   final AppDatabase _database;
   CalendarLocalDataSourceImpl(this._database);
   @override
-  Future<void> deleteCalendar({required Calendar calendar}) async {
-    await _database.calandarDao.deleteCalendar(calendar);
+  Future<void> deleteCalendar({required int id}) async {
+    await _database.calendarDao.deleteCalendar(id);
   }
 
   @override
   Stream<List<Calendar>> getAllCalendarStream() {
-    return _database.calandarDao.getAllCalandarStream();
+    return _database.calendarDao.getAllCalendarStream();
   }
 
   @override
   Future<void> insertCalendar({required Calendar calendar}) async {
-    await _database.calandarDao.insertCalendar(calendar);
+    await _database.calendarDao.insertCalendar(calendar);
   }
 
   @override
   Future<void> updateCalendar({required Calendar calendar}) async {
-    await _database.calandarDao.updateCalendar(calendar);
+    await _database.calendarDao.updateCalendar(calendar);
   }
 
   @override
   Future<List<Calendar>> getAllActiveCalendars() async {
-    return await _database.calandarDao.getAllActiveCalendars(true);
+    return await _database.calendarDao.getAllActiveCalendars(true);
   }
 }

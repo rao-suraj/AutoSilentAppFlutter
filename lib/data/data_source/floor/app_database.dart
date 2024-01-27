@@ -7,14 +7,15 @@ import 'package:auto_silent_app/data/models/calendar.dart';
 import 'package:auto_silent_app/data/models/profile.dart';
 import 'package:auto_silent_app/data/models/session.dart';
 import 'package:floor/floor.dart';
-import 'package:sqflite/sqflite.dart' as sqflite;  //this is required for the floor
+import 'package:sqflite/sqflite.dart'
+    as sqflite; //this is required for the floor
 
 part 'app_database.g.dart';
 
 @TypeConverters([DateTimeConverter])
-@Database(version: 1, entities: [Session,Profile,Calendar])
+@Database(version: 1, entities: [Session, Profile, Calendar])
 abstract class AppDatabase extends FloorDatabase {
   SessionDao get sessionDao;
   ProfileDao get profileDao;
-  CalendarDao get calandarDao;
+  CalendarDao get calendarDao;
 }

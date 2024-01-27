@@ -24,7 +24,23 @@ class _CalendarScreenState extends State<CalendarScreen> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: BlocConsumer<CalendarCubit, CalendarStates>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is CalendarError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.errorMessage),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            } else if (state is CalendarSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            }
+          },
           builder: (context, state) {
             if (state is CalendarLoaded) {
               return StreamBuilder(
@@ -32,8 +48,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   builder: (context, stream) {
                     if (stream.data == null) {
                       // at the start stream gives null
-                      return const Center(
-                          child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
                     return GridView.builder(
                         gridDelegate:

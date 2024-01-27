@@ -46,6 +46,7 @@ class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
                     child: TextFormField(
                       textCapitalization: TextCapitalization.sentences,
                       maxLength: 10,
+                      style: textTheme.h3Regular.copyWith(color: colorScheme.onPrimary),
                       decoration: InputDecoration(
                         hintText: 'Title',
                         border: OutlineInputBorder(
@@ -74,7 +75,8 @@ class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
                   children: [
                     Text(
                       "Start Time",
-                      style: textTheme.h3Bold.copyWith(color: colorScheme.onPrimary),
+                      style: textTheme.h3Bold
+                          .copyWith(color: colorScheme.onPrimary),
                     ),
                     const Gap(5),
                     InkWell(
@@ -82,8 +84,10 @@ class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
                       radius: 10,
                       onTap: () async {
                         FocusScope.of(context).requestFocus();
-                        final time =
-                            await DateTimeUtil.showDialogTimePicker(context);
+                        final time = await DateTimeUtil.showDialogTimePicker(
+                            context: context,
+                            helpText: "Start Time",
+                            initialTime: startTime);
                         setState(() {
                           startTime = time;
                         });
@@ -94,7 +98,11 @@ class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
                             border: Border.all(color: colorScheme.onPrimary)),
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
-                          child: Text(DateTimeUtil.getFormattedTime(startTime),style: textTheme.h3Medium.copyWith(color: colorScheme.onPrimary),),
+                          child: Text(
+                            DateTimeUtil.getFormattedTime(startTime),
+                            style: textTheme.h3Medium
+                                .copyWith(color: colorScheme.onPrimary),
+                          ),
                         ),
                       ),
                     ),
@@ -105,15 +113,18 @@ class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
                   children: [
                     Text(
                       "End Time",
-                      style:textTheme.h3Bold.copyWith(color: colorScheme.onPrimary),
+                      style: textTheme.h3Bold
+                          .copyWith(color: colorScheme.onPrimary),
                     ),
                     const Gap(5),
                     InkWell(
                       splashColor: colorScheme.onPrimary.withOpacity(0.1),
                       radius: 10,
                       onTap: () async {
-                        final time =
-                            await DateTimeUtil.showDialogTimePicker(context);
+                        final time = await DateTimeUtil.showDialogTimePicker(
+                            context: context,
+                            helpText: "End Time",
+                            initialTime: endTime);
 
                         setState(() {
                           endTime = time;
@@ -126,7 +137,11 @@ class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
-                          child: Text(DateTimeUtil.getFormattedTime(endTime),style: textTheme.h3Medium.copyWith(color: colorScheme.onPrimary),),
+                          child: Text(
+                            DateTimeUtil.getFormattedTime(endTime),
+                            style: textTheme.h3Medium
+                                .copyWith(color: colorScheme.onPrimary),
+                          ),
                         ),
                       ),
                     ),

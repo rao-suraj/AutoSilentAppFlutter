@@ -11,8 +11,8 @@ class CalendarRepositoryImpl extends CalendarRepository {
 
   CalendarRepositoryImpl(this._calendarLocalDataSource, this._calendarServices);
   @override
-  Future<void> deleteCalendar({required Calendar calendar}) async {
-    await _calendarLocalDataSource.deleteCalendar(calendar: calendar);
+  Future<void> deleteCalendar({required int id}) async {
+    await _calendarLocalDataSource.deleteCalendar(id: id);
   }
 
   @override
@@ -47,7 +47,6 @@ class CalendarRepositoryImpl extends CalendarRepository {
         year: calendar.dateTime.year,
         month: calendar.endTime.month,
         day: calendar.endTime.day);
-
 
     await _calendarServices.setAlarm(
         id: calendar.id,

@@ -37,9 +37,18 @@ class MyApp extends StatelessWidget {
         child: Builder(
           builder: (themeContext) => MultiBlocProvider(
             providers: [
-              BlocProvider(create: (context) => getIt<SessionCubit>()),
-              BlocProvider(create: (context) => getIt<ProfileCubit>()),
-              BlocProvider(create: (context) => getIt<CalendarCubit>())
+              BlocProvider(
+                create: (context) => getIt<SessionCubit>(),
+                lazy: true,
+              ),
+              BlocProvider(
+                create: (context) => getIt<ProfileCubit>(),
+                lazy: true,
+              ),
+              BlocProvider(
+                create: (context) => getIt<CalendarCubit>(),
+                lazy: true,
+              )
             ],
             child: MaterialApp(
               debugShowCheckedModeBanner: false,

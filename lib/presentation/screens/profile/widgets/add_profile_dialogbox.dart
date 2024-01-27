@@ -56,6 +56,7 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
                 child: TextFormField(
                   textCapitalization: TextCapitalization.sentences,
                   maxLength: 10,
+                  style: textTheme.h3Regular.copyWith(color: colorScheme.onPrimary),
                   decoration: InputDecoration(
                     hintText: 'Title',
                     border: OutlineInputBorder(

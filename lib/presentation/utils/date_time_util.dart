@@ -44,11 +44,15 @@ class DateTimeUtil {
     }
   }
 
-  static Future<TimeOfDay> showDialogTimePicker(BuildContext context) async {
+  static Future<TimeOfDay> showDialogTimePicker(
+      {required BuildContext context,
+      required String helpText,
+      required TimeOfDay initialTime}) async {
     late TimeOfDay? time;
     time = await showTimePicker(
+      helpText: helpText,
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: initialTime,
       builder: (BuildContext context, Widget? child) {
         return child!;
       },

@@ -65,7 +65,7 @@ class _$AppDatabase extends AppDatabase {
 
   ProfileDao? _profileDaoInstance;
 
-  CalendarDao? _calandarDaoInstance;
+  CalendarDao? _calendarDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -112,8 +112,8 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  CalendarDao get calandarDao {
-    return _calandarDaoInstance ??= _$CalendarDao(database, changeListener);
+  CalendarDao get calendarDao {
+    return _calendarDaoInstance ??= _$CalendarDao(database, changeListener);
   }
 }
 
@@ -667,19 +667,6 @@ class _$CalendarDao extends CalendarDao {
                   'dateTime': _dateTimeConverter.encode(item.dateTime),
                   'isActive': item.isActive ? 1 : 0
                 },
-            changeListener),
-        _calendarDeletionAdapter = DeletionAdapter(
-            database,
-            'Calendar',
-            ['id'],
-            (Calendar item) => <String, Object?>{
-                  'id': item.id,
-                  'title': item.title,
-                  'startTime': _dateTimeConverter.encode(item.startTime),
-                  'endTime': _dateTimeConverter.encode(item.endTime),
-                  'dateTime': _dateTimeConverter.encode(item.dateTime),
-                  'isActive': item.isActive ? 1 : 0
-                },
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -692,10 +679,14 @@ class _$CalendarDao extends CalendarDao {
 
   final UpdateAdapter<Calendar> _calendarUpdateAdapter;
 
-  final DeletionAdapter<Calendar> _calendarDeletionAdapter;
+  @override
+  Future<void> deleteCalendar(int id) async {
+    await _queryAdapter
+        .queryNoReturn('DELETE from Calendar WHERE id = ?1', arguments: [id]);
+  }
 
   @override
-  Stream<List<Calendar>> getAllCalandarStream() {
+  Stream<List<Calendar>> getAllCalendarStream() {
     return _queryAdapter.queryListStream('SELECT * FROM Calendar',
         mapper: (Map<String, Object?> row) => Calendar(
             id: row['id'] as int,
@@ -722,18 +713,13 @@ class _$CalendarDao extends CalendarDao {
   }
 
   @override
-  Future<void> insertCalendar(Calendar calandar) async {
-    await _calendarInsertionAdapter.insert(calandar, OnConflictStrategy.abort);
+  Future<void> insertCalendar(Calendar calendar) async {
+    await _calendarInsertionAdapter.insert(calendar, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> updateCalendar(Calendar calandar) async {
-    await _calendarUpdateAdapter.update(calandar, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> deleteCalendar(Calendar calandar) async {
-    await _calendarDeletionAdapter.delete(calandar);
+  Future<void> updateCalendar(Calendar calendar) async {
+    await _calendarUpdateAdapter.update(calendar, OnConflictStrategy.abort);
   }
 }
 
