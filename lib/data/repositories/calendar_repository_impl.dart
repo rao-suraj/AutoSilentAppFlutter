@@ -1,7 +1,10 @@
 import 'package:auto_silent_app/data/data_source/local_data_source/calendar_local_data_source.dart';
 import 'package:auto_silent_app/data/models/calendar.dart';
 import 'package:auto_silent_app/data/services/calendar_services.dart';
+import 'package:auto_silent_app/data/utils/app_error.dart';
+import 'package:auto_silent_app/data/utils/call_with_error.dart';
 import 'package:auto_silent_app/domain/repositories/calendar_repository.dart';
+import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: CalendarRepository)
@@ -36,26 +39,26 @@ class CalendarRepositoryImpl extends CalendarRepository {
   }
 
   @override
-  Future<void> setExactAlarm({required Calendar calendar}) async {
+  Future<Either<AppError,void>> setExactAlarm({required Calendar calendar}) async {
     // add the date to both startTime and endTime
-    calendar.startTime.copyWith(
-        year: calendar.dateTime.year,
-        month: calendar.dateTime.month,
-        day: calendar.dateTime.day);
+    // calendar.startTime.copyWith(
+    //     year: calendar.dateTime.year,
+    //     month: calendar.dateTime.month,
+    //     day: calendar.dateTime.day);
 
-    calendar.endTime.copyWith(
-        year: calendar.dateTime.year,
-        month: calendar.endTime.month,
-        day: calendar.endTime.day);
-
-    await _calendarServices.setAlarm(
+    // calendar.endTime.copyWith(
+    //     year: calendar.dateTime.year,
+    //     month: calendar.endTime.month,
+    //     day: calendar.endTime.day);
+    return await CallWithError.call(() => _calendarServices.setAlarm(
         id: calendar.id,
         startDate: calendar.startTime,
-        endDate: calendar.endTime);
+        endDate: calendar.endTime));
+    
   }
 
   @override
-  Future<void> removeExactAlarm({required Calendar calendar}) async {
-    await _calendarServices.removeAlarm(id: calendar.id);
+  Future<Either<AppError,void>> removeExactAlarm({required Calendar calendar}) async {
+    return await CallWithError.call(() => _calendarServices.removeAlarm(id: calendar.id));
   }
 }

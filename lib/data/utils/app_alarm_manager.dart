@@ -18,21 +18,33 @@ class AppAlarmManagerImp extends AppAlarmManger {
   @override
   Future<void> setExactAlarm(
       {required int id, required DateTime dateTime}) async {
-    await AndroidAlarmManager.oneShotAt(
-        dateTime, id, AlarmManagerUtils.setSilentMode,
-        exact: true, rescheduleOnReboot: true);
+    try {
+      await AndroidAlarmManager.oneShotAt(
+          dateTime, id, AlarmManagerUtils.setSilentMode,
+          exact: true, rescheduleOnReboot: true);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<void> removeExactAlarm(
       {required int id, required DateTime dateTime}) async {
-    await AndroidAlarmManager.oneShotAt(
-        dateTime, id, AlarmManagerUtils.removeSilentMode,
-        exact: true, rescheduleOnReboot: true);
+    try {
+      await AndroidAlarmManager.oneShotAt(
+          dateTime, id, AlarmManagerUtils.removeSilentMode,
+          exact: true, rescheduleOnReboot: true);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<void> cancleExactAlarm({required int id}) async {
-    await AndroidAlarmManager.cancel(id);
+    try {
+      await AndroidAlarmManager.cancel(id);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

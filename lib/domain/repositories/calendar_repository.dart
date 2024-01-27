@@ -1,4 +1,6 @@
 import 'package:auto_silent_app/data/models/calendar.dart';
+import 'package:auto_silent_app/data/utils/app_error.dart';
+import 'package:either_dart/either.dart';
 
 abstract class CalendarRepository {
   Future<void> insertCalendar({required Calendar calendar});
@@ -11,7 +13,7 @@ abstract class CalendarRepository {
 
   Future<List<Calendar>> getAllActiveCalendar();
 
-  Future<void> setExactAlarm({required Calendar calendar});
+  Future<Either<AppError,void>> setExactAlarm({required Calendar calendar});
 
-  Future<void> removeExactAlarm({required Calendar calendar});
+  Future<Either<AppError,void>> removeExactAlarm({required Calendar calendar});
 }

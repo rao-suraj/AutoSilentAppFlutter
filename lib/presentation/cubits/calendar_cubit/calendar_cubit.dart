@@ -1,10 +1,11 @@
 import 'dart:math';
-
 import 'package:auto_silent_app/data/models/calendar.dart';
+import 'package:auto_silent_app/data/utils/app_error.dart';
 import 'package:auto_silent_app/domain/repositories/calendar_repository.dart';
 import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_states.dart';
 import 'package:auto_silent_app/presentation/utils/date_time_util.dart';
 import 'package:bloc/bloc.dart';
+import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
@@ -40,18 +41,13 @@ class CalendarCubit extends Cubit<CalendarStates> {
         minute: endTime.minute,
         second: 0);
 
-    print(date);
-    print(startDateTime);
-    print(endDateTime);
+    // print(date);
+    // print(startDateTime);
+    // print(endDateTime);
 
-    print((startDateTime.isAfter(DateTime.now())));
-    print(startDateTime.isBefore(endDateTime));
+    // print((startDateTime.isAfter(DateTime.now())));
+    // print(startDateTime.isBefore(endDateTime));
 
-    // if ((startTime.hour * 60 + startTime.minute) <
-    //         (endTime.hour * 60 + endTime.minute) &&
-    //     ((startTime.hour * 60 + startTime.minute) >
-    //             DateTime.now().hour * 60 + DateTime.now().minute &&
-    //         date != DateTime.now())) {
     if (startDateTime.isAfter(DateTime.now()) &&
         startDateTime.isBefore(endDateTime)) {
       await _calendarRepository.insertCalendar(
@@ -88,12 +84,21 @@ class CalendarCubit extends Cubit<CalendarStates> {
     } else {
       final currentState = calendar.isActive;
       if (currentState) {
-        _calendarRepository.removeExactAlarm(calendar: calendar);
-        updateCalendar(calendar: calendar.copyWith(isActive: !currentState));
+        final Either<AppError, void> response =
+            await _calendarRepository.removeExactAlarm(calendar: calendar);
+        response.fold((left) => emit(CalendarError(left.message!)), (right) {
+          updateCalendar(calendar: calendar.copyWith(isActive: !currentState));
+          emit(const CalendarSuccess("Calendar removed successfully"));
+        });
       } else {
-        _calendarRepository.setExactAlarm(calendar: calendar);
-        updateCalendar(calendar: calendar.copyWith(isActive: !currentState));
+        final Either<AppError, void> response =
+            await _calendarRepository.setExactAlarm(calendar: calendar);
+        response.fold((left) => emit(CalendarError(left.message!)), (right) {
+          updateCalendar(calendar: calendar.copyWith(isActive: !currentState));
+          emit(const CalendarSuccess("Calendar added successfully"));
+        });
       }
+      getCalendarStream();
     }
   }
 }
