@@ -11,7 +11,7 @@ class LevelIndicator extends StatelessWidget {
 
     return SizedBox(
       height: 6,
-      width: 50,
+      width: 54,
       child: Row(children: [
         Expanded(
           flex: 25,
@@ -22,7 +22,7 @@ class LevelIndicator extends StatelessWidget {
                 border:level >= 1 ? null : Border.all(width: 2, color: colorScheme.onPrimary)),
           ),
         ),
-        const Gap(2),
+        const Gap(4),
         Expanded(
           flex: 25,
           child: Container(
@@ -32,7 +32,7 @@ class LevelIndicator extends StatelessWidget {
                 border:level >= 2 ? null: Border.all(width: 2, color: colorScheme.onPrimary)),
           ),
         ),
-        const Gap(2),
+        const Gap(4),
         Expanded(
           flex: 25,
           child: Container(

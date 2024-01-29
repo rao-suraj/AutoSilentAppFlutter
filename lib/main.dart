@@ -3,10 +3,11 @@ import 'package:auto_silent_app/data/data_source/floor/app_database.dart';
 import 'package:auto_silent_app/data/models/session.dart';
 import 'package:auto_silent_app/data/utils/alarm_manager_utils.dart';
 import 'package:auto_silent_app/di/get_it.dart';
-import 'package:auto_silent_app/domain/utils/enums.dart';
-import 'package:auto_silent_app/presentation/screens/main_screen.dart';
 import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_cubit.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
+import 'package:auto_silent_app/domain/utils/enums.dart';
+import 'package:auto_silent_app/presentation/cubits/session_cubit/session_cubit.dart';
+import 'package:auto_silent_app/presentation/screens/main_screen.dart';
 import 'package:auto_silent_app/presentation/themes/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +23,6 @@ void main() async {
     isInDebugMode: true,
   );
 
-  await AndroidAlarmManager.initialize();
   runApp(const MyApp());
 }
 
@@ -37,8 +37,18 @@ class MyApp extends StatelessWidget {
         child: Builder(
           builder: (themeContext) => MultiBlocProvider(
             providers: [
-              BlocProvider(create: (context) => getIt<ProfileCubit>()),
-              BlocProvider(create: (context) => getIt<CalendarCubit>())
+              BlocProvider(
+                create: (context) => getIt<SessionCubit>(),
+                lazy: true,
+              ),
+              BlocProvider(
+                create: (context) => getIt<ProfileCubit>(),
+                lazy: true,
+              ),
+              BlocProvider(
+                create: (context) => getIt<CalendarCubit>(),
+                lazy: true,
+              )
             ],
             child: MaterialApp(
               debugShowCheckedModeBanner: false,

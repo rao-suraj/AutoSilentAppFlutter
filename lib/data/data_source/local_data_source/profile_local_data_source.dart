@@ -21,26 +21,46 @@ class ProflieLocalDataSourceImpl extends ProfileLocalDataSource {
   ProflieLocalDataSourceImpl(this._database);
   @override
   Future<void> deleteProfile({required Profile profile}) async {
-    await _database.profileDao.deleteProfile(profile);
+    try {
+      await _database.profileDao.deleteProfile(profile);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Stream<List<Profile>> getAllProfilesStream() {
-    return _database.profileDao.getAllProfileStream();
+    try {
+      return _database.profileDao.getAllProfileStream();
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<void> insertProfile({required Profile profile}) async {
-    await _database.profileDao.insertProfile(profile);
+    try {
+      await _database.profileDao.insertProfile(profile);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<void> updateProfile({required Profile profile}) async {
-    await _database.profileDao.updateProfile(profile);
+    try {
+      await _database.profileDao.updateProfile(profile);
+    } catch (e) {
+      rethrow;
+    }
   }
-  
+
   @override
   Future<List<Profile>> getAllActiveProfiles() async {
-    return await _database.profileDao.getAllActiveProfiles(true);
+    try {
+      return await _database.profileDao.getAllActiveProfiles(true);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

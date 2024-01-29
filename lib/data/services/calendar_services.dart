@@ -31,6 +31,9 @@ class CaneldarServiceImpl extends CalendarServices {
 
   @override
   Future<void> removeAlarm({required int id}) async {
-    await _alarmManger.cancleExactAlarm(id: id);
+    await _alarmManger.cancleExactAlarm(
+        id: AlarmManagerUtils.getSetAlarmId(id: id));
+    await _alarmManger.cancleExactAlarm(
+        id: AlarmManagerUtils.getRemoveAlarmId(id: id));
   }
 }

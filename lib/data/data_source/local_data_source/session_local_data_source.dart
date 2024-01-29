@@ -13,6 +13,8 @@ abstract class SessionLocalDataSource {
   Stream<List<Session>> getAllSessions();
 
   Stream<List<Session>> getSessionByDay({required DayOfTheWeek day});
+
+  Future<List<Session>> getAllActiveSessions();
 }
 
 @LazySingleton(as: SessionLocalDataSource)
@@ -43,5 +45,10 @@ class SessionLocalDataSourceImpl extends SessionLocalDataSource {
   @override
   Future<void> updateSession({required Session session}) async{
     await _database.sessionDao.updateSession(session);
+  }
+  
+  @override
+  Future<List<Session>> getAllActiveSessions() async {
+    return await _database.sessionDao.getAllActiveSession(true);
   }
 }

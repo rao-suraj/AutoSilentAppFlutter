@@ -4,16 +4,16 @@ import 'package:floor/floor.dart';
 @dao
 abstract class CalendarDao {
   @insert
-  Future<void> insertCalendar(Calendar calandar);
+  Future<void> insertCalendar(Calendar calendar);
 
-  @delete
-  Future<void> deleteCalendar(Calendar calandar);
+  @Query('DELETE from Calendar WHERE id = :id')
+  Future<void> deleteCalendar(int id);
 
   @update
-  Future<void> updateCalendar(Calendar calandar);
+  Future<void> updateCalendar(Calendar calendar);
 
   @Query('SELECT * FROM Calendar')
-  Stream<List<Calendar>> getAllCalandarStream();
+  Stream<List<Calendar>> getAllCalendarStream();
 
   @Query('SELECT * FROM Calendar WHERE isActive = :isActive')
   Future<List<Calendar>> getAllActiveCalendars(bool isActive);

@@ -3,6 +3,7 @@ import 'package:auto_silent_app/presentation/cubits/profile_cubit/progile_states
 import 'package:auto_silent_app/presentation/screens/profile/widgets/profile_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 class ProfileScereen extends StatefulWidget {
   const ProfileScereen({super.key});
@@ -33,6 +34,13 @@ class _ProfileScereenState extends State<ProfileScereen> {
                       backgroundColor: Colors.red,
                     ),
                   );
+                } else if (state is ProfileSuccess) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
                 }
               },
               builder: (context, state) {
@@ -48,7 +56,7 @@ class _ProfileScereenState extends State<ProfileScereen> {
                         return GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 1 / 1.05,
+                              childAspectRatio: 1 / 1.02,
                               crossAxisCount: 2,
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 12,
@@ -60,7 +68,7 @@ class _ProfileScereenState extends State<ProfileScereen> {
                               );
                             });
                       });
-                }else {
+                } else {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
@@ -69,18 +77,12 @@ class _ProfileScereenState extends State<ProfileScereen> {
             ),
           ),
         ),
-        // TextButton(
-        //   onPressed: () {
-        //     // context.read<ProfileCubit>().insertProfile(
-        //     //       profile: Profile(
-        //     //         id: 6,
-        //     //         title: "Hello",
-        //     //         isActive: false,
-        //     //       ),
-        //     //     );
-        //   },
-        //   child: const Text("Add Profile"),
-        // ),
+        TextButton(
+          child: const Text("Change Theme"),
+          onPressed: () {
+            ThemeProvider.controllerOf(context).nextTheme();
+          },
+        )
       ],
     );
   }

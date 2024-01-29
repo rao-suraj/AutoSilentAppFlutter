@@ -3,12 +3,13 @@ import 'package:auto_silent_app/data/models/profile.dart';
 import 'package:auto_silent_app/domain/repositories/profile_repository.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/progile_states.dart';
 import 'package:bloc/bloc.dart';
+import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class ProfileCubit extends Cubit<ProfileStates> {
   final ProfileRepository _profileRepository;
-  
+
   ProfileCubit(this._profileRepository) : super(const ProfileLoading());
 
   void getProfileStream() {
@@ -21,7 +22,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
       required double ringerLevel,
       required bool isDNDActive,
       required bool isVibrationActive}) async {
-    await _profileRepository.insertProfile(
+    final response = await _profileRepository.insertProfile(
         profile: Profile(
             id: Random().nextInt(500),
             title: title,
@@ -29,47 +30,78 @@ class ProfileCubit extends Cubit<ProfileStates> {
             ringerLevel: ringerLevel,
             isDNDActive: isDNDActive,
             isVibrationActive: isVibrationActive));
+
+    response.fold((left) => emit(ProfileError(left.message!)),
+        (right) => emit(const ProfileSuccess("Inserted Successfully")));
+    getProfileStream();
   }
 
   Future<void> updateProfile({required Profile profile}) async {
-    await _profileRepository.updateProfile(profile: profile);
+    final response = _profileRepository.updateProfile(profile: profile);
+
+    response.fold((left) {
+      emit(ProfileError(left.message!));
+    }, (right) => emit(const ProfileSuccess("Updated Successfully")));
+    getProfileStream();
   }
 
   Future<List<double?>> getCurrentVolumeLevels() async {
-    return await _profileRepository.getCurrentVolumes();
+    final respons = await _profileRepository.getCurrentVolumes();
+    late List<double?> volumeLevel;
+    respons.fold((left) => emit(ProfileError(left.message!)), (right) {
+      volumeLevel = right;
+    });
+    return volumeLevel;
   }
 
   Future<void> switchIsActive({required Profile profile}) async {
-    final list = await getAllActiveProfiles();
-    // if any other profile is active and its not the one that you are trying to switch return immediately
-    if (list.isNotEmpty && list[0].id != profile.id) {
-      emit(const ProfileError('A profile is already active'));
-      getProfileStream(); // putting it to profile loaded state again
-      return;
+    final currentVal = profile.isActive;
+
+    // if we have to make it active i.e currently it is false then check if more the one profile is active
+    // if yes then return with a message
+    // else continue
+    if (!currentVal) {
+      final activeList = await _profileRepository.getAllActiveProfiles();
+      // I don't know why when there is one active the length is 0
+      if (activeList.isNotEmpty) {
+        emit(const ProfileError("Can't have more than one active profile"));
+        getProfileStream();
+        return;
+      }
     }
 
-    // get the present state
-    final bool change;
-    (profile.isActive) ? change = false : change = true;
-
-    // update the profile in database so that the change is displayed
-    await _profileRepository.updateProfile(
-        profile: profile.copyWith(isActive: change));
-
-    // set or remove the profile based on the value of change
-    if (change) {
-      await setProfile(profile: profile);
-    } else {
+    // activate based on the current value
+    if (currentVal) {
       await removeProfile(profile: profile);
+    } else {
+      await setProfile(profile: profile);
     }
+
+    // change the value in database
+    final response = _profileRepository.updateProfile(
+        profile: profile.copyWith(isActive: !currentVal));
+    response.fold((left) {
+      ProfileError(left.message!);
+      getProfileStream();
+    }, (right) => null);
   }
 
   Future<void> setProfile({required Profile profile}) async {
-    await _profileRepository.setProfile(profile: profile);
+    final response = await _profileRepository.setProfile(profile: profile);
+
+    response.fold((left) {
+      emit(ProfileError(left.message!));
+      getProfileStream();
+    }, (right) => null);
   }
 
   Future<void> removeProfile({required Profile profile}) async {
-    await _profileRepository.removeProfile(profile: profile);
+    final response = await _profileRepository.removeProfile(profile: profile);
+
+    response.fold((left) {
+      emit(ProfileError(left.message!));
+      getProfileStream();
+    }, (right) => null);
   }
 
   Future<List<Profile>> getAllActiveProfiles() async {

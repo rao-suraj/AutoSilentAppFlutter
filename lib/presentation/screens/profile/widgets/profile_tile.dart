@@ -4,6 +4,7 @@ import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.
 import 'package:auto_silent_app/presentation/screens/widgets/custom_switch_auto.dart';
 import 'package:auto_silent_app/presentation/screens/profile/widgets/level_indicator_widget.dart';
 import 'package:auto_silent_app/presentation/themes/extensions.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -42,9 +43,10 @@ class _ProfileTileState extends State<ProfileTile> {
             flex: 36,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: AutoSizeText(
                 widget.profile.title,
                 style: theme.h1Medium.copyWith(color: colorScheme.onPrimary),
+                minFontSize: theme.h2.fontSize!,
               ),
             ),
           ),
@@ -55,7 +57,7 @@ class _ProfileTileState extends State<ProfileTile> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Assets.images.volumeIcon.svg(
-                    height: 25,
+                    height: 27,
                     colorFilter: ColorFilter.mode(
                         colorScheme.onPrimary, BlendMode.srcIn)),
                 const Gap(5),
@@ -70,7 +72,7 @@ class _ProfileTileState extends State<ProfileTile> {
             child: Row(
               children: [
                 Assets.images.ringerIcon.svg(
-                    height: 22,
+                    height: 26,
                     colorFilter: ColorFilter.mode(
                         colorScheme.onPrimary, BlendMode.srcIn)),
                 const Gap(5),
@@ -86,7 +88,7 @@ class _ProfileTileState extends State<ProfileTile> {
                 Row(
                   children: [
                     Assets.images.dndIcon.svg(
-                      height: 26,
+                      height: 32,
                       colorFilter: ColorFilter.mode(
                           (widget.profile.isDNDActive)
                               ? colorScheme.primary
@@ -95,7 +97,7 @@ class _ProfileTileState extends State<ProfileTile> {
                     ),
                     const Gap(5),
                     Assets.images.vibrationIcon.svg(
-                      height: 26,
+                      height: 32,
                       colorFilter: ColorFilter.mode(
                           (widget.profile.isVibrationActive)
                               ? colorScheme.primary
@@ -112,8 +114,8 @@ class _ProfileTileState extends State<ProfileTile> {
                   },
                   child: CustomSwitchAuto(
                     value: widget.profile.isActive,
-                    width: 54,
-                    height: 27,
+                    width: 57,
+                    height: 29,
                   ),
                 )
               ],

@@ -1,25 +1,25 @@
-import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_cubit.dart';
+import 'package:auto_silent_app/presentation/cubits/session_cubit/session_cubit.dart';
 import 'package:auto_silent_app/presentation/themes/extensions.dart';
 import 'package:auto_silent_app/presentation/utils/app_icons.dart';
 import 'package:auto_silent_app/presentation/utils/date_time_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:weekday_selector/weekday_selector.dart';
 
-class AddCalendarDialogBox extends StatefulWidget {
-  const AddCalendarDialogBox({super.key});
+class AddSessionDailogBox extends StatefulWidget {
+  const AddSessionDailogBox({super.key});
 
   @override
-  State<AddCalendarDialogBox> createState() => _AddCalendarDialogBoxState();
+  State<AddSessionDailogBox> createState() => _AddSessionDailogBoxState();
 }
 
-class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
+class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  DateTime date = DateTime.now();
   TimeOfDay startTime = TimeOfDay.now();
   TimeOfDay endTime = TimeOfDay.now();
   late String title;
-
+  final daysOfWeek = [true, true, true, true, true, true, true];
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -64,8 +64,8 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
                     ),
                   ),
                   const Icon(
-                    AppIcons.beenhere,
-                    size: 28,
+                    AppIcons.access_time,
+                    size: 34,
                   )
                 ]),
             Row(
@@ -75,7 +75,7 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
                   children: [
                     Text(
                       "Start Time",
-                      style: textTheme.h3ExtraBold
+                      style: textTheme.h3Bold
                           .copyWith(color: colorScheme.onPrimary),
                     ),
                     const Gap(5),
@@ -98,9 +98,11 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
                             border: Border.all(color: colorScheme.onPrimary)),
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
-                          child: Text(DateTimeUtil.getFormattedTime(startTime),
-                              style: textTheme.h3Medium
-                                  .copyWith(color: colorScheme.onPrimary)),
+                          child: Text(
+                            DateTimeUtil.getFormattedTime(startTime),
+                            style: textTheme.h3Medium
+                                .copyWith(color: colorScheme.onPrimary),
+                          ),
                         ),
                       ),
                     ),
@@ -111,7 +113,7 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
                   children: [
                     Text(
                       "End Time",
-                      style: textTheme.h3ExtraBold
+                      style: textTheme.h3Bold
                           .copyWith(color: colorScheme.onPrimary),
                     ),
                     const Gap(5),
@@ -147,40 +149,26 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
                 ),
               ],
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Enter Date",
-                  style: textTheme.h3ExtraBold
-                      .copyWith(color: colorScheme.onPrimary),
-                ),
-                const Gap(5),
-                InkWell(
-                  splashColor: colorScheme.onPrimary.withOpacity(0.1),
-                  radius: 10,
-                  onTap: () async {
-                    final time = await DateTimeUtil.showDialogPicker(context);
-                    setState(() {
-                      date = time;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: colorScheme.onPrimary)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        DateTimeUtil.getFormattedDate(
-                            date.millisecondsSinceEpoch),
-                        style: textTheme.h3Regular
-                            .copyWith(color: colorScheme.onPrimary),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            const Gap(10),
+            WeekdaySelector(
+              selectedColor: colorScheme.surface,
+              selectedFillColor: colorScheme.onPrimary,
+              disabledColor: colorScheme.surface,
+              disabledFillColor: colorScheme.onPrimary,
+              selectedSplashColor: Colors.grey.withOpacity(0.2),
+              onChanged: (int day) {
+                setState(() {
+                  // Use module % 7 as Sunday's index in the array is 0 and
+                  // DateTime.sunday constant integer value is 7.
+                  final index = day % 7;
+                  // We "flip" the value in this example, but you may also
+                  // perform validation, a DB write, an HTTP call or anything
+                  // else before you actually flip the value,
+                  // it's up to your app's needs.
+                  daysOfWeek[index] = !daysOfWeek[index];
+                });
+              },
+              values: daysOfWeek,
             ),
           ],
         ),
@@ -190,10 +178,12 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
           width: 100,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: colorScheme.onPrimary,
-                textStyle: textTheme.h3Regular,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10))),
+              backgroundColor: colorScheme.onPrimary,
+              textStyle: textTheme.h3Regular,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -214,12 +204,18 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
                 // checking if the starting time is less than ending time
-                context.read<CalendarCubit>().insertCalendar(
-                    title: title,
-                    startTime: startTime,
-                    endTime: endTime,
-                    date: date);
-                Navigator.pop(context);
+                if ((startTime.hour * 60 + startTime.minute) <
+                    (endTime.hour * 60 + endTime.minute)) {
+                  context.read<SessionCubit>().insertSession(
+                      title: title,
+                      startTime: startTime,
+                      endTime: endTime,
+                      daysOfWeek: daysOfWeek);
+                  Navigator.pop(context);
+                } else {
+                  // have to do something about this
+                  print("Invalid");
+                }
               }
             },
             child: Text(

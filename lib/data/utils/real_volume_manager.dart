@@ -13,18 +13,30 @@ class RealVolumeManagerImpl extends RealVolumeManager {
   RealVolumeManagerImpl();
   @override
   Future<double?> getVolumeLevel({required StreamType streamType}) async {
-    return await RealVolume.getCurrentVol(streamType);
+    try {
+      return await RealVolume.getCurrentVol(streamType);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<void> setRingerMode({required RingerMode ringerMode}) async {
-    await RealVolume.setRingerMode(ringerMode);
+    try {
+      await RealVolume.setRingerMode(ringerMode);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<void> setVolume(
       {required double volumeLevel, required StreamType streamType}) async {
-    await RealVolume.setVolume(volumeLevel, streamType: streamType);
+    try {
+      await RealVolume.setVolume(volumeLevel, streamType: streamType);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   // @pragma('vm:entry-point')

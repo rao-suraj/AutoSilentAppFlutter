@@ -2,7 +2,7 @@ import 'package:auto_silent_app/data/models/calendar.dart';
 import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_cubit.dart';
 import 'package:auto_silent_app/presentation/screens/widgets/custom_switch_auto.dart';
 import 'package:auto_silent_app/presentation/themes/extensions.dart';
-import 'package:flutter/gestures.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -41,10 +41,11 @@ class _CalendarTileState extends State<CalendarTile> {
             flex: 30,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: AutoSizeText(
                 widget.calendar.title,
                 style:
-                    textTheme.h2Medium.copyWith(color: colorScheme.onPrimary),
+                    textTheme.h1Medium.copyWith(color: colorScheme.onPrimary),
+                minFontSize: textTheme.h2.fontSize!,
               ),
             ),
           ),
@@ -52,26 +53,32 @@ class _CalendarTileState extends State<CalendarTile> {
             flex: 17,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: RichText(
-                textAlign: TextAlign.start,
-                text: TextSpan(
-                    style:
-                        textTheme.h2low.copyWith(color: colorScheme.onPrimary),
-                    children: [
-                      TextSpan(
-                        text: DateFormat("hh:mm")
-                            .format(widget.calendar.startTime),
-                      ),
-                      TextSpan(
-                          text:
-                              DateFormat("a").format(widget.calendar.startTime),
-                          style: textTheme.h4),
-                      TextSpan(text: "-", style: textTheme.h3),
-                      TextSpan(
-                          text: DateFormat("hh:mm").format(widget.calendar.endTime),
-                          ),
-                      TextSpan(text: DateFormat("a").format(widget.calendar.endTime), style: textTheme.h4),
-                    ]),
+              child: FittedBox(
+                child: RichText(
+                  textAlign: TextAlign.start,
+                  text: TextSpan(
+                      style: textTheme.h2low
+                          .copyWith(color: colorScheme.onPrimary),
+                      children: [
+                        TextSpan(
+                          text: DateFormat("h:mm")
+                              .format(widget.calendar.startTime),
+                        ),
+                        TextSpan(
+                            text: DateFormat("a")
+                                .format(widget.calendar.startTime),
+                            style: textTheme.h4),
+                        TextSpan(text: "-", style: textTheme.h3),
+                        TextSpan(
+                          text: DateFormat("h:mm")
+                              .format(widget.calendar.endTime),
+                        ),
+                        TextSpan(
+                            text:
+                                DateFormat("a").format(widget.calendar.endTime),
+                            style: textTheme.h4),
+                      ]),
+                ),
               ),
             ),
           ),
@@ -80,7 +87,7 @@ class _CalendarTileState extends State<CalendarTile> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "21 Sep 2024",
+                  DateFormat('dd MMM yyyy').format(widget.calendar.dateTime),
                   style: textTheme.h3,
                 ),
               )),

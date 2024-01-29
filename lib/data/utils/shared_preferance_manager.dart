@@ -19,12 +19,20 @@ class SharedPreferenceManagerImp extends SharedPreferanceManager {
       {required int id,
       required double volumeLevel,
       required double ringerLevel}) async {
-    await _sharedPreference.setStringList(
-        id.toString(), [volumeLevel.toString(), ringerLevel.toString()]);
+    try {
+      await _sharedPreference.setStringList(
+          id.toString(), [volumeLevel.toString(), ringerLevel.toString()]);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   List<String>? getProfileConfiguration({required int id}) {
-    return _sharedPreference.getStringList(id.toString());
+    try {
+      return _sharedPreference.getStringList(id.toString());
+    } catch (e) {
+      rethrow;
+    }
   }
 }

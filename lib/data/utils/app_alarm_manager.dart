@@ -2,7 +2,6 @@ import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:auto_silent_app/data/utils/alarm_manager_utils.dart';
 import 'package:injectable/injectable.dart';
 
-
 abstract class AppAlarmManger {
   Future<void> setExactAlarm({required int id, required DateTime dateTime});
 
@@ -19,19 +18,33 @@ class AppAlarmManagerImp extends AppAlarmManger {
   @override
   Future<void> setExactAlarm(
       {required int id, required DateTime dateTime}) async {
-    await AndroidAlarmManager.oneShotAt(
-        dateTime, id, AlarmManagerUtils.setSilentMode);
+    try {
+      await AndroidAlarmManager.oneShotAt(
+          dateTime, id, AlarmManagerUtils.setSilentMode,
+          exact: true, rescheduleOnReboot: true);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<void> removeExactAlarm(
       {required int id, required DateTime dateTime}) async {
-    await AndroidAlarmManager.oneShotAt(
-        dateTime, id, AlarmManagerUtils.removeSilentMode);
+    try {
+      await AndroidAlarmManager.oneShotAt(
+          dateTime, id, AlarmManagerUtils.removeSilentMode,
+          exact: true, rescheduleOnReboot: true);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<void> cancleExactAlarm({required int id}) async {
-    await AndroidAlarmManager.cancel(id);
+    try {
+      await AndroidAlarmManager.cancel(id);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

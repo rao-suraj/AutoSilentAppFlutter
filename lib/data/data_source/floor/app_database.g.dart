@@ -65,7 +65,7 @@ class _$AppDatabase extends AppDatabase {
 
   ProfileDao? _profileDaoInstance;
 
-  CalendarDao? _calandarDaoInstance;
+  CalendarDao? _calendarDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -112,8 +112,8 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  CalendarDao get calandarDao {
-    return _calandarDaoInstance ??= _$CalendarDao(database, changeListener);
+  CalendarDao get calendarDao {
+    return _calendarDaoInstance ??= _$CalendarDao(database, changeListener);
   }
 }
 
@@ -500,6 +500,25 @@ class _$SessionDao extends SessionDao {
   }
 
   @override
+  Future<List<Session>> getAllActiveSession(bool isTrue) async {
+    return _queryAdapter.queryList('SELECT * FROM Session WHERE isActive IS ?1',
+        mapper: (Map<String, Object?> row) => Session(
+            id: row['id'] as int,
+            title: row['title'] as String,
+            startTime: _dateTimeConverter.decode(row['startTime'] as int),
+            endTime: _dateTimeConverter.decode(row['endTime'] as int),
+            isActive: (row['isActive'] as int) != 0,
+            sunday: (row['sunday'] as int) != 0,
+            monday: (row['monday'] as int) != 0,
+            tuesday: (row['tuesday'] as int) != 0,
+            wednesday: (row['wednesday'] as int) != 0,
+            thursday: (row['thursday'] as int) != 0,
+            friday: (row['friday'] as int) != 0,
+            saturday: (row['saturday'] as int) != 0),
+        arguments: [isTrue ? 1 : 0]);
+  }
+
+  @override
   Future<void> insertSession(Session session) async {
     await _sessionInsertionAdapter.insert(session, OnConflictStrategy.abort);
   }
@@ -648,19 +667,6 @@ class _$CalendarDao extends CalendarDao {
                   'dateTime': _dateTimeConverter.encode(item.dateTime),
                   'isActive': item.isActive ? 1 : 0
                 },
-            changeListener),
-        _calendarDeletionAdapter = DeletionAdapter(
-            database,
-            'Calendar',
-            ['id'],
-            (Calendar item) => <String, Object?>{
-                  'id': item.id,
-                  'title': item.title,
-                  'startTime': _dateTimeConverter.encode(item.startTime),
-                  'endTime': _dateTimeConverter.encode(item.endTime),
-                  'dateTime': _dateTimeConverter.encode(item.dateTime),
-                  'isActive': item.isActive ? 1 : 0
-                },
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -673,10 +679,14 @@ class _$CalendarDao extends CalendarDao {
 
   final UpdateAdapter<Calendar> _calendarUpdateAdapter;
 
-  final DeletionAdapter<Calendar> _calendarDeletionAdapter;
+  @override
+  Future<void> deleteCalendar(int id) async {
+    await _queryAdapter
+        .queryNoReturn('DELETE from Calendar WHERE id = ?1', arguments: [id]);
+  }
 
   @override
-  Stream<List<Calendar>> getAllCalandarStream() {
+  Stream<List<Calendar>> getAllCalendarStream() {
     return _queryAdapter.queryListStream('SELECT * FROM Calendar',
         mapper: (Map<String, Object?> row) => Calendar(
             id: row['id'] as int,
@@ -703,18 +713,13 @@ class _$CalendarDao extends CalendarDao {
   }
 
   @override
-  Future<void> insertCalendar(Calendar calandar) async {
-    await _calendarInsertionAdapter.insert(calandar, OnConflictStrategy.abort);
+  Future<void> insertCalendar(Calendar calendar) async {
+    await _calendarInsertionAdapter.insert(calendar, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> updateCalendar(Calendar calandar) async {
-    await _calendarUpdateAdapter.update(calandar, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> deleteCalendar(Calendar calandar) async {
-    await _calendarDeletionAdapter.delete(calandar);
+  Future<void> updateCalendar(Calendar calendar) async {
+    await _calendarUpdateAdapter.update(calendar, OnConflictStrategy.abort);
   }
 }
 
