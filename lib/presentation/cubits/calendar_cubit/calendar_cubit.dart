@@ -3,7 +3,6 @@ import 'package:auto_silent_app/data/models/calendar.dart';
 import 'package:auto_silent_app/data/utils/app_error.dart';
 import 'package:auto_silent_app/domain/repositories/calendar_repository.dart';
 import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_states.dart';
-import 'package:auto_silent_app/presentation/utils/date_time_util.dart';
 import 'package:bloc/bloc.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
@@ -41,12 +40,12 @@ class CalendarCubit extends Cubit<CalendarStates> {
         minute: endTime.minute,
         second: 0);
 
-    // print(date);
-    // print(startDateTime);
-    // print(endDateTime);
+    print(date);
+    print(startDateTime);
+    print(endDateTime);
 
-    // print((startDateTime.isAfter(DateTime.now())));
-    // print(startDateTime.isBefore(endDateTime));
+    print((startDateTime.isAfter(DateTime.now())));
+    print(startDateTime.isBefore(endDateTime));
 
     if (startDateTime.isAfter(DateTime.now()) &&
         startDateTime.isBefore(endDateTime)) {
@@ -55,8 +54,8 @@ class CalendarCubit extends Cubit<CalendarStates> {
               id: Random().nextInt(1500) + 1000,
               // random number from 1000 to 1500
               title: title,
-              startTime: DateTime.now().applied(startTime),
-              endTime: DateTime.now().applied(endTime),
+              startTime: startDateTime,
+              endTime: endDateTime,
               dateTime: date));
       emit(const CalendarSuccess("Inserted Successfully"));
     } else {
@@ -76,29 +75,49 @@ class CalendarCubit extends Cubit<CalendarStates> {
       getCalendarStream();
       return;
     }
-    final List<Calendar> activeCalendars =
-        await _calendarRepository.getAllActiveCalendar();
-
-    if (activeCalendars.length > 3) {
-      emit(const CalendarError("Can't have more than 3 active calendars"));
-    } else {
-      final currentState = calendar.isActive;
-      if (currentState) {
-        final Either<AppError, void> response =
-            await _calendarRepository.removeExactAlarm(calendar: calendar);
-        response.fold((left) => emit(CalendarError(left.message!)), (right) {
-          updateCalendar(calendar: calendar.copyWith(isActive: !currentState));
-          emit(const CalendarSuccess("Calendar removed successfully"));
-        });
-      } else {
-        final Either<AppError, void> response =
-            await _calendarRepository.setExactAlarm(calendar: calendar);
-        response.fold((left) => emit(CalendarError(left.message!)), (right) {
-          updateCalendar(calendar: calendar.copyWith(isActive: !currentState));
-          emit(const CalendarSuccess("Calendar added successfully"));
-        });
-      }
+    late List<Calendar> activeCalendars;
+    final response = await _calendarRepository.getAllActiveCalendar();
+    response.fold((left) {
+      emit(CalendarError(left.message!));
       getCalendarStream();
+      return;
+    }, (right) => activeCalendars = right);
+
+    if (calendar.isActive) {
+      await removeCalendar(calendar: calendar);
+    } else {
+      if (activeCalendars.length >= 3) {
+        emit(const CalendarError("Can't have more than 3 active calendars"));
+        getCalendarStream();
+        return;
+      } else {
+        await setCalendar(calendar: calendar);
+      }
     }
+  }
+
+  Future<void> removeCalendar({required Calendar calendar}) async {
+    final Either<AppError, void> response =
+        await _calendarRepository.removeExactAlarm(calendar: calendar);
+    response.fold((left) {
+      emit(CalendarError(left.message!));
+      getCalendarStream();
+      return;
+    }, (right) {
+      updateCalendar(calendar: calendar.copyWith(isActive: !calendar.isActive));
+      // emit(const CalendarSuccess("Calendar removed successfully"));
+    });
+  }
+
+  Future<void> setCalendar({required Calendar calendar}) async {
+    final Either<AppError, void> response =
+        await _calendarRepository.setExactAlarm(calendar: calendar);
+    response.fold((left) {
+      emit(CalendarError(left.message!));
+      getCalendarStream();
+    }, (right) {
+      updateCalendar(calendar: calendar.copyWith(isActive: !calendar.isActive));
+      // emit(const CalendarSuccess("Calendar added successfully"));
+    });
   }
 }

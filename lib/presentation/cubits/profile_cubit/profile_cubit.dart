@@ -82,24 +82,26 @@ class ProfileCubit extends Cubit<ProfileStates> {
         profile: profile.copyWith(isActive: !currentVal));
     response.fold((left) {
       ProfileError(left.message!);
+      getProfileStream();
     }, (right) => null);
-    getProfileStream();
   }
 
   Future<void> setProfile({required Profile profile}) async {
     final response = await _profileRepository.setProfile(profile: profile);
 
-    response.fold((left) => emit(ProfileError(left.message!)),
-        (right) => emit(const ProfileSuccess("Profile Set Successfully")));
-    getProfileStream();
+    response.fold((left) {
+      emit(ProfileError(left.message!));
+      getProfileStream();
+    }, (right) => null);
   }
 
   Future<void> removeProfile({required Profile profile}) async {
     final response = await _profileRepository.removeProfile(profile: profile);
 
-    response.fold((left) => emit(ProfileError(left.message!)),
-        (right) => emit(const ProfileSuccess("Removed Profile Successfully")));
-    getProfileStream();
+    response.fold((left) {
+      emit(ProfileError(left.message!));
+      getProfileStream();
+    }, (right) => null);
   }
 
   Future<List<Profile>> getAllActiveProfiles() async {
