@@ -83,14 +83,15 @@ class _CalendarTileState extends State<CalendarTile> {
             ),
           ),
           Expanded(
-              flex: 20,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  DateFormat('dd MMM yyyy').format(widget.calendar.dateTime),
-                  style: textTheme.h3,
-                ),
-              )),
+            flex: 20,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                DateFormat('dd MMM yyyy').format(widget.calendar.dateTime),
+                style: textTheme.h3.copyWith(color: colorScheme.onPrimary),
+              ),
+            ),
+          ),
           Expanded(
               flex: 20,
               child: Align(

@@ -50,13 +50,17 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               SizedBox(
                 width: 190,
                 child: TextFormField(
                   textCapitalization: TextCapitalization.sentences,
                   maxLength: 10,
-                  style: textTheme.h3Regular.copyWith(color: colorScheme.onPrimary),
+                  style: textTheme.h3Regular
+                      .copyWith(color: colorScheme.onPrimary),
                   decoration: InputDecoration(
                     hintText: 'Title',
                     border: OutlineInputBorder(
@@ -73,12 +77,9 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
                   },
                 ),
               ),
-              const Align(
-                alignment: Alignment.topCenter,
-                child: Icon(
-                  AppIcons.content_copy,
-                  size: 28,
-                ),
+              const Icon(
+                AppIcons.content_copy,
+                size: 28,
               )
             ]),
             Column(
