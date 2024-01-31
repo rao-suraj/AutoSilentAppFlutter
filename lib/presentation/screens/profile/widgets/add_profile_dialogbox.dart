@@ -98,6 +98,7 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
                   child: Slider(
                     value: selectedVolumeLevel,
                     activeColor: colorScheme.primary,
+                    inactiveColor: colorScheme.onPrimary.withOpacity(0.8),
                     divisions: 10,
                     onChanged: (level) {
                       setState(() {
@@ -130,6 +131,7 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
                         ? colorScheme.primary
                         : Colors.grey,
                     value: selectedRingerLevel,
+                    inactiveColor: colorScheme.onPrimary.withOpacity(0.8),
                     divisions: 10,
                     onChanged: (level) {
                       setState(() {
