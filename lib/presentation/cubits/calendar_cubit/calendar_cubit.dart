@@ -120,4 +120,8 @@ class CalendarCubit extends Cubit<CalendarStates> {
       // emit(const CalendarSuccess("Calendar added successfully"));
     });
   }
+
+  Future<void> removeExpiredCalendar() async {
+    await _calendarRepository.removeExpiredCalendar(time: DateTime.now());
+  }
 }

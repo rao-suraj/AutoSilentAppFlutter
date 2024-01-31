@@ -713,6 +713,12 @@ class _$CalendarDao extends CalendarDao {
   }
 
   @override
+  Future<void> removeExpiredCalendars(int endTime) async {
+    await _queryAdapter.queryNoReturn('DELETE FROM Calendar WHERE endTime < ?1',
+        arguments: [endTime]);
+  }
+
+  @override
   Future<void> insertCalendar(Calendar calendar) async {
     await _calendarInsertionAdapter.insert(calendar, OnConflictStrategy.abort);
   }

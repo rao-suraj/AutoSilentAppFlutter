@@ -17,4 +17,7 @@ abstract class CalendarDao {
 
   @Query('SELECT * FROM Calendar WHERE isActive = :isActive')
   Future<List<Calendar>> getAllActiveCalendars(bool isActive);
+
+  @Query('DELETE FROM Calendar WHERE endTime < :endTime')
+  Future<void> removeExpiredCalendars(int endTime);
 }

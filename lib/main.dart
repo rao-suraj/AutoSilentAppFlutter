@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
                 lazy: true,
               ),
               BlocProvider(
-                create: (context) => getIt<CalendarCubit>(),
+                create: (context) => getIt<CalendarCubit>()..removeExpiredCalendar(),
                 lazy: true,
               )
             ],

@@ -12,6 +12,8 @@ abstract class CalandarLocalDataSource {
   Stream<List<Calendar>> getAllCalendarStream();
 
   Future<List<Calendar>> getAllActiveCalendars();
+
+  Future<void> removeExpiredCalendar({required int endTime});
 }
 
 @LazySingleton(as: CalandarLocalDataSource)
@@ -61,5 +63,10 @@ class CalendarLocalDataSourceImpl extends CalandarLocalDataSource {
     } catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  Future<void> removeExpiredCalendar({required int endTime}) async {
+   await _database.calendarDao.removeExpiredCalendars(endTime);
   }
 }
