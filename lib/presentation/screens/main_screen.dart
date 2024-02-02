@@ -1,4 +1,3 @@
-import 'package:auto_silent_app/di/get_it.dart';
 import 'package:auto_silent_app/gen/assets.gen.dart';
 import 'package:auto_silent_app/gen/fonts.gen.dart';
 import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_cubit.dart';
@@ -64,8 +63,8 @@ class _MainScreenState extends State<MainScreen>
         value: context.read<ProfileCubit>(),
         child: const ProfileScereen(),
       ),
-      BlocProvider<SessionCubit>(
-          create: (_) => getIt<SessionCubit>()..getSessionsStream(),
+      BlocProvider<SessionCubit>.value(
+          value:context.read<SessionCubit>(),
           child: const SessionScreen()),
       BlocProvider<CalendarCubit>.value(
           value: context.read<CalendarCubit>(), child: const CalendarScreen()),

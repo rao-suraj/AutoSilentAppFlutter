@@ -215,7 +215,7 @@ class _AddCalendarDialogBoxState extends State<AddCalendarDialogBox> {
               if (_formKey.currentState?.validate() ?? false) {
                 // checking if the starting time is less than ending time
                 context.read<CalendarCubit>().insertCalendar(
-                    title: title,
+                    title: title.capitalize(),
                     startTime: startTime,
                     endTime: endTime,
                     date: date);

@@ -204,18 +204,12 @@ class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
                 // checking if the starting time is less than ending time
-                if ((startTime.hour * 60 + startTime.minute) <
-                    (endTime.hour * 60 + endTime.minute)) {
                   context.read<SessionCubit>().insertSession(
-                      title: title,
-                      startTime: startTime,
-                      endTime: endTime,
+                      title: title.capitalize(),
+                      stTime: startTime,
+                      edTime: endTime,
                       daysOfWeek: daysOfWeek);
                   Navigator.pop(context);
-                } else {
-                  // have to do something about this
-                  print("Invalid");
-                }
               }
             },
             child: Text(

@@ -1,7 +1,6 @@
 import 'package:auto_silent_app/data/data_source/local_data_source/session_local_data_source.dart';
 import 'package:auto_silent_app/data/models/session.dart';
 import 'package:auto_silent_app/domain/repositories/session_repository.dart';
-import 'package:auto_silent_app/domain/utils/enums.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: SessionRepository)
@@ -14,10 +13,10 @@ class SessionRepositoryImpl extends SessionRepository {
     await _sessionLocalDataSource.deleteSession(session: session);
   }
 
-  @override
-  Stream<List<Session>> getAllSessionByDay({required DayOfTheWeek day}) {
-    return _sessionLocalDataSource.getSessionByDay(day: day);
-  }
+  // @override
+  // Stream<List<Session>> getAllSessionByDay({required DayOfTheWeek day}) {
+  //   return _sessionLocalDataSource.getSessionByDay(day: day);
+  // }
 
   @override
   Stream<List<Session>> getAllSessionStream() {

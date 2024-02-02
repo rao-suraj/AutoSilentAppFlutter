@@ -16,71 +16,71 @@ abstract class SessionDao {
   @Query('SELECT * FROM Session')
   Stream<List<Session>> getAllSessionStream();
 
-  @Query('SELECT * FROM Session WHERE sunday IS :isTrue')
-  Stream<List<Session>> getSundaySessionStream(bool isTrue);
+  // @Query('SELECT * FROM Session WHERE sunday IS :isTrue')
+  // Stream<List<Session>> getSundaySessionStream(bool isTrue);
 
-  @Query('SELECT * FROM Session WHERE monday IS :isTrue')
-  Stream<List<Session>> getMondaySessionStream(bool isTrue);
+  // @Query('SELECT * FROM Session WHERE monday IS :isTrue')
+  // Stream<List<Session>> getMondaySessionStream(bool isTrue);
 
-  @Query('SELECT * FROM Session WHERE tuesday IS :isTrue')
-  Stream<List<Session>> getTuesdaySessionStream(bool isTrue);
+  // @Query('SELECT * FROM Session WHERE tuesday IS :isTrue')
+  // Stream<List<Session>> getTuesdaySessionStream(bool isTrue);
 
-  @Query('SELECT * FROM Session WHERE wednesday IS :isTrue')
-  Stream<List<Session>> getWednesdaySessionStream(bool isTrue);
+  // @Query('SELECT * FROM Session WHERE wednesday IS :isTrue')
+  // Stream<List<Session>> getWednesdaySessionStream(bool isTrue);
 
-  @Query('SELECT * FROM Session WHERE thursday IS :isTrue')
-  Stream<List<Session>> getThursdaySessionStream(bool isTrue);
+  // @Query('SELECT * FROM Session WHERE thursday IS :isTrue')
+  // Stream<List<Session>> getThursdaySessionStream(bool isTrue);
 
-  @Query('SELECT * FROM Session WHERE friday IS :isTrue')
-  Stream<List<Session>> getFridaySessionStream(bool isTrue);
+  // @Query('SELECT * FROM Session WHERE friday IS :isTrue')
+  // Stream<List<Session>> getFridaySessionStream(bool isTrue);
 
-  @Query('SELECT * FROM Session WHERE saturday IS :isTrue')
-  Stream<List<Session>> getSaturdaySessionStream(bool isTrue);
+  // @Query('SELECT * FROM Session WHERE saturday IS :isTrue')
+  // Stream<List<Session>> getSaturdaySessionStream(bool isTrue);
 
-  @Query('SELECT * FROM Session WHERE sunday IS :isTrue')
+  @Query('SELECT * FROM Session WHERE sunday IS :isTrue AND isActive IS 1')
   Future<List<Session>> getSundaySession(bool isTrue);
 
-  @Query('SELECT * FROM Session WHERE monday IS :isTrue')
+  @Query('SELECT * FROM Session WHERE monday IS :isTrue AND isActive IS 1')
   Future<List<Session>> getMondaySession(bool isTrue);
 
-  @Query('SELECT * FROM Session WHERE tuesday IS :isTrue')
+  @Query('SELECT * FROM Session WHERE tuesday IS :isTrue AND isActive IS 1')
   Future<List<Session>> getTuesdaySession(bool isTrue);
 
-  @Query('SELECT * FROM Session WHERE wednesday IS :isTrue')
+  @Query('SELECT * FROM Session WHERE wednesday IS :isTrue AND isActive IS 1')
   Future<List<Session>> getWednesdaySession(bool isTrue);
 
-  @Query('SELECT * FROM Session WHERE thursday IS :isTrue')
+  @Query('SELECT * FROM Session WHERE thursday IS :isTrue AND isActive IS 1')
   Future<List<Session>> getThursdaySession(bool isTrue);
 
-  @Query('SELECT * FROM Session WHERE friday IS :isTrue')
+  @Query('SELECT * FROM Session WHERE friday IS :isTrue AND isActive IS 1')
   Future<List<Session>> getFridaySession(bool isTrue);
 
-  @Query('SELECT * FROM Session WHERE saturday IS :isTrue')
+  @Query('SELECT * FROM Session WHERE saturday IS :isTrue AND isActive IS 1')
   Future<List<Session>> getSaturdaySession(bool isTrue);
 
-  @Query('SELECT * FROM Session WHERE isActive IS :isTrue')
+  @Query('SELECT * FROM Session WHERE isActive IS :isTrue AND isActive IS 1')
   Future<List<Session>> getAllActiveSession(bool isTrue);
 
-  Stream<List<Session>> getSessionByDayStram(DayOfTheWeek day) {
-    switch (day) {
-      case DayOfTheWeek.sunday:
-        return getSundaySessionStream(true);
-      case DayOfTheWeek.monday:
-        return getMondaySessionStream(true);
-      case DayOfTheWeek.tuesday:
-        return getTuesdaySessionStream(true);
-      case DayOfTheWeek.wednesday:
-        return getWednesdaySessionStream(true);
-      case DayOfTheWeek.thursdays:
-        return getThursdaySessionStream(true);
-      case DayOfTheWeek.friday:
-        return getFridaySessionStream(true);
-      case DayOfTheWeek.thursdays:
-        return getSaturdaySessionStream(true);
-      default:
-        throw Exception('invalid day');
-    }
-  }
+  // Stream<List<Session>> getSessionByDayStram(DayOfTheWeek day) {
+  //   switch (day) {
+  //     case DayOfTheWeek.sunday:
+  //       return getSundaySessionStream(true);
+  //     case DayOfTheWeek.monday:
+  //       return getMondaySessionStream(true);
+  //     case DayOfTheWeek.tuesday:
+  //       return getTuesdaySessionStream(true);
+  //     case DayOfTheWeek.wednesday:
+  //       return getWednesdaySessionStream(true);
+  //     case DayOfTheWeek.thursdays:
+  //       return getThursdaySessionStream(true);
+  //     case DayOfTheWeek.friday:
+  //       return getFridaySessionStream(true);
+  //     case DayOfTheWeek.thursdays:
+  //       return getSaturdaySessionStream(true);
+  //     default:
+  //       throw Exception('invalid day');
+  //   }
+  // }
 
     Future<List<Session>> getSessionByDay(DayOfTheWeek day) {
     switch (day) {

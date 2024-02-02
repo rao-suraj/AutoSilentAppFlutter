@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           builder: (themeContext) => MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => getIt<SessionCubit>(),
+                create: (context) => getIt<SessionCubit>()..setSession(),
                 lazy: true,
               ),
               BlocProvider(
@@ -46,7 +46,8 @@ class MyApp extends StatelessWidget {
                 lazy: true,
               ),
               BlocProvider(
-                create: (context) => getIt<CalendarCubit>()..removeExpiredCalendar(),
+                create: (context) =>
+                    getIt<CalendarCubit>()..removeExpiredCalendar(),
                 lazy: true,
               )
             ],
@@ -78,14 +79,15 @@ void callbackDispatcher() {
       // Set it one by one
       if (list.isNotEmpty) {
         for (int i = 0; i < list.length; i++) {
+          final now = DateTime.now();
           AndroidAlarmManager.oneShotAt(
-              list[i].startTime,
+              list[i].startTime.copyWith(year: now.year,month: now.month, day: now.day), // replace date by todays date
               AlarmManagerUtils.getSetAlarmId(id: list[i].id),
-              AlarmManagerUtils.setSilentMode);
+              AlarmManagerUtils.setSilentMode,exact: true);
           AndroidAlarmManager.oneShotAt(
-              list[i].endTime,
+              list[i].endTime.copyWith(year: now.year,month: now.month,day: now.day),
               AlarmManagerUtils.getRemoveAlarmId(id: list[i].id),
-              AlarmManagerUtils.removeSilentMode);
+              AlarmManagerUtils.removeSilentMode,exact: true);
         }
       } else {
         print("Empty");
