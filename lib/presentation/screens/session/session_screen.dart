@@ -13,6 +13,12 @@ class SessionScreen extends StatefulWidget {
 
 class _SessionScreenState extends State<SessionScreen> {
   @override
+  void initState() {
+    context.read<SessionCubit>().getSessionsStream();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 13),
@@ -33,12 +39,10 @@ class _SessionScreenState extends State<SessionScreen> {
                 stream: state.sessionStream,
                 builder: (context, stream) {
                   if (stream.data == null) {
-                    return const Center(
-                        child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
                   return ListView.separated(
-                      separatorBuilder: (context, intex) =>
-                          const SizedBox(
+                      separatorBuilder: (context, intex) => const SizedBox(
                             height: 13,
                           ),
                       itemCount: stream.data!.length,

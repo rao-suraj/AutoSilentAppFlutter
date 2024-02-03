@@ -71,7 +71,7 @@ class _SessionTileState extends State<SessionTile> {
                     ),
                     const Gap(15),
                     Text(
-                      "Everyday",
+                      nextOccurrence(),
                       style: textTheme.h2low
                           .copyWith(color: colorScheme.onSecondary),
                     ),
@@ -85,8 +85,8 @@ class _SessionTileState extends State<SessionTile> {
                   },
                   child: CustomSwitchAuto(
                     value: widget.session.isActive,
-                    width: 66,
-                    height: 32,
+                    width: 59,
+                    height: 30,
                   ),
                 ),
               ],
@@ -137,5 +137,25 @@ class _SessionTileState extends State<SessionTile> {
         ),
       ),
     );
+  }
+
+  String nextOccurrence() {
+    // get today's day
+    int today = DateTime.now().weekday;
+
+    // find the next day that is true by iterating through the week list 2 times and taking only the first one with index grater then today's
+    for (int i = 0; i < 14; i++) {
+      if (daysOfWeek[i % 7] == true && i >= today) {
+        int no = i % 7;
+        if (no == today) {
+          return "Today";
+        } else if (no == (today + 1) % 7) {
+          return "Tomorrow";
+        } else {
+          return no.getWeek();
+        }
+      }
+    }
+    return "Could not determine";
   }
 }

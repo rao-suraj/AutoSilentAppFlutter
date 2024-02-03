@@ -1,4 +1,5 @@
 import 'package:auto_silent_app/presentation/cubits/session_cubit/session_cubit.dart';
+import 'package:auto_silent_app/presentation/screens/widgets/bordered_container.dart';
 import 'package:auto_silent_app/presentation/themes/extensions.dart';
 import 'package:auto_silent_app/presentation/utils/app_icons.dart';
 import 'package:auto_silent_app/presentation/utils/date_time_util.dart';
@@ -92,10 +93,7 @@ class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
                           startTime = time;
                         });
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: colorScheme.onPrimary)),
+                      child: BorderedContainer(
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
@@ -130,11 +128,7 @@ class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
                           endTime = time;
                         });
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: colorScheme.onPrimary),
-                        ),
+                      child: BorderedContainer(
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
@@ -204,18 +198,12 @@ class _AddSessionDailogBoxState extends State<AddSessionDailogBox> {
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
                 // checking if the starting time is less than ending time
-                if ((startTime.hour * 60 + startTime.minute) <
-                    (endTime.hour * 60 + endTime.minute)) {
                   context.read<SessionCubit>().insertSession(
-                      title: title,
-                      startTime: startTime,
-                      endTime: endTime,
+                      title: title.capitalize(),
+                      stTime: startTime,
+                      edTime: endTime,
                       daysOfWeek: daysOfWeek);
                   Navigator.pop(context);
-                } else {
-                  // have to do something about this
-                  print("Invalid");
-                }
               }
             },
             child: Text(

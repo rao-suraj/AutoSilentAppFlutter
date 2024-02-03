@@ -11,6 +11,7 @@ import 'package:auto_silent_app/presentation/screens/main_screen.dart';
 import 'package:auto_silent_app/presentation/themes/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:theme_provider/theme_provider.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
           builder: (themeContext) => MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => getIt<SessionCubit>(),
+                create: (context) => getIt<SessionCubit>()..setSession(),
                 lazy: true,
               ),
               BlocProvider(
@@ -46,7 +47,8 @@ class MyApp extends StatelessWidget {
                 lazy: true,
               ),
               BlocProvider(
-                create: (context) => getIt<CalendarCubit>(),
+                create: (context) =>
+                    getIt<CalendarCubit>()..removeExpiredCalendar(),
                 lazy: true,
               )
             ],
@@ -66,7 +68,15 @@ class MyApp extends StatelessWidget {
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((taskName, inputData) async {
+    int? retryCount;
+    late SharedPreferences sharedPref;
     try {
+      sharedPref = await SharedPreferences.getInstance();
+      retryCount = sharedPref.getInt('retryCount');
+      if (retryCount == null) {
+        sharedPref.setInt('retryCount', 0);
+        retryCount = 0;
+      }
       await AndroidAlarmManager.initialize();
       final AppDatabase database =
           await $FloorAppDatabase.databaseBuilder('auto_silent_app.db').build();
@@ -77,23 +87,38 @@ void callbackDispatcher() {
 
       // Set it one by one
       if (list.isNotEmpty) {
+        final now = DateTime.now();
         for (int i = 0; i < list.length; i++) {
           AndroidAlarmManager.oneShotAt(
-              list[i].startTime,
+              list[i].startTime.copyWith(
+                  year: now.year,
+                  month: now.month,
+                  day: now.day), // replace date by todays date
               AlarmManagerUtils.getSetAlarmId(id: list[i].id),
-              AlarmManagerUtils.setSilentMode);
+              AlarmManagerUtils.setSilentMode,
+              exact: true);
           AndroidAlarmManager.oneShotAt(
-              list[i].endTime,
+              list[i]
+                  .endTime
+                  .copyWith(year: now.year, month: now.month, day: now.day),
               AlarmManagerUtils.getRemoveAlarmId(id: list[i].id),
-              AlarmManagerUtils.removeSilentMode);
+              AlarmManagerUtils.removeSilentMode,
+              exact: true);
         }
       } else {
         print("Empty");
       }
+      await sharedPref.setInt('retryCount', 0);
+      return Future.value(true);
     } catch (e) {
       print("$e Error in initialization");
-      return Future.error(Exception(e.toString()));
+      if (retryCount! > 3) {
+        await sharedPref.setInt('retryCount', 0);
+        return Future.error(Exception(e.toString()));
+      } else {
+        await sharedPref.setInt('retryCount', retryCount + 1);
+        return Future.value(false);
+      }
     }
-    return Future.value(true);
   });
 }

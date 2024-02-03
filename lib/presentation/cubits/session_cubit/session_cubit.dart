@@ -1,12 +1,15 @@
+import 'dart:io';
 import 'dart:math';
-
 import 'package:auto_silent_app/data/models/session.dart';
+import 'package:auto_silent_app/data/utils/work_manager_constants.dart';
 import 'package:auto_silent_app/domain/repositories/session_repository.dart';
 import 'package:auto_silent_app/presentation/cubits/session_cubit/session_states.dart';
 import 'package:auto_silent_app/presentation/utils/date_time_util.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jiffy/jiffy.dart';
+import 'package:workmanager/workmanager.dart';
 
 @injectable
 class SessionCubit extends Cubit<SessionStates> {
@@ -17,24 +20,32 @@ class SessionCubit extends Cubit<SessionStates> {
     emit(SessionLoaded(_sessionRepository.getAllSessionStream()));
   }
 
-  void insertSession(
+  Future<void> insertSession(
       {required String title,
-      required TimeOfDay startTime,
-      required TimeOfDay endTime,
-      required List<bool> daysOfWeek}) {
-    _sessionRepository.insertSession(
+      required TimeOfDay stTime,
+      required TimeOfDay edTime,
+      required List<bool> daysOfWeek}) async {
+    final startTime = DateTime.now().applied(stTime);
+    final endTime = DateTime.now().applied(edTime);
+    if (startTime.isBefore(endTime)) {
+      _sessionRepository.insertSession(
         session: Session(
             id: Random().nextInt(1000) + 500, // Random number from 500 to 1000
             title: title,
-            startTime: DateTime.now().applied(startTime),
-            endTime: DateTime.now().applied(endTime),
+            startTime: startTime,
+            endTime: endTime,
             sunday: daysOfWeek[0],
             monday: daysOfWeek[1],
             tuesday: daysOfWeek[2],
             wednesday: daysOfWeek[3],
             thursday: daysOfWeek[4],
             friday: daysOfWeek[5],
-            saturday: daysOfWeek[6]));
+            saturday: daysOfWeek[6]),
+      );
+    } else {
+      emit(const SessionError("Start time can't be greater then end time"));
+      getSessionsStream();
+    }
   }
 
   void updateSession({required Session session}) {
@@ -43,21 +54,31 @@ class SessionCubit extends Cubit<SessionStates> {
 
   Future<void> setSession() async {
     // Right now Workmanager is only cofigured for android.
-    // if (Platform.isAndroid) {
-    //   await Workmanager().registerPeriodicTask(
-    //       WorkManagerConstants.workManagerTaskName,WorkManagerConstants.workManagerTaskName,
-    //       existingWorkPolicy: ExistingWorkPolicy.replace,
-    //       backoffPolicy: BackoffPolicy.linear,
-    //       backoffPolicyDelay: const Duration(minutes: 10),
-    //       constraints: Constraints(
-    //           networkType: NetworkType.not_required,
-    //           requiresBatteryNotLow: false,
-    //           requiresCharging: false,
-    //           requiresDeviceIdle: false,
-    //           requiresStorageNotLow: false));
-    // } else {
-    //   // have to add the fuctionality for IOS
-    // }
+    Workmanager().cancelAll();
+    DateTime targetTime =
+        DateTime.now().copyWith(hour: 3, minute: 0, second: 0);
+    if (DateTime.now().isAfter(targetTime)) {
+      targetTime = Jiffy.parseFromDateTime(targetTime).add(days: 1).dateTime;
+    }
+    print(targetTime.difference(DateTime.now()));
+    if (Platform.isAndroid) {
+      await Workmanager().registerPeriodicTask(
+          WorkManagerConstants.workManagerTaskName,
+          WorkManagerConstants.workManagerTaskName,
+          frequency: const Duration(hours: 24),
+          existingWorkPolicy: ExistingWorkPolicy.replace,
+          backoffPolicy: BackoffPolicy.linear,
+          initialDelay: targetTime.difference(DateTime.now()),
+          backoffPolicyDelay: const Duration(minutes: 10),
+          constraints: Constraints(
+              networkType: NetworkType.not_required,
+              requiresBatteryNotLow: false,
+              requiresCharging: false,
+              requiresDeviceIdle: false,
+              requiresStorageNotLow: false));
+    } else {
+      // have to add the fuctionality for IOS
+    }
   }
 
   Future<void> switchIsActive({required Session session}) async {
@@ -73,7 +94,6 @@ class SessionCubit extends Cubit<SessionStates> {
       }
     }
 
-    // if current state is active directly switch
     await _sessionRepository.updateSession(
         session: session.copyWith(isActive: !currect));
   }

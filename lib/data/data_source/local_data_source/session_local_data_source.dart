@@ -1,6 +1,5 @@
 import 'package:auto_silent_app/data/data_source/floor/app_database.dart';
 import 'package:auto_silent_app/data/models/session.dart';
-import 'package:auto_silent_app/domain/utils/enums.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class SessionLocalDataSource {
@@ -12,7 +11,7 @@ abstract class SessionLocalDataSource {
 
   Stream<List<Session>> getAllSessions();
 
-  Stream<List<Session>> getSessionByDay({required DayOfTheWeek day});
+  // Stream<List<Session>> getSessionByDay({required DayOfTheWeek day});
 
   Future<List<Session>> getAllActiveSessions();
 }
@@ -32,10 +31,10 @@ class SessionLocalDataSourceImpl extends SessionLocalDataSource {
     return _database.sessionDao.getAllSessionStream();
   }
 
-  @override
-  Stream<List<Session>> getSessionByDay({required DayOfTheWeek day}) {
-    return _database.sessionDao.getSessionByDayStram(day);
-  }
+  // @override
+  // Stream<List<Session>> getSessionByDay({required DayOfTheWeek day}) {
+  //   // return _database.sessionDao.getSessionByDayStram(day);
+  // }
 
   @override
   Future<void> insertSession({required Session session}) async {

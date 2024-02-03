@@ -39,7 +39,7 @@ class CalendarRepositoryImpl extends CalendarRepository {
   }
 
   @override
-  Future<Either<AppError,List<Calendar>>> getAllActiveCalendar() async {
+  Future<Either<AppError, List<Calendar>>> getAllActiveCalendar() async {
     return await CallWithError.call(
         () => _calendarLocalDataSource.getAllActiveCalendars());
   }
@@ -68,5 +68,11 @@ class CalendarRepositoryImpl extends CalendarRepository {
       {required Calendar calendar}) async {
     return await CallWithError.call(
         () => _calendarServices.removeAlarm(id: calendar.id));
+  }
+
+  @override
+  Future<void> removeExpiredCalendar({required DateTime time}) async {
+    await _calendarLocalDataSource.removeExpiredCalendar(
+        endTime: time.millisecondsSinceEpoch);
   }
 }

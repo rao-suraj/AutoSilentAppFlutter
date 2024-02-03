@@ -40,12 +40,12 @@ class CalendarCubit extends Cubit<CalendarStates> {
         minute: endTime.minute,
         second: 0);
 
-    print(date);
-    print(startDateTime);
-    print(endDateTime);
+    // print(date);
+    // print(startDateTime);
+    // print(endDateTime);
 
-    print((startDateTime.isAfter(DateTime.now())));
-    print(startDateTime.isBefore(endDateTime));
+    // print((startDateTime.isAfter(DateTime.now())));
+    // print(startDateTime.isBefore(endDateTime));
 
     if (startDateTime.isAfter(DateTime.now()) &&
         startDateTime.isBefore(endDateTime)) {
@@ -119,5 +119,9 @@ class CalendarCubit extends Cubit<CalendarStates> {
       updateCalendar(calendar: calendar.copyWith(isActive: !calendar.isActive));
       // emit(const CalendarSuccess("Calendar added successfully"));
     });
+  }
+
+  Future<void> removeExpiredCalendar() async {
+    await _calendarRepository.removeExpiredCalendar(time: DateTime.now());
   }
 }

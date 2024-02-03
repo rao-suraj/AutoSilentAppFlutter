@@ -128,7 +128,9 @@ class _ProfileTileState extends State<ProfileTile> {
 
   // takes level in double(0.0 to 1.0) and converts it to int(1 to 3)
   int getLevel(double x) {
-    if (x > 0 && x <= 0.4) {
+    if (x == 0) {
+      return 0;
+    } else if (x > 0 && x <= 0.4) {
       return 1;
     } else if (x > 0.4 && x <= 0.7) {
       return 2;
