@@ -1,11 +1,11 @@
 import 'package:auto_silent_app/gen/assets.gen.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
+import 'package:auto_silent_app/presentation/screens/widgets/bordered_container.dart';
 import 'package:auto_silent_app/presentation/themes/extensions.dart';
 import 'package:auto_silent_app/presentation/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-
 import '../../widgets/custom_switch_auto.dart';
 
 class AddProfileDialogbox extends StatefulWidget {
@@ -51,37 +51,37 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 190,
-                child: TextFormField(
-                  textCapitalization: TextCapitalization.sentences,
-                  maxLength: 10,
-                  style: textTheme.h3Regular
-                      .copyWith(color: colorScheme.onPrimary),
-                  decoration: InputDecoration(
-                    hintText: 'Title',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 190,
+                    child: TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
+                      maxLength: 10,
+                      style: textTheme.h3Regular
+                          .copyWith(color: colorScheme.onPrimary),
+                      decoration: InputDecoration(
+                        hintText: 'Title',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                      onChanged: (value) {
+                        title = value;
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Title can't be empty";
+                        }
+                        return null;
+                      },
+                    ),
                   ),
-                  onChanged: (value) {
-                    title = value;
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Title can't be empty";
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              const Icon(
-                AppIcons.content_copy,
-                size: 28,
-              )
-            ]),
+                  const Icon(
+                    AppIcons.content_copy,
+                    size: 28,
+                  )
+                ]),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -91,10 +91,7 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
                       .copyWith(color: colorScheme.onPrimary),
                 ),
                 const Gap(3),
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: colorScheme.onPrimary),
-                      borderRadius: BorderRadius.circular(10)),
+                BorderedContainer(
                   child: Slider(
                     value: selectedVolumeLevel,
                     activeColor: colorScheme.primary,
@@ -121,10 +118,7 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
                       .copyWith(color: colorScheme.onPrimary),
                 ),
                 const Gap(3),
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: colorScheme.onPrimary),
-                      borderRadius: BorderRadius.circular(10)),
+                BorderedContainer(
                   child: Slider(
                     activeColor: !isDND &&
                             !isVibration // if both the DND and Vibration are not active then ringer volume can be set
@@ -147,10 +141,7 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
             ),
             const Gap(10),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: colorScheme.onPrimary),
-                    borderRadius: BorderRadius.circular(10)),
+              BorderedContainer(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -182,10 +173,7 @@ class _AddProfileDialogboxState extends State<AddProfileDialogbox> {
                   ),
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: colorScheme.onPrimary),
-                    borderRadius: BorderRadius.circular(10)),
+              BorderedContainer(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(

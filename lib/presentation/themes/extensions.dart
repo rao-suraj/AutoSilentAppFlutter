@@ -6,7 +6,7 @@ extension TextThemeExtension on TextTheme {
 
   TextStyle get h2 => GoogleFonts.montserrat(fontSize: 25);
 
-  TextStyle get h2low => GoogleFonts.montserrat(fontSize:20);
+  TextStyle get h2low => GoogleFonts.montserrat(fontSize: 20);
 
   TextStyle get h3 => GoogleFonts.montserrat(fontSize: 15);
 
@@ -42,5 +42,28 @@ extension TextThemeExtension on TextTheme {
 extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  }
+}
+
+extension IntExtension on int {
+  String getWeek() {
+    switch (this) {
+      case 0:
+        return "Sunday";
+      case 1:
+        return "Monday";
+      case 2:
+        return "Tuesday";
+      case 3:
+        return "Wednesday";
+      case 4:
+        return "Thursday";
+      case 5:
+        return "Friday";
+      case 6:
+        return "Saturday";
+      default:
+        return "could not determine";
+    }
   }
 }
