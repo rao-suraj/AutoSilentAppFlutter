@@ -10,6 +10,7 @@ import 'package:auto_silent_app/presentation/screens/session/session_screen.dart
 import 'package:auto_silent_app/presentation/screens/profile/widgets/add_profile_dialogbox.dart';
 import 'package:auto_silent_app/presentation/screens/session/widgets/add_session_dialogbox.dart';
 import 'package:auto_silent_app/presentation/utils/app_icons.dart';
+import 'package:auto_silent_app/presentation/utils/get_permissions.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,7 @@ class _MainScreenState extends State<MainScreen>
   @override
   void initState() {
     super.initState();
+    GetPermissions.getPermission();
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200));
 
@@ -64,8 +66,7 @@ class _MainScreenState extends State<MainScreen>
         child: const ProfileScereen(),
       ),
       BlocProvider<SessionCubit>.value(
-          value:context.read<SessionCubit>(),
-          child: const SessionScreen()),
+          value: context.read<SessionCubit>(), child: const SessionScreen()),
       BlocProvider<CalendarCubit>.value(
           value: context.read<CalendarCubit>(), child: const CalendarScreen()),
     ];
@@ -211,7 +212,7 @@ class _MainScreenState extends State<MainScreen>
               fontFamily: FontFamily.rubik,
               fontWeight: FontWeight.w600),
           onPress: () {
-              showDialog(
+            showDialog(
                 context: context,
                 builder: (_) => BlocProvider.value(
                       value: context.read<SessionCubit>(),
