@@ -50,3 +50,7 @@ enum DayOfTheWeek {
 }
 
 enum ErrorType { permissionNotGranted, unknown,database }
+
+enum PermissionType {
+  dndPermission,alarmPermission
+}

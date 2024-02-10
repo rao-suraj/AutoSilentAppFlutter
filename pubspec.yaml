@@ -93,6 +93,9 @@ flutter:
     - family: AppIcons
       fonts:
         - asset: assets/fonts/AppIcons.ttf
+    - family: digital
+      fonts:
+        - asset: assets/fonts/CursedTimerUlil-Aznm.ttf
         # - asset: fonts/Schyler-Italic.ttf
         #   style: italic
   #   - family: Trajan Pro

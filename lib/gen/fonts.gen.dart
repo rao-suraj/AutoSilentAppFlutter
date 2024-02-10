@@ -15,4 +15,7 @@ class FontFamily {
 
   /// Font family: Rubik
   static const String rubik = 'Rubik';
+
+  /// Font family: digital
+  static const String digital = 'digital';
 }
