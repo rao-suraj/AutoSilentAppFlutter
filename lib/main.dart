@@ -4,12 +4,15 @@ import 'package:auto_silent_app/data/models/session.dart';
 import 'package:auto_silent_app/data/utils/alarm_manager_utils.dart';
 import 'package:auto_silent_app/di/get_it.dart';
 import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_cubit.dart';
+import 'package:auto_silent_app/presentation/cubits/permission_cubit/permission_cubit.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
 import 'package:auto_silent_app/domain/utils/enums.dart';
 import 'package:auto_silent_app/presentation/cubits/session_cubit/session_cubit.dart';
 import 'package:auto_silent_app/presentation/screens/main_screen.dart';
 import 'package:auto_silent_app/presentation/themes/app_themes.dart';
+import 'package:auto_silent_app/presentation/utils/constants/theme_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -33,6 +36,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
+      onInitCallback: (controller, previouslySavedTheme)async {
+        Brightness platformBrightness =
+          SchedulerBinding.instance.window.platformBrightness;
+      if (platformBrightness == Brightness.dark) {
+        controller.setTheme(ThemeConstants.darkThemeId);
+      } else {
+        controller.setTheme(ThemeConstants.lightThemeId);
+      }
+      },
       themes: AppThemes.getAppThemes(context),
       child: ThemeConsumer(
         child: Builder(
@@ -50,6 +62,9 @@ class MyApp extends StatelessWidget {
                 create: (context) =>
                     getIt<CalendarCubit>()..removeExpiredCalendar(),
                 lazy: true,
+              ),
+              BlocProvider(
+                create: (context) => getIt<PermissionCubit>()..getPermissions(),
               )
             ],
             child: MaterialApp(

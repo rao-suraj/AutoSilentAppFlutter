@@ -58,9 +58,10 @@ class SessionCubit extends Cubit<SessionStates> {
     DateTime targetTime =
         DateTime.now().copyWith(hour: 3, minute: 0, second: 0);
     if (DateTime.now().isAfter(targetTime)) {
+      // add a day to the target time
       targetTime = Jiffy.parseFromDateTime(targetTime).add(days: 1).dateTime;
     }
-    print(targetTime.difference(DateTime.now()));
+    // print(targetTime.difference(DateTime.now()));
     if (Platform.isAndroid) {
       await Workmanager().registerPeriodicTask(
           WorkManagerConstants.workManagerTaskName,

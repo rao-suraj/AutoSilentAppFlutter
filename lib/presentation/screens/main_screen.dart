@@ -1,6 +1,9 @@
+import 'package:auto_silent_app/domain/utils/enums.dart';
 import 'package:auto_silent_app/gen/assets.gen.dart';
 import 'package:auto_silent_app/gen/fonts.gen.dart';
 import 'package:auto_silent_app/presentation/cubits/calendar_cubit/calendar_cubit.dart';
+import 'package:auto_silent_app/presentation/cubits/permission_cubit/permission_cubit.dart';
+import 'package:auto_silent_app/presentation/cubits/permission_cubit/permission_state.dart';
 import 'package:auto_silent_app/presentation/cubits/profile_cubit/profile_cubit.dart';
 import 'package:auto_silent_app/presentation/cubits/session_cubit/session_cubit.dart';
 import 'package:auto_silent_app/presentation/screens/calendar/calendar_screen.dart';
@@ -9,6 +12,8 @@ import 'package:auto_silent_app/presentation/screens/profile/profile_screen.dart
 import 'package:auto_silent_app/presentation/screens/session/session_screen.dart';
 import 'package:auto_silent_app/presentation/screens/profile/widgets/add_profile_dialogbox.dart';
 import 'package:auto_silent_app/presentation/screens/session/widgets/add_session_dialogbox.dart';
+import 'package:auto_silent_app/presentation/screens/widgets/permission_dialog.dart';
+import 'package:auto_silent_app/presentation/screens/widgets/time_display.dart';
 import 'package:auto_silent_app/presentation/utils/app_icons.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
@@ -64,8 +69,7 @@ class _MainScreenState extends State<MainScreen>
         child: const ProfileScereen(),
       ),
       BlocProvider<SessionCubit>.value(
-          value:context.read<SessionCubit>(),
-          child: const SessionScreen()),
+          value: context.read<SessionCubit>(), child: const SessionScreen()),
       BlocProvider<CalendarCubit>.value(
           value: context.read<CalendarCubit>(), child: const CalendarScreen()),
     ];
@@ -113,7 +117,37 @@ class _MainScreenState extends State<MainScreen>
             context: context,
             animationController: _animationController,
             animation: _animation),
-        body: pageOptions[_selectedPage],
+        body: BlocConsumer<PermissionCubit, PermissionStates>(
+            listener: (context, state) {
+          if (state is PermissionLoading) {
+            // show loading sign
+          } else if (state is PermissionLoaded) {
+            if (state.isDNDGranted == false) {
+              showDialog(
+                context: context,
+                builder: (_) => const PermissionDialogbox(
+                  title: PermissionType.dndPermission,
+                  message:
+                      "This permission is necessary to change the ringer mode of the app",
+                ),
+              );
+            } else if (state.isSetExactAlarmGranted == false) {
+              showDialog(
+                context: context,
+                builder: (_) => const PermissionDialogbox(
+                  title: PermissionType.alarmPermission,
+                  message:
+                      "This permission is necessary for the session feature to work",
+                ),
+              );
+            } else if (state.isDNDGranted == null ||
+                state.isSetExactAlarmGranted == null) {
+              // couldnot get permission status
+            }
+          }
+        }, builder: (context, state) {
+          return pageOptions[_selectedPage];
+        }),
         bottomNavigationBar: SizedBox(
           height: mediaQuery.height * 0.1,
           child: Row(
@@ -123,6 +157,7 @@ class _MainScreenState extends State<MainScreen>
                 flex: 3,
                 child: Container(
                   color: colorScheme.surface,
+                  child:const Center(child: TimeDisplay()),
                 ),
               ),
               Expanded(
@@ -211,7 +246,7 @@ class _MainScreenState extends State<MainScreen>
               fontFamily: FontFamily.rubik,
               fontWeight: FontWeight.w600),
           onPress: () {
-              showDialog(
+            showDialog(
                 context: context,
                 builder: (_) => BlocProvider.value(
                       value: context.read<SessionCubit>(),

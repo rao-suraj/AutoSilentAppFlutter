@@ -37,6 +37,8 @@ extension TextThemeExtension on TextTheme {
   TextStyle get h3Medium => h3.copyWith(fontWeight: FontWeight.w500);
 
   TextStyle get h3Regular => h3.copyWith(fontWeight: FontWeight.w400);
+
+  TextStyle get h2lowThin => h2low.copyWith(fontWeight: FontWeight.w400);
 }
 
 extension StringExtension on String {
