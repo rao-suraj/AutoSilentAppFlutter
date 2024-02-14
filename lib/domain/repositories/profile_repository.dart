@@ -11,13 +11,12 @@ abstract class ProfileRepository {
 
   Stream<List<Profile>> getAllProfilesStream();
 
-  Future<Either<AppError,List<double?>>> getCurrentVolumes();
-  
+  Future<Either<AppError, List<double?>>> getCurrentVolumes();
+
   Future<List<Profile>> getAllActiveProfiles();
 
-  Future<Either<AppError,void>> setProfile({required Profile profile});
+  Future<Either<AppError, void>> setProfile({required Profile profile});
 
-  Future<Either<AppError,void>> removeProfile({required Profile profile});
-
+  Future<Either<AppError, void>> removeProfile({required Profile profile});
 
 }

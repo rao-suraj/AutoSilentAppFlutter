@@ -44,24 +44,28 @@ class _TimeDisplayState extends State<TimeDisplay> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RichText(
-          textAlign: TextAlign.start,
-          text: TextSpan(
-              style: theme.h2Medium.copyWith(
-                  color: colorScheme.onPrimary, fontFamily: FontFamily.digital),
-              children: [
-                TextSpan(
-                  text: DateFormat("hh:mm").format(_currentTime),
-                ),
-                TextSpan(
-                    text: DateFormat(" a").format(_currentTime),
-                    style:
-                        theme.h2low.copyWith(fontFamily: FontFamily.digital)),
-              ]),
+        FittedBox(
+          child: RichText(
+            textAlign: TextAlign.start,
+            text: TextSpan(
+                style: theme.h2Medium.copyWith(
+                    color: colorScheme.onPrimary, fontFamily: FontFamily.digital),
+                children: [
+                  TextSpan(
+                    text: DateFormat("hh:mm").format(_currentTime),
+                  ),
+                  TextSpan(
+                      text: DateFormat(" a").format(_currentTime),
+                      style:
+                          theme.h2low.copyWith(fontFamily: FontFamily.digital)),
+                ]),
+          ),
         ),
-        AutoSizeText(DateFormat('dd MMM EEE').format(_currentTime),
-            style: theme.h2low.copyWith(color: colorScheme.onPrimary),
-            minFontSize: theme.h3.fontSize!),
+        FittedBox(
+          child: AutoSizeText(DateFormat('dd MMM EEE').format(_currentTime),
+              style: theme.h2low.copyWith(color: colorScheme.onPrimary),
+              minFontSize: theme.h4.fontSize!),
+        ),
       ],
     );
   }

@@ -107,4 +107,12 @@ class ProfileCubit extends Cubit<ProfileStates> {
   Future<List<Profile>> getAllActiveProfiles() async {
     return await _profileRepository.getAllActiveProfiles();
   }
+
+  void deleteProfile({required Profile profile}) async {
+    final response = await _profileRepository.deleteProfile(profile: profile);
+    response.fold((left) {
+      emit(ProfileError(left.message!));
+      getProfileStream();
+    }, (right) => null);
+  }
 }
