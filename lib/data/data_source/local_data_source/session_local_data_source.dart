@@ -23,12 +23,20 @@ class SessionLocalDataSourceImpl extends SessionLocalDataSource {
   SessionLocalDataSourceImpl(this._database);
   @override
   Future<void> deleteSession({required Session session}) async {
-    await _database.sessionDao.deleteSession(session);
+    try {
+      await _database.sessionDao.deleteSession(session);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Stream<List<Session>> getAllSessions() {
-    return _database.sessionDao.getAllSessionStream();
+    try {
+      return _database.sessionDao.getAllSessionStream();
+    } catch (e) {
+      rethrow;
+    }
   }
 
   // @override
@@ -38,16 +46,28 @@ class SessionLocalDataSourceImpl extends SessionLocalDataSource {
 
   @override
   Future<void> insertSession({required Session session}) async {
-    await _database.sessionDao.insertSession(session);
+    try {
+      await _database.sessionDao.insertSession(session);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<void> updateSession({required Session session}) async{
-    await _database.sessionDao.updateSession(session);
+  Future<void> updateSession({required Session session}) async {
+    try {
+      await _database.sessionDao.updateSession(session);
+    } catch (e) {
+      rethrow;
+    }
   }
-  
+
   @override
   Future<List<Session>> getAllActiveSessions() async {
-    return await _database.sessionDao.getAllActiveSession(true);
+    try {
+      return await _database.sessionDao.getAllActiveSession(true);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

@@ -124,4 +124,13 @@ class CalendarCubit extends Cubit<CalendarStates> {
   Future<void> removeExpiredCalendar() async {
     await _calendarRepository.removeExpiredCalendar(time: DateTime.now());
   }
+
+  Future<void> deleteCalendar({required Calendar calendar}) async {
+    final response = await _calendarRepository.deleteCalendar(id: calendar.id);
+
+    response.fold((left) {
+      emit(CalendarError(left.message!));
+      getCalendarStream();
+    }, (right) => null);
+  }
 }
