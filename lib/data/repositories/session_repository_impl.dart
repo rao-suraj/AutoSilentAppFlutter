@@ -1,6 +1,9 @@
 import 'package:auto_silent_app/data/data_source/local_data_source/session_local_data_source.dart';
 import 'package:auto_silent_app/data/models/session.dart';
+import 'package:auto_silent_app/data/utils/app_error.dart';
+import 'package:auto_silent_app/data/utils/call_with_error.dart';
 import 'package:auto_silent_app/domain/repositories/session_repository.dart';
+import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: SessionRepository)
@@ -9,8 +12,8 @@ class SessionRepositoryImpl extends SessionRepository {
 
   SessionRepositoryImpl(this._sessionLocalDataSource);
   @override
-  Future<void> deleteSession({required Session session}) async {
-    await _sessionLocalDataSource.deleteSession(session: session);
+  Future<Either<AppError,void>> deleteSession({required Session session}) async {
+    return CallWithError.call(() => _sessionLocalDataSource.deleteSession(session: session));
   }
 
   // @override

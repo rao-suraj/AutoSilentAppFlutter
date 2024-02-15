@@ -102,4 +102,11 @@ class SessionCubit extends Cubit<SessionStates> {
   Future<List<Session>> getAllActiveSession() async {
     return await _sessionRepository.getAllActiveSession();
   }
+
+  Future<void> deleteSession({required Session session}) async {
+    final response = await _sessionRepository.deleteSession(session: session);
+    response.fold((left) {
+      emit(SessionError(left.message!));
+    }, (right) => null);
+  }
 }
