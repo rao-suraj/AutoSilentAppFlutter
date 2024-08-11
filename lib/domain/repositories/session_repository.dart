@@ -7,11 +7,15 @@ abstract class SessionRepository {
 
   Future<void> updateSession({required Session session});
 
-  Future<Either<AppError,void>> deleteSession({required Session session});
+  Future<Either<AppError, void>> deleteSession({required Session session});
 
   Stream<List<Session>> getAllSessionStream();
 
   // Stream<List<Session>> getAllSessionByDay({required DayOfTheWeek day});
 
   Future<List<Session>> getAllActiveSession();
+
+  Future<Either<AppError, void>> setSession({required Session session});
+
+  Future<Either<AppError,void>> removeSession({required Session session});
 }

@@ -93,6 +93,16 @@ class SessionCubit extends Cubit<SessionStates> {
         getSessionsStream();
         return;
       }
+      // get the session for today here itself because the actual logic only starts form next day
+      if (session.getWeek(DateTime.now().weekday) &&
+          session.startTime.isAfter(DateTime.now())) {
+        final response = await _sessionRepository.setSession(session: session);
+
+        response.fold((left) {
+          emit(const SessionError("Couldn't set session"));
+          getSessionsStream();
+        }, (right) => null);
+      }
     }
 
     await _sessionRepository.updateSession(

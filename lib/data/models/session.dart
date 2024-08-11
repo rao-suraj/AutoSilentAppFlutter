@@ -57,4 +57,26 @@ class Session {
         friday: friday ?? this.friday,
         saturday: saturday ?? this.saturday);
   }
+
+  bool getWeek(int weekday) {
+    switch (weekday) {
+      case 1:
+        if (monday == true) return true;
+      case 2:
+        if (tuesday == true) return true;
+      case 3:
+        if (wednesday == true) return true;
+      case 4:
+        if (thursday == true) return true;
+      case 5:
+        if (friday == true) return true;
+      case 6:
+        if (saturday == true) return true;
+      case 7:
+        if (sunday == true) return true;
+      default:
+        throw Exception("Invalid WeekDay");
+    }
+    return false;
+  }
 }
