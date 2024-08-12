@@ -11,4 +11,7 @@ A user-friendly app that automates silent mode for students and professionals, r
 - Session Management: Set silent periods for specific times (e.g., 9 AM to 4 PM) with repeat options for days of the week.
 - Calendar Integration: Schedule phone silence for future meetings or events well in advance.
 ## Demo
-<img src="assets/gif/app_git_dark_mode.gif" alt="App Demo" width="180"/>
+<div style="display: flex; justify-content: center;">
+  <img src="assets/gif/app_git_dark_mode.gif" alt="App Demo 1" width="180"/>
+  <img src="assets/gif/app_git_light_mode.gif" alt="App Demo 2" width="180"/>
+</div>
