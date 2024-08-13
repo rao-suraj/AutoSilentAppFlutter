@@ -1,16 +1,17 @@
-# auto_silent_app
 
-A new Flutter project.
+# Auto Silent App
 
-## Getting Started
+A user-friendly app that automates silent mode for students and professionals, reducing interruptions, eliminating the need to remember and manually switch modes
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Light/Dark Mode Toggle: Automatically switches between light and dark themes based on the app mode.
+- Profile feature: Create and activate profiles with custom volume and silent mode settings.
+- Session Management: Set silent periods for specific times (e.g., 9 AM to 4 PM) with repeat options for days of the week.
+- Calendar Integration: Schedule phone silence for future meetings or events well in advance.
+## Demo
+<div style="display: flex; justify-content: center;">
+  <img src="assets/gif/app_git_dark_mode.gif" alt="App Demo 1" width="180"/>
+  <img src="assets/gif/app_git_light_mode.gif" alt="App Demo 2" width="180"/>
+</div>
